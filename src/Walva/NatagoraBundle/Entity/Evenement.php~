@@ -280,27 +280,4 @@ class Evenement
     {
         return $this->description;
     }
-
-    /**
-     * Set formations
-     *
-     * @param \Walva\NatagoraBundle\Entity\Formation $formations
-     * @return Evenement
-     */
-    public function setFormations(\Walva\NatagoraBundle\Entity\Formation $formations = null)
-    {
-        $this->formations = $formations;
-    
-        return $this;
-    }
-
-    /**
-     * Get formations
-     *
-     * @return \Walva\NatagoraBundle\Entity\Formation 
-     */
-    public function getFormations()
-    {
-        return $this->formations;
-    }
 }

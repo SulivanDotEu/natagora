@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Formateur
 {
+    
+    public function getNomComplet(){
+        return $this->getPrenom().' '.$this->getNom();
+    }
+    
     /**
      * @var integer
      *
@@ -24,7 +29,7 @@ class Formateur
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
     private $nom;
 
@@ -38,28 +43,28 @@ class Formateur
     /**
      * @var string
      *
-     * @ORM\Column(name="gsm", type="string", length=255)
+     * @ORM\Column(name="gsm", type="string", length=255, nullable=true)
      */
     private $gsm;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255)
+     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="codePostal", type="string", length=255)
+     * @ORM\Column(name="codePostal", type="string", length=255, nullable=true)
      */
     private $codePostal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pays", type="string", length=255)
+     * @ORM\Column(name="pays", type="string", length=255, nullable=true)
      */
     private $pays;
 
