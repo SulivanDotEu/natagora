@@ -1,0 +1,4 @@
+walva_natagora:
+    resource: "@WalvaNatagoraBundle/Resources/config/routing.yml"
+    prefix:   /
+

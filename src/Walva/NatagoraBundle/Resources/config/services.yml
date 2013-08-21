@@ -1,0 +1,7 @@
+parameters:
+#    walva_natagora.example.class: Walva\NatagoraBundle\Example
+
+services:
+#    walva_natagora.example:
+#        class: %walva_natagora.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
