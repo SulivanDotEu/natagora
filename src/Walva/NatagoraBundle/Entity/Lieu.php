@@ -24,7 +24,7 @@ class Lieu
     /**
      * @var string
      *
-     * @ORM\Column(name="rue", type="string", length=255)
+     * @ORM\Column(name="rue", type="string", length=255, nullable=true)
      */
     private $rue;
 
@@ -34,34 +34,48 @@ class Lieu
      * @ORM\Column(name="codePostal", type="string", length=255)
      */
     private $codePostal;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255)
+     */
+    private $ville;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="numero", type="string", length=255)
+     * @ORM\Column(name="numero", type="string", length=255, nullable=true)
      */
     private $numero;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="latitude", type="decimal")
+     * @ORM\Column(name="latitude", type="decimal", nullable=true)
      */
     private $latitude;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="longitude", type="decimal")
+     * @ORM\Column(name="longitude", type="decimal", nullable=true)
      */
     private $longitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="urlGoogleMap", type="text")
+     * @ORM\Column(name="urlGoogleMap", type="text", nullable=true)
      */
     private $urlGoogleMap;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rendezvous", type="text", nullable=true)
+     */
+    private $rendezvous;
 
 
     /**
@@ -210,5 +224,51 @@ class Lieu
     public function getUrlGoogleMap()
     {
         return $this->urlGoogleMap;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return Lieu
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+    
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string 
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * Set rendezvous
+     *
+     * @param string $rendezvous
+     * @return Lieu
+     */
+    public function setRendezvous($rendezvous)
+    {
+        $this->rendezvous = $rendezvous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezvous
+     *
+     * @return string 
+     */
+    public function getRendezvous()
+    {
+        return $this->rendezvous;
     }
 }

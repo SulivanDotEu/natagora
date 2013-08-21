@@ -1,0 +1,30 @@
+formateur:
+    pattern:  /
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:index" }
+
+formateur_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:show" }
+
+formateur_new:
+    pattern:  /new
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:new" }
+
+formateur_create:
+    pattern:  /create
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:create" }
+    requirements: { _method: post }
+
+formateur_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:edit" }
+
+formateur_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:update" }
+    requirements: { _method: post|put }
+
+formateur_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WalvaNatagoraBundle:Formateur:delete" }
+    requirements: { _method: post|delete }

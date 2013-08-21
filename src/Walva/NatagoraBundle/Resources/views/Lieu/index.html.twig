@@ -1,18 +1,16 @@
-{% extends '::base.html.twig' %}
+{% extends "WalvaNatagoraBundle:Lieu:layout.html.twig" %}
 
 {% block body -%}
     <h1>Lieu list</h1>
 
-    <table class="records_list">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Rue</th>
                 <th>Codepostal</th>
-                <th>Numero</th>
+                <th>Ville</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Urlgooglemap</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,12 +18,10 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('lieu_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.rue }}</td>
                 <td>{{ entity.codePostal }}</td>
-                <td>{{ entity.numero }}</td>
+                <td>{{ entity.ville }}</td>
                 <td>{{ entity.latitude }}</td>
                 <td>{{ entity.longitude }}</td>
-                <td>{{ entity.urlGoogleMap }}</td>
                 <td>
                 <ul>
                     <li>

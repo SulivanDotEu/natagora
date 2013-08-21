@@ -4,16 +4,13 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Walva\NatagoraBundle\Entity\Formateur;
 use Walva\NatagoraBundle\Form\FormateurType;
 
 /**
  * Formateur controller.
  *
- * @Route("/formateur")
  */
 class FormateurController extends Controller
 {
@@ -21,9 +18,6 @@ class FormateurController extends Controller
     /**
      * Lists all Formateur entities.
      *
-     * @Route("/", name="formateur")
-     * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -31,16 +25,13 @@ class FormateurController extends Controller
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Formateur')->findAll();
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
     /**
      * Creates a new Formateur entity.
      *
-     * @Route("/", name="formateur_create")
-     * @Method("POST")
-     * @Template("WalvaNatagoraBundle:Formateur:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -56,36 +47,30 @@ class FormateurController extends Controller
             return $this->redirect($this->generateUrl('formateur_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to create a new Formateur entity.
      *
-     * @Route("/new", name="formateur_new")
-     * @Method("GET")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Formateur();
         $form   = $this->createForm(new FormateurType(), $entity);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Finds and displays a Formateur entity.
      *
-     * @Route("/{id}", name="formateur_show")
-     * @Method("GET")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -99,18 +84,14 @@ class FormateurController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
      * Displays a form to edit an existing Formateur entity.
      *
-     * @Route("/{id}/edit", name="formateur_edit")
-     * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -125,19 +106,16 @@ class FormateurController extends Controller
         $editForm = $this->createForm(new FormateurType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Formateur entity.
      *
-     * @Route("/{id}", name="formateur_update")
-     * @Method("PUT")
-     * @Template("WalvaNatagoraBundle:Formateur:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -160,17 +138,15 @@ class FormateurController extends Controller
             return $this->redirect($this->generateUrl('formateur_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formateur:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
     /**
      * Deletes a Formateur entity.
      *
-     * @Route("/{id}", name="formateur_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

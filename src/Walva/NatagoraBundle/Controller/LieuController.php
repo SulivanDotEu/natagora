@@ -4,16 +4,13 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Walva\NatagoraBundle\Entity\Lieu;
 use Walva\NatagoraBundle\Form\LieuType;
 
 /**
  * Lieu controller.
  *
- * @Route("/lieu")
  */
 class LieuController extends Controller
 {
@@ -21,9 +18,6 @@ class LieuController extends Controller
     /**
      * Lists all Lieu entities.
      *
-     * @Route("/", name="lieu")
-     * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -31,16 +25,13 @@ class LieuController extends Controller
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Lieu')->findAll();
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
     /**
      * Creates a new Lieu entity.
      *
-     * @Route("/", name="lieu_create")
-     * @Method("POST")
-     * @Template("WalvaNatagoraBundle:Lieu:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -56,36 +47,30 @@ class LieuController extends Controller
             return $this->redirect($this->generateUrl('lieu_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to create a new Lieu entity.
      *
-     * @Route("/new", name="lieu_new")
-     * @Method("GET")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Lieu();
         $form   = $this->createForm(new LieuType(), $entity);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Finds and displays a Lieu entity.
      *
-     * @Route("/{id}", name="lieu_show")
-     * @Method("GET")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -99,18 +84,14 @@ class LieuController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
      * Displays a form to edit an existing Lieu entity.
      *
-     * @Route("/{id}/edit", name="lieu_edit")
-     * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -125,19 +106,16 @@ class LieuController extends Controller
         $editForm = $this->createForm(new LieuType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Lieu entity.
      *
-     * @Route("/{id}", name="lieu_update")
-     * @Method("PUT")
-     * @Template("WalvaNatagoraBundle:Lieu:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -160,17 +138,15 @@ class LieuController extends Controller
             return $this->redirect($this->generateUrl('lieu_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Lieu:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
     /**
      * Deletes a Lieu entity.
      *
-     * @Route("/{id}", name="lieu_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

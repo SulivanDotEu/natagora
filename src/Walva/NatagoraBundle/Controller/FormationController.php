@@ -4,16 +4,13 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Walva\NatagoraBundle\Entity\Formation;
 use Walva\NatagoraBundle\Form\FormationType;
 
 /**
  * Formation controller.
  *
- * @Route("/formation")
  */
 class FormationController extends Controller
 {
@@ -21,9 +18,6 @@ class FormationController extends Controller
     /**
      * Lists all Formation entities.
      *
-     * @Route("/", name="formation")
-     * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -31,16 +25,13 @@ class FormationController extends Controller
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Formation')->findAll();
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
     /**
      * Creates a new Formation entity.
      *
-     * @Route("/", name="formation_create")
-     * @Method("POST")
-     * @Template("WalvaNatagoraBundle:Formation:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -56,36 +47,30 @@ class FormationController extends Controller
             return $this->redirect($this->generateUrl('formation_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to create a new Formation entity.
      *
-     * @Route("/new", name="formation_new")
-     * @Method("GET")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Formation();
         $form   = $this->createForm(new FormationType(), $entity);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Finds and displays a Formation entity.
      *
-     * @Route("/{id}", name="formation_show")
-     * @Method("GET")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -99,18 +84,14 @@ class FormationController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
      * Displays a form to edit an existing Formation entity.
      *
-     * @Route("/{id}/edit", name="formation_edit")
-     * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -125,19 +106,16 @@ class FormationController extends Controller
         $editForm = $this->createForm(new FormationType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Formation entity.
      *
-     * @Route("/{id}", name="formation_update")
-     * @Method("PUT")
-     * @Template("WalvaNatagoraBundle:Formation:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -160,17 +138,15 @@ class FormationController extends Controller
             return $this->redirect($this->generateUrl('formation_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('WalvaNatagoraBundle:Formation:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
     /**
      * Deletes a Formation entity.
      *
-     * @Route("/{id}", name="formation_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

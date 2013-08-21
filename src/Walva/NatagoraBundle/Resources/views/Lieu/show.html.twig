@@ -1,9 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends "WalvaNatagoraBundle:Lieu:layout.html.twig" %}
 
 {% block body -%}
     <h1>Lieu</h1>
 
-    <table class="record_properties">
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -16,6 +16,10 @@
             <tr>
                 <th>Codepostal</th>
                 <td>{{ entity.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ entity.ville }}</td>
             </tr>
             <tr>
                 <th>Numero</th>
@@ -32,6 +36,10 @@
             <tr>
                 <th>Urlgooglemap</th>
                 <td>{{ entity.urlGoogleMap }}</td>
+            </tr>
+            <tr>
+                <th>Rendezvous</th>
+                <td>{{ entity.rendezvous }}</td>
             </tr>
         </tbody>
     </table>

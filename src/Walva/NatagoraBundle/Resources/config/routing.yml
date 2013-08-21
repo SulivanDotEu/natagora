@@ -1,3 +1,11 @@
-walva_natagora_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: WalvaNatagoraBundle:Default:index }
+walva_natagora_formation:
+    resource: "@WalvaNatagoraBundle/Resources/config/routing/formation.yml"
+    prefix:   /formation
+
+WalvaNatagoraBundle_lieu:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/lieu.yml"
+        prefix:   /lieu
+        
+WalvaNatagoraBundle_formateur:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/formateur.yml"
+        prefix:   /formateur

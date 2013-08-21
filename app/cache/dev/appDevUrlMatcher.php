@@ -133,9 +133,124 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        // walva_natagora_homepage
-        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'walva_natagora_homepage')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\DefaultController::indexAction',));
+        if (0 === strpos($pathinfo, '/lieu')) {
+            // lieu
+            if (rtrim($pathinfo, '/') === '/lieu') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'lieu');
+                }
+
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::indexAction',  '_route' => 'lieu',);
+            }
+
+            // lieu_show
+            if (preg_match('#^/lieu/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'lieu_show')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::showAction',));
+            }
+
+            // lieu_new
+            if ($pathinfo === '/lieu/new') {
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::newAction',  '_route' => 'lieu_new',);
+            }
+
+            // lieu_create
+            if ($pathinfo === '/lieu/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_lieu_create;
+                }
+
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::createAction',  '_route' => 'lieu_create',);
+            }
+            not_lieu_create:
+
+            // lieu_edit
+            if (preg_match('#^/lieu/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'lieu_edit')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::editAction',));
+            }
+
+            // lieu_update
+            if (preg_match('#^/lieu/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_lieu_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'lieu_update')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::updateAction',));
+            }
+            not_lieu_update:
+
+            // lieu_delete
+            if (preg_match('#^/lieu/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_lieu_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'lieu_delete')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\LieuController::deleteAction',));
+            }
+            not_lieu_delete:
+
+        }
+
+        if (0 === strpos($pathinfo, '/formation')) {
+            // formation
+            if (rtrim($pathinfo, '/') === '/formation') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'formation');
+                }
+
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::indexAction',  '_route' => 'formation',);
+            }
+
+            // formation_show
+            if (preg_match('#^/formation/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'formation_show')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::showAction',));
+            }
+
+            // formation_new
+            if ($pathinfo === '/formation/new') {
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::newAction',  '_route' => 'formation_new',);
+            }
+
+            // formation_create
+            if ($pathinfo === '/formation/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_formation_create;
+                }
+
+                return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::createAction',  '_route' => 'formation_create',);
+            }
+            not_formation_create:
+
+            // formation_edit
+            if (preg_match('#^/formation/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'formation_edit')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::editAction',));
+            }
+
+            // formation_update
+            if (preg_match('#^/formation/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_formation_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'formation_update')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::updateAction',));
+            }
+            not_formation_update:
+
+            // formation_delete
+            if (preg_match('#^/formation/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_formation_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'formation_delete')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\FormationController::deleteAction',));
+            }
+            not_formation_delete:
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

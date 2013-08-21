@@ -1,4 +1,8 @@
-walva_natagora:
+walva_supportkot:
     resource: "@WalvaNatagoraBundle/Resources/config/routing.yml"
     prefix:   /
-
+    
+natagora_formation:
+  resource:  "@WalvaNatagoraBundle/Resources/config/routing/formation.yml"
+  prefix:   /formation
+  

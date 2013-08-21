@@ -1,0 +1,30 @@
+lieu:
+    pattern:  /
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:index" }
+
+lieu_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:show" }
+
+lieu_new:
+    pattern:  /new
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:new" }
+
+lieu_create:
+    pattern:  /create
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:create" }
+    requirements: { _method: post }
+
+lieu_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:edit" }
+
+lieu_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:update" }
+    requirements: { _method: post|put }
+
+lieu_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WalvaNatagoraBundle:Lieu:delete" }
+    requirements: { _method: post|delete }
