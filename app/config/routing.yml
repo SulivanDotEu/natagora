@@ -1,8 +1,18 @@
-walva_supportkot:
+walva_user:
+    resource: "@WalvaUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+walva_natagora:
     resource: "@WalvaNatagoraBundle/Resources/config/routing.yml"
     prefix:   /
-    
-natagora_formation:
-  resource:  "@WalvaNatagoraBundle/Resources/config/routing/formation.yml"
-  prefix:   /formation
-  
+
+
+login:
+    pattern:   /login
+    defaults:  { _controller: WalvaUserBundle:Security:login }
+ 
+login_check:
+    pattern:   /login_check
+ 
+logout:
+    pattern:   /logout

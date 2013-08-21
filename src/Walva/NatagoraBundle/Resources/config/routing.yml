@@ -1,16 +1,16 @@
-walva_natagora_formation:
+natagora_formation:
     resource: "@WalvaNatagoraBundle/Resources/config/routing/formation.yml"
     prefix:   /admin/formation
 
-WalvaNatagoraBundle_lieu:
+natagora_lieu:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/lieu.yml"
         prefix:   /admin/lieu
         
-WalvaNatagoraBundle_formateur:
+natagora_formateur:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/formateur.yml"
         prefix:   /admin/formateur
 
-WalvaNatagoraBundle_evenement:
+natagora_evenement:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/evenement.yml"
         prefix:   /admin/evenement
         
