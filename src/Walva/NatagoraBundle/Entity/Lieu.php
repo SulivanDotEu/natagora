@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Lieu
 {
+    
+    public function __toString() {
+        return $this->getVille();
+    }
+
+    
     /**
      * @var integer
      *
@@ -21,6 +27,13 @@ class Lieu
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
+     */
+    private $nom;
+    
     /**
      * @var string
      *
@@ -270,5 +283,28 @@ class Lieu
     public function getRendezvous()
     {
         return $this->rendezvous;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Lieu
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
     }
 }

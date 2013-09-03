@@ -14,7 +14,6 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
             'stylesheets' => array($this, 'block_stylesheets'),
             'header' => array($this, 'block_header'),
             'container' => array($this, 'block_container'),
-            'left_menu' => array($this, 'block_left_menu'),
             'breadcrumb' => array($this, 'block_breadcrumb'),
             'body' => array($this, 'block_body'),
             'javascripts' => array($this, 'block_javascripts'),
@@ -157,7 +156,7 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
                     ";
         // line 107
         $this->displayBlock('container', $context, $blocks);
-        // line 129
+        // line 123
         echo "                    </div>
 
                     <hr>
@@ -168,9 +167,9 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
                 </div>
 
   ";
-        // line 138
+        // line 132
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 143
+        // line 137
         echo "
             </body>
         </html>";
@@ -215,66 +214,50 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
     public function block_container($context, array $blocks = array())
     {
         // line 108
-        echo "                        <div id=\"menu\" class=\"span3\">
+        echo "                        
 
-                        ";
-        // line 110
-        $this->displayBlock('left_menu', $context, $blocks);
-        // line 112
-        echo "
-
-          ";
-        // line 115
-        echo "                        </div>
-                        <div id=\"content\" class=\"span9\">
+                        <div id=\"content\" class=\"span12\">
                             <ul class=\"breadcrumb\">
 
                         ";
-        // line 119
+        // line 113
         $this->displayBlock('breadcrumb', $context, $blocks);
-        // line 122
+        // line 116
         echo "
 
                             </ul>
           ";
-        // line 125
+        // line 119
         $this->displayBlock('body', $context, $blocks);
-        // line 127
+        // line 121
         echo "                        </div>
                         ";
     }
 
-    // line 110
-    public function block_left_menu($context, array $blocks = array())
-    {
-        // line 111
-        echo "          ";
-    }
-
-    // line 119
+    // line 113
     public function block_breadcrumb($context, array $blocks = array())
     {
-        // line 120
+        // line 114
         echo "                                <li><a href=\"#\">Formations-nature.be</a> <span class=\"divider\">/</span></li>
                             ";
     }
 
-    // line 125
+    // line 119
     public function block_body($context, array $blocks = array())
     {
-        // line 126
+        // line 120
         echo "          ";
     }
 
-    // line 138
+    // line 132
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 139
+        // line 133
         echo "    ";
-        // line 140
+        // line 134
         echo "                <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></script>
                 <script type=\"text/javascript\" src=\"";
-        // line 141
+        // line 135
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/bootstrap.js"), "html", null, true);
         echo "\"></script>
   ";
@@ -292,6 +275,6 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  278 => 141,  275 => 140,  273 => 139,  270 => 138,  266 => 126,  263 => 125,  258 => 120,  255 => 119,  251 => 111,  248 => 110,  243 => 127,  241 => 125,  236 => 122,  234 => 119,  228 => 115,  224 => 112,  222 => 110,  218 => 108,  215 => 107,  209 => 99,  206 => 98,  200 => 15,  196 => 14,  192 => 13,  189 => 12,  186 => 11,  180 => 9,  174 => 143,  172 => 138,  161 => 129,  159 => 107,  152 => 102,  150 => 98,  132 => 83,  128 => 82,  112 => 69,  108 => 68,  92 => 55,  88 => 54,  72 => 41,  68 => 40,  43 => 17,  41 => 11,  36 => 9,  27 => 2,);
+        return array (  261 => 135,  258 => 134,  256 => 133,  253 => 132,  249 => 120,  246 => 119,  241 => 114,  238 => 113,  233 => 121,  231 => 119,  226 => 116,  224 => 113,  217 => 108,  214 => 107,  208 => 99,  205 => 98,  199 => 15,  195 => 14,  191 => 13,  188 => 12,  185 => 11,  179 => 9,  173 => 137,  171 => 132,  160 => 123,  158 => 107,  151 => 102,  149 => 98,  131 => 83,  127 => 82,  111 => 69,  107 => 68,  91 => 55,  87 => 54,  71 => 41,  67 => 40,  42 => 17,  40 => 11,  35 => 9,  26 => 2,);
     }
 }

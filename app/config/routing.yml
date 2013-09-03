@@ -5,6 +5,10 @@ walva_user:
 walva_natagora:
     resource: "@WalvaNatagoraBundle/Resources/config/routing.yml"
     prefix:   /
+    
+index:
+    pattern:  /
+    defaults: { _controller: "WalvaNatagoraBundle:Evenement:index" }
 
 
 login:
