@@ -4,7 +4,7 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
 
@@ -15,10 +15,6 @@ use Walva\NatagoraBundle\Form\EvenementType;
 class EvenementController extends Controller
 {
 
-    /**
-     * Lists all Evenement entities.
-     *
-     */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -31,7 +27,7 @@ class EvenementController extends Controller
     }
     /**
      * Creates a new Evenement entity.
-     *
+     * 
      */
     public function createAction(Request $request)
     {
@@ -55,7 +51,7 @@ class EvenementController extends Controller
 
     /**
      * Displays a form to create a new Evenement entity.
-     *
+     * 
      */
     public function newAction()
     {
@@ -70,7 +66,7 @@ class EvenementController extends Controller
 
     /**
      * Finds and displays a Evenement entity.
-     *
+     * 
      */
     public function showAction($id)
     {
@@ -91,7 +87,7 @@ class EvenementController extends Controller
 
     /**
      * Displays a form to edit an existing Evenement entity.
-     *
+     * 
      */
     public function editAction($id)
     {
@@ -115,7 +111,7 @@ class EvenementController extends Controller
 
     /**
      * Edits an existing Evenement entity.
-     *
+     * 
      */
     public function updateAction(Request $request, $id)
     {
@@ -146,7 +142,7 @@ class EvenementController extends Controller
     }
     /**
      * Deletes a Evenement entity.
-     *
+     * 
      */
     public function deleteAction(Request $request, $id)
     {

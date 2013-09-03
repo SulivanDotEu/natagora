@@ -18,6 +18,10 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Walva\NatagoraBundle\WalvaNatagoraBundle(),
             new Walva\UserBundle\WalvaUserBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
