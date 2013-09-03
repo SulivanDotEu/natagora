@@ -84,3 +84,4 @@ e67256,::1,GET,http://localhost:8080/natagora/web/app_dev.php/admin/evenement/,1
 aa8a67,::1,GET,http://localhost:8080/natagora/web/app_dev.php/admin/lieu/,1378205324,
 9f321c,::1,GET,http://localhost:8080/natagora/web/app_dev.php/admin/formation/,1378205326,
 f178bb,::1,GET,http://localhost:8080/natagora/web/app_dev.php/admin/formateur/,1378205329,
+290399,127.0.0.1,GET,http://localhost/natagora/web/app_dev.php/admin/evenement/,1378206326,
