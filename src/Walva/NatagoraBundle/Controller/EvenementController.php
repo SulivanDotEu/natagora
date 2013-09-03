@@ -4,10 +4,8 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-<<<<<<< HEAD
+
 use JMS\SecurityExtraBundle\Annotation\Secure;
-=======
->>>>>>> 599d679c94742e276933ffd3b2ffd3603ad1633a
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
 
@@ -25,16 +23,12 @@ class EvenementController extends Controller {
                 ));
     }
 
-<<<<<<< HEAD
-    public function indexAction()
-    {
-=======
+
     /**
      * Lists all Evenement entities.
      *
      */
     public function indexAction() {
->>>>>>> 599d679c94742e276933ffd3b2ffd3603ad1633a
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->findAll();
