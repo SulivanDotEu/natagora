@@ -1,0 +1,30 @@
+eleve:
+    pattern:  /
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:index" }
+
+eleve_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:show" }
+
+eleve_new:
+    pattern:  /new
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:new" }
+
+eleve_create:
+    pattern:  /create
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:create" }
+    requirements: { _method: post }
+
+eleve_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:edit" }
+
+eleve_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:update" }
+    requirements: { _method: post|put }
+
+eleve_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:delete" }
+    requirements: { _method: post|delete }

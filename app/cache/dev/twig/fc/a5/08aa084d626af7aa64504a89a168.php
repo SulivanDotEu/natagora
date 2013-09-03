@@ -75,11 +75,11 @@ class __TwigTemplate_fca508aa084d626af7aa64504a89a168 extends Twig_Template
             echo "</td>
                 <td>";
             // line 28
-            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["entity"]) ? $context["entity"] : $this->getContext($context, "entity")), "type"), "html", null, true);
+            echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans(("evenement.type." . $this->getAttribute((isset($context["entity"]) ? $context["entity"] : $this->getContext($context, "entity")), "type"))), "html", null, true);
             echo "</td>
                 <td>";
             // line 29
-            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["entity"]) ? $context["entity"] : $this->getContext($context, "entity")), "etat"), "html", null, true);
+            echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans(("evenement.etat." . $this->getAttribute((isset($context["entity"]) ? $context["entity"] : $this->getContext($context, "entity")), "etat"))), "html", null, true);
             echo "</td>
                 <td>";
             // line 30

@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Eleve
 {
+    
+    public function __toString() {
+        return ''.$this->getPrenom().' '.$this->getNom();
+    }
+
+    
     /**
      * @var integer
      *
@@ -45,35 +51,35 @@ class Eleve
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255)
+     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gsm1", type="string", length=255)
+     * @ORM\Column(name="gsm1", type="string", length=255, nullable=true)
      */
     private $gsm1;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gsm2", type="string", length=255)
+     * @ORM\Column(name="gsm2", type="string", length=255, nullable=true)
      */
     private $gsm2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="codePostal", type="string", length=255)
+     * @ORM\Column(name="codePostal", type="string", length=255, nullable=true)
      */
     private $codePostal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pays", type="string", length=255)
+     * @ORM\Column(name="pays", type="string", length=255, nullable=true)
      */
     private $pays;
 

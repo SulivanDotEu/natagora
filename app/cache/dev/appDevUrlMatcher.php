@@ -319,66 +319,134 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
-            if (0 === strpos($pathinfo, '/admin/evenement')) {
-                // evenement
-                if (rtrim($pathinfo, '/') === '/admin/evenement') {
-                    if (substr($pathinfo, -1) !== '/') {
-                        return $this->redirect($pathinfo.'/', 'evenement');
+            if (0 === strpos($pathinfo, '/admin/e')) {
+                if (0 === strpos($pathinfo, '/admin/evenement')) {
+                    // evenement
+                    if (rtrim($pathinfo, '/') === '/admin/evenement') {
+                        if (substr($pathinfo, -1) !== '/') {
+                            return $this->redirect($pathinfo.'/', 'evenement');
+                        }
+
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::indexAction',  '_route' => 'evenement',);
                     }
 
-                    return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::indexAction',  '_route' => 'evenement',);
-                }
-
-                // evenement_show
-                if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_show')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::showAction',));
-                }
-
-                // evenement_new
-                if ($pathinfo === '/admin/evenement/new') {
-                    return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::newAction',  '_route' => 'evenement_new',);
-                }
-
-                // evenement_create
-                if ($pathinfo === '/admin/evenement/create') {
-                    if ($this->context->getMethod() != 'POST') {
-                        $allow[] = 'POST';
-                        goto not_evenement_create;
+                    // evenement_show
+                    if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_show')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::showAction',));
                     }
 
-                    return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::createAction',  '_route' => 'evenement_create',);
-                }
-                not_evenement_create:
-
-                // evenement_edit
-                if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_edit')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::editAction',));
-                }
-
-                // evenement_update
-                if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
-                    if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
-                        $allow = array_merge($allow, array('POST', 'PUT'));
-                        goto not_evenement_update;
+                    // evenement_new
+                    if ($pathinfo === '/admin/evenement/new') {
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::newAction',  '_route' => 'evenement_new',);
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_update')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::updateAction',));
-                }
-                not_evenement_update:
+                    // evenement_create
+                    if ($pathinfo === '/admin/evenement/create') {
+                        if ($this->context->getMethod() != 'POST') {
+                            $allow[] = 'POST';
+                            goto not_evenement_create;
+                        }
 
-                // evenement_delete
-                if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
-                    if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
-                        $allow = array_merge($allow, array('POST', 'DELETE'));
-                        goto not_evenement_delete;
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::createAction',  '_route' => 'evenement_create',);
+                    }
+                    not_evenement_create:
+
+                    // evenement_edit
+                    if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_edit')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::editAction',));
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_delete')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::deleteAction',));
+                    // evenement_update
+                    if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                            $allow = array_merge($allow, array('POST', 'PUT'));
+                            goto not_evenement_update;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_update')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::updateAction',));
+                    }
+                    not_evenement_update:
+
+                    // evenement_delete
+                    if (preg_match('#^/admin/evenement/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                            $allow = array_merge($allow, array('POST', 'DELETE'));
+                            goto not_evenement_delete;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'evenement_delete')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::deleteAction',));
+                    }
+                    not_evenement_delete:
+
                 }
-                not_evenement_delete:
+
+                if (0 === strpos($pathinfo, '/admin/eleve')) {
+                    // eleve
+                    if (rtrim($pathinfo, '/') === '/admin/eleve') {
+                        if (substr($pathinfo, -1) !== '/') {
+                            return $this->redirect($pathinfo.'/', 'eleve');
+                        }
+
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::indexAction',  '_route' => 'eleve',);
+                    }
+
+                    // eleve_show
+                    if (preg_match('#^/admin/eleve/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'eleve_show')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::showAction',));
+                    }
+
+                    // eleve_new
+                    if ($pathinfo === '/admin/eleve/new') {
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::newAction',  '_route' => 'eleve_new',);
+                    }
+
+                    // eleve_create
+                    if ($pathinfo === '/admin/eleve/create') {
+                        if ($this->context->getMethod() != 'POST') {
+                            $allow[] = 'POST';
+                            goto not_eleve_create;
+                        }
+
+                        return array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::createAction',  '_route' => 'eleve_create',);
+                    }
+                    not_eleve_create:
+
+                    // eleve_edit
+                    if (preg_match('#^/admin/eleve/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'eleve_edit')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::editAction',));
+                    }
+
+                    // eleve_update
+                    if (preg_match('#^/admin/eleve/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                            $allow = array_merge($allow, array('POST', 'PUT'));
+                            goto not_eleve_update;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'eleve_update')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::updateAction',));
+                    }
+                    not_eleve_update:
+
+                    // eleve_delete
+                    if (preg_match('#^/admin/eleve/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                            $allow = array_merge($allow, array('POST', 'DELETE'));
+                            goto not_eleve_delete;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'eleve_delete')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EleveController::deleteAction',));
+                    }
+                    not_eleve_delete:
+
+                }
 
             }
 
+        }
+
+        // inscription_evenement
+        if (0 === strpos($pathinfo, '/inscription/evenement') && preg_match('#^/inscription/evenement/(?P<evenement>[^/]++)/(?P<eleve>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'inscription_evenement')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\InscriptionController::inscrireAction',));
         }
 
         // index
@@ -409,6 +477,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array('_route' => 'logout');
             }
 
+        }
+
+        // trad
+        if (0 === strpos($pathinfo, '/traduction') && preg_match('#^/traduction/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'trad')), array (  '_controller' => 'Walva\\NatagoraBundle\\Controller\\EvenementController::traductionAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

@@ -4,7 +4,6 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
 
@@ -12,30 +11,36 @@ use Walva\NatagoraBundle\Form\EvenementType;
  * Evenement controller.
  *
  */
-class EvenementController extends Controller
-{
+class EvenementController extends Controller {
+
+// src/Sdz/BlogBundle/Controller/BlogController.php
+
+    public function traductionAction($name) {
+        return $this->render('WalvaNatagoraBundle:Evenement:traduction.html.twig', array(
+                    'name' => $name
+                ));
+    }
 
     /**
      * Lists all Evenement entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->findAll();
 
         return $this->render('WalvaNatagoraBundle:Evenement:index.html.twig', array(
-            'entities' => $entities,
-        ));
+                    'entities' => $entities,
+                ));
     }
+
     /**
      * Creates a new Evenement entity.
      *
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Evenement();
+    public function createAction(Request $request) {
+        $entity = new Evenement();
         $form = $this->createForm(new EvenementType(), $entity);
         $form->bind($request);
 
@@ -48,32 +53,30 @@ class EvenementController extends Controller
         }
 
         return $this->render('WalvaNatagoraBundle:Evenement:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Displays a form to create a new Evenement entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Evenement();
-        $form   = $this->createForm(new EvenementType(), $entity);
+        $form = $this->createForm(new EvenementType(), $entity);
 
         return $this->render('WalvaNatagoraBundle:Evenement:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Finds and displays a Evenement entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
@@ -85,20 +88,20 @@ class EvenementController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WalvaNatagoraBundle:Evenement:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to edit an existing Evenement entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
-
+        /* @var $entity Evenement */
+        $em->persist($entity->getFormateur());
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
@@ -107,22 +110,21 @@ class EvenementController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WalvaNatagoraBundle:Evenement:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
 
     /**
      * Edits an existing Evenement entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
-
+        $em->persist($entity->getFormateur());
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
@@ -139,17 +141,17 @@ class EvenementController extends Controller
         }
 
         return $this->render('WalvaNatagoraBundle:Evenement:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
+
     /**
      * Deletes a Evenement entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -175,11 +177,11 @@ class EvenementController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
 }
