@@ -4,6 +4,10 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+<<<<<<< HEAD
+use JMS\SecurityExtraBundle\Annotation\Secure;
+=======
+>>>>>>> 599d679c94742e276933ffd3b2ffd3603ad1633a
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
 
@@ -21,11 +25,16 @@ class EvenementController extends Controller {
                 ));
     }
 
+<<<<<<< HEAD
+    public function indexAction()
+    {
+=======
     /**
      * Lists all Evenement entities.
      *
      */
     public function indexAction() {
+>>>>>>> 599d679c94742e276933ffd3b2ffd3603ad1633a
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->findAll();
@@ -37,7 +46,7 @@ class EvenementController extends Controller {
 
     /**
      * Creates a new Evenement entity.
-     *
+     * 
      */
     public function createAction(Request $request) {
         $entity = new Evenement();
@@ -60,7 +69,7 @@ class EvenementController extends Controller {
 
     /**
      * Displays a form to create a new Evenement entity.
-     *
+     * 
      */
     public function newAction() {
         $entity = new Evenement();
@@ -74,7 +83,7 @@ class EvenementController extends Controller {
 
     /**
      * Finds and displays a Evenement entity.
-     *
+     * 
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -96,7 +105,7 @@ class EvenementController extends Controller {
 
     /**
      * Displays a form to edit an existing Evenement entity.
-     *
+     * 
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -120,7 +129,7 @@ class EvenementController extends Controller {
 
     /**
      * Edits an existing Evenement entity.
-     *
+     * 
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
@@ -150,7 +159,7 @@ class EvenementController extends Controller {
 
     /**
      * Deletes a Evenement entity.
-     *
+     * 
      */
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
