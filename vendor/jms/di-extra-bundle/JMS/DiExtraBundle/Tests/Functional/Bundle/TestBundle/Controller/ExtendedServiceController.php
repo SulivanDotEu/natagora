@@ -11,8 +11,15 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class ExtendedServiceController extends ServiceController
 {
+<<<<<<< HEAD
     public function helloAction()
     {
         return new Response('hello');
     }
+=======
+    public function helloAction()
+    {
+        return new Response('hello');
+    }
+>>>>>>> 80f68e249177bbb9188db2639a3d26547c148091
 }
