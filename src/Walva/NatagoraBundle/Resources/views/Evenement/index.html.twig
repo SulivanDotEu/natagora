@@ -25,8 +25,8 @@
                 <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.formateur }}</td>
                 <td>{{ entity.lieu }}</td>
-                <td>{{ entity.type }}</td>
-                <td>{{ entity.etat }}</td>
+                <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
                 <td>{{ entity.min }}</td>
                 <td>{{ entity.max }}</td>
                 <td>{{ entity.description }}</td>

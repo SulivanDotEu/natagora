@@ -12,6 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Evenement
 {
+    
+    public static $ETAT_PARTANT_SI_QUOTA = 110;
+    public static $ETAT_PARTANT = 120;
+    public static $ETAT_COMPLET = 130;
+    public static $ETAT_ANNULE = 140;
+    public static $ETAT_CONFIRME = 150;
+    
+    public static $TYPE_SORTIE = 210;
+    public static $TYPE_WEEKEND = 220;
+    public static $TYPE_VOYAGE = 230;
+    
+    public function getNombreInscription(){
+        return count($this->getInscriptions());
+    }
+    
     /**
      * @var integer
      *
@@ -85,6 +100,15 @@ class Evenement
      * @ORM\JoinColumn(nullable=true)
      */
     private $formations;
+    
+    /**
+     * @var string
+     *
+     * @ORM\OneToMany(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="evenement")
+     */
+    private $inscriptions;
+    
+    
 
 
     /**
@@ -332,5 +356,38 @@ class Evenement
     public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
     {
         $this->formations->removeElement($formations);
+    }
+
+    /**
+     * Add inscriptions
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
+     * @return Evenement
+     */
+    public function addInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions)
+    {
+        $this->inscriptions[] = $inscriptions;
+    
+        return $this;
+    }
+
+    /**
+     * Remove inscriptions
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
+     */
+    public function removeInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions)
+    {
+        $this->inscriptions->removeElement($inscriptions);
+    }
+
+    /**
+     * Get inscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInscriptions()
+    {
+        return $this->inscriptions;
     }
 }

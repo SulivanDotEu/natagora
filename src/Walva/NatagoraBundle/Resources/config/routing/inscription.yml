@@ -1,0 +1,4 @@
+inscription_evenement:
+    pattern:  /evenement/{evenement}/{eleve}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:inscrire" }
+

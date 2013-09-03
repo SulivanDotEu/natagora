@@ -1,0 +1,12 @@
+
+evenement:
+  type:
+    210: Sortie
+    220: Weekend
+    230: voyage
+  etat:
+    110: Partant si quota
+    120: Partant
+    130: Complet
+    140: Annulé
+    150: Confirmé

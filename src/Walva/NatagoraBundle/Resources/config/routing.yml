@@ -13,4 +13,11 @@ natagora_formateur:
 natagora_evenement:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/evenement.yml"
         prefix:   /admin/evenement
-        
+       
+natagora_eleve:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/eleve.yml"
+        prefix:   /admin/eleve
+       
+natagora_inscription:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/inscription.yml"
+        prefix:   /inscription

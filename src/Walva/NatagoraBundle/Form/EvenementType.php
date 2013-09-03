@@ -5,6 +5,7 @@ namespace Walva\NatagoraBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Walva\NatagoraBundle\Entity\Evenement;
 
 class EvenementType extends AbstractType {
 
@@ -13,15 +14,30 @@ class EvenementType extends AbstractType {
                 ->add('date')
                 ->add('formateur', 'entity', array(
                     'class' => 'WalvaNatagoraBundle:Formateur',
-                    'property' => 'nomComplet'
                 ))
                 ->add('formations', 'entity', array(
                     'class' => 'WalvaNatagoraBundle:Formation',
                     'property' => 'nom',
                     'multiple' => 'true',
                 ))
-                ->add('type')
-                ->add('etat')
+                ->add('type', 'choice', array(
+                    'choices' => array(
+                    Evenement::$TYPE_SORTIE => 'Sortie',
+                    Evenement::$TYPE_VOYAGE => 'Voyage',
+                    Evenement::$TYPE_WEEKEND => 'Weekend',
+                    ),
+                    'required' => true,
+                ))
+                ->add('etat', 'choice', array(
+                    'choices' => array(
+                    Evenement::$ETAT_PARTANT_SI_QUOTA => 'Partant si quota',
+                    Evenement::$ETAT_PARTANT => 'Partant',
+                    Evenement::$ETAT_COMPLET => 'Complet',
+                    Evenement::$ETAT_ANNULE => 'Annulé',
+                    Evenement::$ETAT_CONFIRME => 'Confirmé',
+                    ),
+                    'required' => true,
+                ))
                 ->add('min')
                 ->add('max')
                 ->add('description')
