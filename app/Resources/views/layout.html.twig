@@ -32,51 +32,13 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                                        <i class="icon-bullhorn">
-                                        </i> Projets et activités <span class="label label-success">2</span>
+                                        <i class="icon-calendar">
+                                        </i> Evenement 
                                         <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class=""><a href="http://bootsnipp.com/resources"><i class="icon-share"></i> Acceuil des étudiants</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Insertion professionnelle</a></li>
-                                        <li class="divider"></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Welcome Day</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Welcome Night</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Atelier Blocus</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Atelier Méthodologie</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Soirées Témoignages</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Soirée Postuler</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Soirée Vie Active</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Témoignage parcours internationaux</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Run&AMP;Bloque</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <li class=""><a href="http://bootsnipp.com/tags"><i class="icon-calendar"></i> Calendrier</a></li>
-                            <ul class="nav">
-                                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-list-alt"></i> Parainage <span class="label label-success">new</span> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li class=""><a href="http://bootsnipp.com/resources"><i class="icon-share"></i> List of Resources</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Form Builder</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/buttons"><i class="icon-pencil"></i> Button Builder <span class="label label-success">new</span></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-
-                            <ul class="nav">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                        <i class="icon-info-sign">
-                                        </i> A propos <span class="label label-success">2</span>
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=""><a href="http://bootsnipp.com/resources"><i class="icon-share"></i> Equipe</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Contact</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Liens</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Partenaires et Sponsors</a></li>
-
+                                        <li class=""><a href="{{ path('evenement_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                        <li class=""><a href="{{ path('evenement') }}"><i class="icon-list-alt"></i> Lister</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -84,19 +46,46 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                                        <i class="icon-wrench">
-                                        </i> Administration <span class="label label-success">2</span>
+                                        <i class="icon-calendar">
+                                        </i> Lieu 
                                         <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class=""><a href="{{ path('formation') }}"><i class="icon-share"></i> Année</a></li>
-                                        <li class=""><a href="{{ path('formation') }}"><i class="icon-tasks"></i> Fac</a></li>
-                                        <li class=""><a href="{{ path('formation') }}"><i class="icon-tasks"></i> Parrain</a></li>
-                                        <li class=""><a href="http://bootsnipp.com/forms"><i class="icon-tasks"></i> Partenaires et Sponsors</a></li>
-
+                                        <li class=""><a href="{{ path('lieu_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                        <li class=""><a href="{{ path('lieu') }}"><i class="icon-list-alt"></i> Lister</a></li>
                                     </ul>
                                 </li>
                             </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-calendar">
+                                        </i> Formation
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('formation_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                        <li class=""><a href="{{ path('formation') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-calendar">
+                                        </i> Formateur 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('formateur_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                        <li class=""><a href="{{ path('formateur') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            
+
                         </ul>
 
                     </div><!--/.nav-collapse -->

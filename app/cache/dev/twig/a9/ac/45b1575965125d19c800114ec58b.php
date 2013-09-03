@@ -58,51 +58,19 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
                                 <li class=\"dropdown\">
                                     <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
 
-                                        <i class=\"icon-bullhorn\">
-                                        </i> Projets et activités <span class=\"label label-success\">2</span>
+                                        <i class=\"icon-calendar\">
+                                        </i> Evenement 
                                         <b class=\"caret\"></b>
                                     </a>
                                     <ul class=\"dropdown-menu\">
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/resources\"><i class=\"icon-share\"></i> Acceuil des étudiants</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Insertion professionnelle</a></li>
-                                        <li class=\"divider\"></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Welcome Day</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Welcome Night</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Atelier Blocus</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Atelier Méthodologie</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Soirées Témoignages</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Soirée Postuler</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Soirée Vie Active</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Témoignage parcours internationaux</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Run&AMP;Bloque</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <li class=\"\"><a href=\"http://bootsnipp.com/tags\"><i class=\"icon-calendar\"></i> Calendrier</a></li>
-                            <ul class=\"nav\">
-                                <li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"icon-list-alt\"></i> Parainage <span class=\"label label-success\">new</span> <b class=\"caret\"></b></a>
-                                    <ul class=\"dropdown-menu\">
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/resources\"><i class=\"icon-share\"></i> List of Resources</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Form Builder</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/buttons\"><i class=\"icon-pencil\"></i> Button Builder <span class=\"label label-success\">new</span></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-
-                            <ul class=\"nav\">
-                                <li class=\"dropdown\">
-                                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
-
-                                        <i class=\"icon-info-sign\">
-                                        </i> A propos <span class=\"label label-success\">2</span>
-                                        <b class=\"caret\"></b>
-                                    </a>
-                                    <ul class=\"dropdown-menu\">
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/resources\"><i class=\"icon-share\"></i> Equipe</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Contact</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Liens</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Partenaires et Sponsors</a></li>
-
+                                        <li class=\"\"><a href=\"";
+        // line 40
+        echo $this->env->getExtension('routing')->getPath("evenement_new");
+        echo "\"><i class=\"icon-plus\"></i> Ajouter</a></li>
+                                        <li class=\"\"><a href=\"";
+        // line 41
+        echo $this->env->getExtension('routing')->getPath("evenement");
+        echo "\"><i class=\"icon-list-alt\"></i> Lister</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -110,28 +78,64 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
                                 <li class=\"dropdown\">
                                     <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
 
-                                        <i class=\"icon-wrench\">
-                                        </i> Administration <span class=\"label label-success\">2</span>
+                                        <i class=\"icon-calendar\">
+                                        </i> Lieu 
                                         <b class=\"caret\"></b>
                                     </a>
                                     <ul class=\"dropdown-menu\">
                                         <li class=\"\"><a href=\"";
-        // line 92
-        echo $this->env->getExtension('routing')->getPath("formation");
-        echo "\"><i class=\"icon-share\"></i> Année</a></li>
+        // line 54
+        echo $this->env->getExtension('routing')->getPath("lieu_new");
+        echo "\"><i class=\"icon-plus\"></i> Ajouter</a></li>
                                         <li class=\"\"><a href=\"";
-        // line 93
-        echo $this->env->getExtension('routing')->getPath("formation");
-        echo "\"><i class=\"icon-tasks\"></i> Fac</a></li>
-                                        <li class=\"\"><a href=\"";
-        // line 94
-        echo $this->env->getExtension('routing')->getPath("formation");
-        echo "\"><i class=\"icon-tasks\"></i> Parrain</a></li>
-                                        <li class=\"\"><a href=\"http://bootsnipp.com/forms\"><i class=\"icon-tasks\"></i> Partenaires et Sponsors</a></li>
-
+        // line 55
+        echo $this->env->getExtension('routing')->getPath("lieu");
+        echo "\"><i class=\"icon-list-alt\"></i> Lister</a></li>
                                     </ul>
                                 </li>
                             </ul>
+                            <ul class=\"nav\">
+                                <li class=\"dropdown\">
+                                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
+
+                                        <i class=\"icon-calendar\">
+                                        </i> Formation
+                                        <b class=\"caret\"></b>
+                                    </a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li class=\"\"><a href=\"";
+        // line 68
+        echo $this->env->getExtension('routing')->getPath("formation_new");
+        echo "\"><i class=\"icon-plus\"></i> Ajouter</a></li>
+                                        <li class=\"\"><a href=\"";
+        // line 69
+        echo $this->env->getExtension('routing')->getPath("formation");
+        echo "\"><i class=\"icon-list-alt\"></i> Lister</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class=\"nav\">
+                                <li class=\"dropdown\">
+                                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
+
+                                        <i class=\"icon-calendar\">
+                                        </i> Formateur 
+                                        <b class=\"caret\"></b>
+                                    </a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li class=\"\"><a href=\"";
+        // line 82
+        echo $this->env->getExtension('routing')->getPath("formateur_new");
+        echo "\"><i class=\"icon-plus\"></i> Ajouter</a></li>
+                                        <li class=\"\"><a href=\"";
+        // line 83
+        echo $this->env->getExtension('routing')->getPath("formateur");
+        echo "\"><i class=\"icon-list-alt\"></i> Lister</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            
+
                         </ul>
 
                     </div><!--/.nav-collapse -->
@@ -142,18 +146,18 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
         <div id=\"header\" class=\"\">
             <div class=\"container\">
 ";
-        // line 109
+        // line 98
         $this->displayBlock('header', $context, $blocks);
-        // line 113
+        // line 102
         echo "
                 </div>
             </div>
             <div class=\"container-fluid\" id=\"mainContainer\">
                 <div class=\"row-fluid\">
                     ";
-        // line 118
+        // line 107
         $this->displayBlock('container', $context, $blocks);
-        // line 140
+        // line 129
         echo "                    </div>
 
                     <hr>
@@ -164,9 +168,9 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
                 </div>
 
   ";
-        // line 149
+        // line 138
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 154
+        // line 143
         echo "
             </body>
         </html>";
@@ -198,79 +202,79 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
     ";
     }
 
-    // line 109
+    // line 98
     public function block_header($context, array $blocks = array())
     {
-        // line 110
+        // line 99
         echo "                    <h1>Titre de la page</h1>
                     <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
                 ";
     }
 
-    // line 118
+    // line 107
     public function block_container($context, array $blocks = array())
     {
-        // line 119
+        // line 108
         echo "                        <div id=\"menu\" class=\"span3\">
 
                         ";
-        // line 121
+        // line 110
         $this->displayBlock('left_menu', $context, $blocks);
-        // line 123
+        // line 112
         echo "
 
           ";
-        // line 126
+        // line 115
         echo "                        </div>
                         <div id=\"content\" class=\"span9\">
                             <ul class=\"breadcrumb\">
 
                         ";
-        // line 130
+        // line 119
         $this->displayBlock('breadcrumb', $context, $blocks);
-        // line 133
+        // line 122
         echo "
 
                             </ul>
           ";
-        // line 136
+        // line 125
         $this->displayBlock('body', $context, $blocks);
-        // line 138
+        // line 127
         echo "                        </div>
                         ";
     }
 
-    // line 121
+    // line 110
     public function block_left_menu($context, array $blocks = array())
     {
-        // line 122
+        // line 111
         echo "          ";
     }
 
-    // line 130
+    // line 119
     public function block_breadcrumb($context, array $blocks = array())
     {
-        // line 131
+        // line 120
         echo "                                <li><a href=\"#\">Formations-nature.be</a> <span class=\"divider\">/</span></li>
                             ";
     }
 
-    // line 136
+    // line 125
     public function block_body($context, array $blocks = array())
     {
-        // line 137
+        // line 126
         echo "          ";
     }
 
-    // line 149
+    // line 138
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 150
+        // line 139
         echo "    ";
-        // line 151
+        // line 140
         echo "                <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></script>
                 <script type=\"text/javascript\" src=\"";
-        // line 152
+        // line 141
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/bootstrap.js"), "html", null, true);
         echo "\"></script>
   ";
@@ -288,6 +292,6 @@ class __TwigTemplate_a9ac45b1575965125d19c800114ec58b extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  274 => 152,  271 => 151,  269 => 150,  266 => 149,  262 => 137,  259 => 136,  254 => 131,  251 => 130,  247 => 122,  244 => 121,  239 => 138,  237 => 136,  232 => 133,  230 => 130,  224 => 126,  220 => 123,  218 => 121,  214 => 119,  211 => 118,  205 => 110,  202 => 109,  196 => 15,  192 => 14,  188 => 13,  185 => 12,  182 => 11,  176 => 9,  170 => 154,  168 => 149,  157 => 140,  155 => 118,  148 => 113,  146 => 109,  128 => 94,  124 => 93,  120 => 92,  41 => 11,  36 => 9,  27 => 2,  61 => 17,  46 => 13,  43 => 17,  40 => 10,  33 => 7,  30 => 6,  73 => 23,  67 => 19,  57 => 14,  53 => 19,  50 => 16,  45 => 8,  42 => 7,  35 => 4,  32 => 3,  126 => 50,  119 => 45,  107 => 39,  101 => 36,  94 => 32,  90 => 31,  86 => 30,  82 => 29,  78 => 28,  74 => 27,  70 => 26,  64 => 18,  58 => 16,  55 => 23,  51 => 22,  31 => 4,  28 => 3,);
+        return array (  278 => 141,  275 => 140,  273 => 139,  270 => 138,  266 => 126,  263 => 125,  258 => 120,  255 => 119,  251 => 111,  248 => 110,  243 => 127,  241 => 125,  236 => 122,  234 => 119,  228 => 115,  224 => 112,  222 => 110,  218 => 108,  215 => 107,  209 => 99,  206 => 98,  200 => 15,  196 => 14,  192 => 13,  189 => 12,  186 => 11,  180 => 9,  174 => 143,  172 => 138,  161 => 129,  159 => 107,  152 => 102,  150 => 98,  132 => 83,  128 => 82,  112 => 69,  108 => 68,  92 => 55,  88 => 54,  72 => 41,  68 => 40,  43 => 17,  41 => 11,  36 => 9,  27 => 2,);
     }
 }
