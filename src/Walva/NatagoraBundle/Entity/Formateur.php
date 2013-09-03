@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Formateur
 {
     
+    public function __toString() {
+        return $this->getNomComplet();
+    }
+
+    
     public function getNomComplet(){
         return $this->getPrenom().' '.$this->getNom();
     }

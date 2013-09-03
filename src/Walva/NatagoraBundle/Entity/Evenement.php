@@ -81,7 +81,7 @@ class Evenement
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Formation")
+     * @ORM\ManyToMany(targetEntity="Walva\NatagoraBundle\Entity\Formation")
      * @ORM\JoinColumn(nullable=true)
      */
     private $formations;
@@ -302,5 +302,35 @@ class Evenement
     public function getFormations()
     {
         return $this->formations;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->formations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add formations
+     *
+     * @param \Walva\NatagoraBundle\Entity\Formation $formations
+     * @return Evenement
+     */
+    public function addFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
+    {
+        $this->formations[] = $formations;
+    
+        return $this;
+    }
+
+    /**
+     * Remove formations
+     *
+     * @param \Walva\NatagoraBundle\Entity\Formation $formations
+     */
+    public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
+    {
+        $this->formations->removeElement($formations);
     }
 }
