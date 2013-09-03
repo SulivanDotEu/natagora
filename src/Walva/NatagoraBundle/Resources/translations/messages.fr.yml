@@ -10,3 +10,11 @@ evenement:
     130: Complet
     140: Annulé
     150: Confirmé
+    
+inscription:
+  etat:
+    310: Inscrit
+    350: Réinscrit
+    320: En attente
+    330: Annulé
+    340: Annulé par gestionnaire

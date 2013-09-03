@@ -28,6 +28,14 @@ class EvenementType extends AbstractType {
                     ),
                     'required' => true,
                 ))
+                ->add('typeGestionInvite', 'choice', array(
+                    'choices' => array(
+                    Evenement::$GESTION_INVITE_FOLLOW => 'follow',
+                    Evenement::$GESTION_INVITE_PUSH_BOTTOM => 'push bottom',
+                    Evenement::$GESTION_INVITE_TIME_ORDER => 'time order',
+                    ),
+                    'required' => true,
+                ))
                 ->add('etat', 'choice', array(
                     'choices' => array(
                     Evenement::$ETAT_PARTANT_SI_QUOTA => 'Partant si quota',

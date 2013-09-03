@@ -3,6 +3,7 @@
 namespace Walva\NatagoraBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Walva\NatagoraBundle\Entity\Invite;
 
 /**
  * Inscription
@@ -11,22 +12,134 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\InscriptionRepository")
  */
 class Inscription {
-    
-    function __construct() {
+
+    public static $ETAT_INSCRIT = 310;
+    public static $ETAT_EN_ATTENTE = 320;
+    public static $ETAT_ANNULE_USER = 330;
+    public static $ETAT_ANNULE_ADMIN = 340;
+    public static $ETAT_REINSCRIT = 350;
+
+    public function __construct() {
         $this->date = new \DateTime('NOW');
     }
 
-        /**
+    public function estInscription() {
+        return true;
+    }
+
+    /**
+     * recois la derniere actuelle de la chaine
+     * si l'inscription est voué à recevoir la position,
+     * elle incrémente la position donnée et se la donne et la renvois.
+     * sinon elle renvoie la position recue et applique 0 a la sienne
+     * @param int $previousPosition
+     */
+    public function updatePosition($previousPosition) {
+        var_dump('Inscription->updatePosition');
+        var_dump('I am : '.$this->getEvenement()->getId());
+        var_dump('and  : '.$this->getEleve()->getId());
+        
+
+        // si l'inscription n'est pas active (donc annulé) il faut pas mettre
+        // de position
+        if (!$this->estActive()) {
+            $this->setPosition(0);
+            return $previousPosition;
+        }
+        // mise a jour de la position
+        $this->setPosition(++$previousPosition);
+        // si la position est + grande que le max de l'evenement,
+        // l'inscirption passe en attente.
+        if ($previousPosition > $this->getEvenement()->getMax()) {
+            $this->setEtat(self::$ETAT_EN_ATTENTE);
+        }
+
+        // gesiton de l'invite
+        $invite = $this->invite;
+        var_dump($invite);
+        if ($invite != null) {
+            var_dump('Inscription->updatePosition et possède un invite : '.$this->getInvite());
+            $gestionInvite = $this->getEvenement()->getTypeGestionInvite();
+            switch ($gestionInvite) {
+                case Evenement::$GESTION_INVITE_FOLLOW:
+                    // l'invite suit l'utilisateur : 
+                    $invite->setPosition(++$previousPosition);
+                    break;
+                case Evenement::$GESTION_INVITE_PUSH_BOTTOM:
+                    $invite->enregistrerInviteAPlacer($invite);
+                    break;
+                case Evenement::$GESTION_INVITE_TIME_ORDER:
+                    $invite->enregistrerInviteAPlacer($invite);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else{
+            var_dump('Inscription->updatePosition et ne possède PAS un invite ');
+
+        }
+
+        return $previousPosition;
+    }
+
+    public function desinscrire() {
+        $this->setEtat(self::$ETAT_ANNULE_USER);
+    }
+
+    public function annuler() {
+        $this->setEtat(self::$ETAT_ANNULE_ADMIN);
+    }
+
+    public function estActive() {
+        if ($this->etat == self::$ETAT_ANNULE_ADMIN)
+            return false;
+        if ($this->etat == self::$ETAT_ANNULE_USER)
+            return false;
+        return true;
+    }
+
+    public function estPartant() {
+        if ($this->etat == self::$ETAT_INSCRIT)
+            return true;
+        if ($this->etat == self::$ETAT_REINSCRIT)
+            return true;
+        return false;
+    }
+
+    public function estEnAttente() {
+        if ($this->etat == self::$ETAT_EN_ATTENTE)
+            return true;
+        return false;
+    }
+
+    public function possedeInvite() {
+        var_dump($this->invite);
+        if ($this->invite != null){
+            var_dump("je possede un invite");
+            return true;
+            
+            }
+        return false;
+    }
+
+    /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Eleve")
      */
     private $eleve;
-    
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Evenement", inversedBy="inscriptions")
      */
     private $evenement;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Walva\NatagoraBundle\Entity\Invite")
+     */
+    private $invite;
 
     /**
      * @var \DateTime
@@ -43,11 +156,11 @@ class Inscription {
     private $position;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @ORM\Column(name="etat", type="smallint", nullable=true)
      */
-    private $active = false;
+    private $etat;
 
     /**
      * @var \DateTime
@@ -108,27 +221,6 @@ class Inscription {
     }
 
     /**
-     * Set active
-     *
-     * @param boolean $active
-     * @return Inscription
-     */
-    public function setActive($active) {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean 
-     */
-    public function getActive() {
-        return $this->active;
-    }
-
-    /**
      * Set dateInactive
      *
      * @param \DateTime $dateInactive
@@ -149,17 +241,15 @@ class Inscription {
         return $this->dateInactive;
     }
 
-
     /**
      * Set eleve
      *
      * @param \Walva\NatagoraBundle\Entity\Eleve $eleve
      * @return Inscription
      */
-    public function setEleve(\Walva\NatagoraBundle\Entity\Eleve $eleve)
-    {
+    public function setEleve(\Walva\NatagoraBundle\Entity\Eleve $eleve) {
         $this->eleve = $eleve;
-    
+
         return $this;
     }
 
@@ -168,8 +258,7 @@ class Inscription {
      *
      * @return \Walva\NatagoraBundle\Entity\Eleve 
      */
-    public function getEleve()
-    {
+    public function getEleve() {
         return $this->eleve;
     }
 
@@ -179,10 +268,10 @@ class Inscription {
      * @param \Walva\NatagoraBundle\Entity\Evenement $evenement
      * @return Inscription
      */
-    public function setEvenement(\Walva\NatagoraBundle\Entity\Evenement $evenement)
-    {
+    public function setEvenement(\Walva\NatagoraBundle\Entity\Evenement $evenement) {
         $this->evenement = $evenement;
-    
+        $this->evenement->addInscription($this);
+
         return $this;
     }
 
@@ -191,8 +280,51 @@ class Inscription {
      *
      * @return \Walva\NatagoraBundle\Entity\Evenement 
      */
-    public function getEvenement()
-    {
+    public function getEvenement() {
         return $this->evenement;
     }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Inscription
+     */
+    public function setEtat($etat) {
+
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat() {
+        return $this->etat;
+    }
+
+    /**
+     * Set invite
+     *
+     * @param string $invite
+     * @return Inscription
+     */
+    public function setInvite($invite) {
+        $this->invite = $invite;
+
+        return $this;
+    }
+
+    /**
+     * Get invite
+     *
+     * @return string 
+     */
+    public function getInvite() {
+        return $this->invite;
+    }
+
 }

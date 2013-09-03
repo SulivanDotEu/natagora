@@ -50,39 +50,67 @@
         <tr>
             <th>Nom</th>
             <th>Position</th>
-            <th></th>
-            <th>test</th>
+            <th>Etat</th>
+            <th>date d'Inscription</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        {% for inscription in entity.inscriptions  %}
-        <tr>
-            <td>{{inscription.eleve}}</td>
-            <td>{{inscription.eleve}}</td>
-            <td>{{inscription.date | date('d/m/Y H:i')}}</td>
-            <td></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        {% for participant in entity.getListeDesParticipants  %}
+            {% if participant.estInscription == true %}
+            <tr>
+                <td>{{participant.eleve}}</td>
+                <td>{{participant.position}}</td>
+                <td>
+                    {% if participant.estEnAttente %}
+                        <span class="label label-warning">
+                    {% elseif participant.estPartant %}
+                        <span class="label label-success">
+                    {% else %}
+                        <span class="label">
+                            {% endif %}
+{{ ('inscription.etat.'~participant.etat)|trans }}
+                                </span>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('evenement') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('evenement_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('evenement_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
+                        </td>
+                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
+                        <td>
+                            <a href="{{ path('invite_new', { 'eleve': participant.eleve.id, 'evenement':entity.id }) }}"
+                               class="btn">Inviter une personne</a></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                <td>{{participant}}</td>
+                <td>{{participant.position}}</td>
+                <td>
+                    
+                        </td>
+                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
+                        <td>
+                           
+                    </tr>
+                    {% endif %}
+        {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="record_actions">
+                <li>
+                    <a href="{{ path('evenement') }}">
+                        Back to the list
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                        Edit
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ path('evenement_delete', { 'id': entity.id }) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            </ul>
 {% endblock %}

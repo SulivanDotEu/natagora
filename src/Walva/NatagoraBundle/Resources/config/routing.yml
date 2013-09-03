@@ -20,4 +20,8 @@ natagora_eleve:
        
 natagora_inscription:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/inscription.yml"
-        prefix:   /inscription
+        prefix:   /
+               
+natagora_invite:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/invite.yml"
+        prefix:   /

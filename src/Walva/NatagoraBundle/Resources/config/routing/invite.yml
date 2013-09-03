@@ -10,3 +10,11 @@ inscription_refresh:
     pattern:  /refresh/evenement/{evenement}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:refresh" }
 
+invite_create:
+    pattern:  /invite/create/{evenement}/{eleve}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:createInvite" }
+    requirements: { _method: post }
+
+invite_new:
+    pattern:  /invite/new/{evenement}/{eleve}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:newInvite" }

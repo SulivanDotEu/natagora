@@ -3,30 +3,176 @@
 namespace Walva\NatagoraBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Walva\NatagoraBundle\Entity\Eleve;
+use Walva\NatagoraBundle\Entity\Inscription;
+use Walva\NatagoraBundle\Entity\Invite;
 
 /**
  * Evenement
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\EvenementRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Evenement
-{
-    
+class Evenement {
+
     public static $ETAT_PARTANT_SI_QUOTA = 110;
     public static $ETAT_PARTANT = 120;
     public static $ETAT_COMPLET = 130;
     public static $ETAT_ANNULE = 140;
     public static $ETAT_CONFIRME = 150;
-    
     public static $TYPE_SORTIE = 210;
     public static $TYPE_WEEKEND = 220;
     public static $TYPE_VOYAGE = 230;
-    
-    public function getNombreInscription(){
-        return count($this->getInscriptions());
+    public static $GESTION_INVITE_FOLLOW = 410;
+    public static $GESTION_INVITE_PUSH_BOTTOM = 420;
+    public static $GESTION_INVITE_TIME_ORDER = 430;
+    private $invitesAPlacer;
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(){
+        $this->updatePosition();
     }
     
+    public function getListeDesParticipants() {
+        $listeParticipants = array();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $listeParticipants[] = $inscription;
+            if ($inscription->possedeInvite()) {
+                $listeParticipants[] = $inscription->getInvite();
+            }
+        }
+        usort($listeParticipants, array($this, "comparerParticipant"));
+        return $listeParticipants;
+    }
+
+    /**
+     * On enregistre les invites pour les placer dans la liste d'inscription
+     * par ordre chronologique ou tout en bas (mais tjs en ordre chrono)
+     * @param type $invite
+     */
+    public function enregistrerInviteAPlacer($invite) {
+        $this->invitesAPlacer[] = $invite;
+        // ensuite il faut trier les inviter par ordre chronologie
+        usort($this->invitesAPlacer, array($this, "comparerInvite"));
+    }
+
+    public function updatePosition() {
+        $this->invitesAPlacer = array();
+        $inscriptions = $this->getInscriptions()->getValues();
+        usort($inscriptions, array($this, "comparerInscriptions"));
+        $currentPosition = 0;
+        foreach ($inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            // ici on demande a l'inscription de se mettre à jour
+            $currentPosition = $inscription->updatePosition($currentPosition);
+            // si on doit placer les invites dans les invite selon la date
+            if ($this->typeGestionInvite == self::$GESTION_INVITE_TIME_ORDER) {
+                foreach ($this->invitesAPlacer as $invite) {
+                    /* @var $invite Invite */
+                    if ($invite->getDate()->getTimestamp() < $inscription->getDate()->getTimestamp()) {
+                        $invite->setPosition(++$currentPosition);
+                        $index = array_search($invite, $this->invitesAPlacer);
+                        unset($this->invitesAPlacer[$index]);
+                    }
+                }
+            }
+        }
+
+
+        if ($this->typeGestionInvite == self::$GESTION_INVITE_PUSH_BOTTOM) {
+            foreach ($this->invitesAPlacer as $invite) {
+                $invite->setPosition(++$currentPosition);
+                $index = array_search($invite, $this->invitesAPlacer);
+                unset($this->invitesAPlacer[$index]);
+            }
+        }
+
+
+
+        $this->nombreInscrits = $currentPosition;
+    }
+
+    public function desinscrireEleve(Eleve $eleve) {
+        $inscription = $this->getInscriptionParEleve($eleve);
+        if ($inscription == null)
+            return false;
+        $inscription->annuler();
+        $this->updatePosition();
+        return true;
+    }
+
+    public function getInscriptionParEleve($eleve) {
+        $inscriptions = $this->getInscriptions()->getValues();
+        foreach ($inscriptions as $inscription) {
+            if ($inscription->getEleve()->getId() == $eleve->getId())
+                return $inscription;
+        }
+        return null;
+    }
+
+    public function inscrireEleve(Eleve $eleve) {
+        $inscription = $this->getInscriptionParEleve($eleve);
+        /* @var $inscription Inscription */
+        if (isset($inscription) AND $inscription->estActive())
+            throw new \Exception('L\'élève ' . $eleve . ' est deja inscrit.');
+        elseif (!$inscription->estActive()) {
+            $inscription->setEtat(Inscription::$ETAT_REINSCRIT);
+            $this->updatePosition();
+            return $inscription;
+        }
+        $inscription = new Inscription();
+        $inscription->setEleve($eleve);
+        $inscription->setEvenement($this);
+        return $inscription;
+    }
+
+    public function estInscrit(Eleve $e) {
+        $idEleve = $e->getId();
+        foreach ($this->getInscriptions() as $inscription) {
+            /* @var $inscription Inscription */
+            $idTemp = $inscription->getEleve()->getId();
+            if ($idEleve == $idTemp) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getNombreInscription() {
+        return count($this->getInscriptions());
+    }
+
+    public function comparerInvite(Invite $i1, Invite $i2) {
+        $v1 = $i1->getDate()->getTimestamp();
+        $v2 = $i2->getDate()->getTimestamp();
+        if ($v1 == $v2)
+            return 0;
+        else
+            return ($v1 < $v2) ? -1 : 1;
+    }
+
+    public function comparerParticipant($a, $b) {
+        $v1 = $a->getPosition();
+        $v2 = $b->getPosition();
+        if ($v1 == $v2)
+            return 0;
+        else
+            return ($v1 < $v2) ? -1 : 1;
+    }
+
+    public function comparerInscriptions(Inscription $i1, Inscription $i2) {
+        $v1 = $i1->getDate()->getTimestamp();
+        $v2 = $i2->getDate()->getTimestamp();
+        if ($v1 == $v2)
+            return 0;
+        else
+            return ($v1 < $v2) ? -1 : 1;
+    }
+
     /**
      * @var integer
      *
@@ -75,6 +221,13 @@ class Evenement
     /**
      * @var integer
      *
+     * @ORM\Column(name="typeGestionInvite", type="smallint")
+     */
+    private $typeGestionInvite = 0;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="min", type="smallint", nullable=true)
      */
     private $min = 0;
@@ -87,12 +240,19 @@ class Evenement
     private $max = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nombreinscrits", type="smallint", nullable=true)
+     */
+    private $nombreInscrits = 0;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-    
+
     /**
      * @var string
      *
@@ -100,24 +260,20 @@ class Evenement
      * @ORM\JoinColumn(nullable=true)
      */
     private $formations;
-    
+
     /**
      * @var string
      *
      * @ORM\OneToMany(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="evenement")
      */
     private $inscriptions;
-    
-    
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -127,10 +283,9 @@ class Evenement
      * @param \DateTime $date
      * @return Evenement
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
-    
+
         return $this;
     }
 
@@ -139,8 +294,7 @@ class Evenement
      *
      * @return \DateTime 
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
@@ -150,10 +304,9 @@ class Evenement
      * @param \stdClass $formateur
      * @return Evenement
      */
-    public function setFormateur($formateur)
-    {
+    public function setFormateur($formateur) {
         $this->formateur = $formateur;
-    
+
         return $this;
     }
 
@@ -162,8 +315,7 @@ class Evenement
      *
      * @return \stdClass 
      */
-    public function getFormateur()
-    {
+    public function getFormateur() {
         return $this->formateur;
     }
 
@@ -173,10 +325,9 @@ class Evenement
      * @param \stdClass $lieu
      * @return Evenement
      */
-    public function setLieu($lieu)
-    {
+    public function setLieu($lieu) {
         $this->lieu = $lieu;
-    
+
         return $this;
     }
 
@@ -185,8 +336,7 @@ class Evenement
      *
      * @return \stdClass 
      */
-    public function getLieu()
-    {
+    public function getLieu() {
         return $this->lieu;
     }
 
@@ -196,10 +346,9 @@ class Evenement
      * @param integer $type
      * @return Evenement
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
-    
+
         return $this;
     }
 
@@ -208,8 +357,7 @@ class Evenement
      *
      * @return integer 
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
 
@@ -219,10 +367,9 @@ class Evenement
      * @param integer $etat
      * @return Evenement
      */
-    public function setEtat($etat)
-    {
+    public function setEtat($etat) {
         $this->etat = $etat;
-    
+
         return $this;
     }
 
@@ -231,8 +378,7 @@ class Evenement
      *
      * @return integer 
      */
-    public function getEtat()
-    {
+    public function getEtat() {
         return $this->etat;
     }
 
@@ -242,10 +388,9 @@ class Evenement
      * @param integer $min
      * @return Evenement
      */
-    public function setMin($min)
-    {
+    public function setMin($min) {
         $this->min = $min;
-    
+
         return $this;
     }
 
@@ -254,8 +399,7 @@ class Evenement
      *
      * @return integer 
      */
-    public function getMin()
-    {
+    public function getMin() {
         return $this->min;
     }
 
@@ -265,10 +409,10 @@ class Evenement
      * @param integer $max
      * @return Evenement
      */
-    public function setMax($max)
-    {
+    public function setMax($max) {
         $this->max = $max;
-    
+        $this->updatePosition();
+
         return $this;
     }
 
@@ -277,8 +421,7 @@ class Evenement
      *
      * @return integer 
      */
-    public function getMax()
-    {
+    public function getMax() {
         return $this->max;
     }
 
@@ -288,10 +431,9 @@ class Evenement
      * @param string $description
      * @return Evenement
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -300,8 +442,7 @@ class Evenement
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -311,10 +452,9 @@ class Evenement
      * @param \Walva\NatagoraBundle\Entity\Formation $formations
      * @return Evenement
      */
-    public function setFormations(\Walva\NatagoraBundle\Entity\Formation $formations = null)
-    {
+    public function setFormations(\Walva\NatagoraBundle\Entity\Formation $formations = null) {
         $this->formations = $formations;
-    
+
         return $this;
     }
 
@@ -323,28 +463,27 @@ class Evenement
      *
      * @return \Walva\NatagoraBundle\Entity\Formation 
      */
-    public function getFormations()
-    {
+    public function getFormations() {
         return $this->formations;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->formations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->typeGestionInvite = self::$GESTION_INVITE_PUSH_BOTTOM;
     }
-    
+
     /**
      * Add formations
      *
      * @param \Walva\NatagoraBundle\Entity\Formation $formations
      * @return Evenement
      */
-    public function addFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
-    {
+    public function addFormation(\Walva\NatagoraBundle\Entity\Formation $formations) {
         $this->formations[] = $formations;
-    
+
         return $this;
     }
 
@@ -353,8 +492,7 @@ class Evenement
      *
      * @param \Walva\NatagoraBundle\Entity\Formation $formations
      */
-    public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
-    {
+    public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations) {
         $this->formations->removeElement($formations);
     }
 
@@ -364,10 +502,11 @@ class Evenement
      * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
      * @return Evenement
      */
-    public function addInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions)
-    {
+    public function addInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions) {
+        if ($this->estInscrit($inscriptions->getEleve()))
+            return;
         $this->inscriptions[] = $inscriptions;
-    
+
         return $this;
     }
 
@@ -376,8 +515,7 @@ class Evenement
      *
      * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
      */
-    public function removeInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions)
-    {
+    public function removeInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions) {
         $this->inscriptions->removeElement($inscriptions);
     }
 
@@ -386,8 +524,50 @@ class Evenement
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getInscriptions()
-    {
+    public function getInscriptions() {
         return $this->inscriptions;
     }
+
+    /**
+     * Set nombreInscrits
+     *
+     * @param integer $nombreInscrits
+     * @return Evenement
+     */
+    public function setNombreInscrits($nombreInscrits) {
+        $this->nombreInscrits = $nombreInscrits;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreInscrits
+     *
+     * @return integer 
+     */
+    public function getNombreInscrits() {
+        return $this->nombreInscrits;
+    }
+
+    /**
+     * Set typeGestionInvite
+     *
+     * @param integer $typeGestionInvite
+     * @return Evenement
+     */
+    public function setTypeGestionInvite($typeGestionInvite) {
+        $this->typeGestionInvite = $typeGestionInvite;
+
+        return $this;
+    }
+
+    /**
+     * Get typeGestionInvite
+     *
+     * @return integer 
+     */
+    public function getTypeGestionInvite() {
+        return $this->typeGestionInvite;
+    }
+
 }

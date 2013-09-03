@@ -13,7 +13,7 @@
                 <th>Type</th>
                 <th>Etat</th>
                 <th>Min</th>
-                <th>Max</th>
+                <th>Inscrits</th>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
@@ -28,7 +28,7 @@
                 <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
                 <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
                 <td>{{ entity.min }}</td>
-                <td>{{ entity.max }}</td>
+                <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
                 <td>{{ entity.description }}</td>
                 <td>
                 <ul>

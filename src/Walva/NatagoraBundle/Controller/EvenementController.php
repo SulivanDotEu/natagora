@@ -84,6 +84,8 @@ class EvenementController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
+        
+        $entity->updatePosition();
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -136,8 +138,7 @@ class EvenementController extends Controller {
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('evenement_edit', array('id' => $id)));
+            //return $this->redirect($this->generateUrl('evenement_edit', array('id' => $id)));
         }
 
         return $this->render('WalvaNatagoraBundle:Evenement:edit.html.twig', array(
