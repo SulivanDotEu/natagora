@@ -12,16 +12,42 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Tag</th>
-            <th>Date</th>
-            <th>Formateur</th>
-            <th>Formations</th>
-            <th>Lieu</th>
-            <th>Type</th>
-            <th>Etat</th>
-            <th>Min</th>
-            <th>Inscrits</th>
+            <th>Id 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'id', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'id', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Tag </th>
+            <th>Date 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'date', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'date', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Formateur 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'formateur', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'formateur', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Formations 
+
+            </th>
+            <th>Lieu 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'lieu', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'lieu', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Type 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'type', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'type', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Etat 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'etat', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'etat', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Min 
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'min', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'min', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Inscrits
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'nombreInscrits', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('evenement_sort_with_order', { 'sort': 'nombreInscrits', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -41,34 +67,34 @@
                     {% for formation in entity.formations %}
                             {{ formation.nom | label(formation.couleur) | raw }}
                             {% endfor %}
-                    </td>
-                    <td>
-                        {{ entity.lieu }}
                         </td>
-                        <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
-                        <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
-                        <td>{{ entity.min }}</td>
-                        <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
                         <td>
-                            <div class="btn-group">
-                                <a class="btn" href="{{ path('evenement_show', { 'id': entity.id }) }} ">
-                                    <i class="icon-eye-open"></i> Show</a>
-                                <a class="btn" href="{{ path('evenement_edit', { 'id': entity.id }) }}">
-                                    <i class="icon-pencil"></i> Edit</a>
-                            </div>
+                        {{ entity.lieu }}
+                            </td>
+                            <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                            <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
+                            <td>{{ entity.min }}</td>
+                            <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn" href="{{ path('evenement_show', { 'id': entity.id }) }} ">
+                                        <i class="icon-eye-open"></i> Show</a>
+                                    <a class="btn" href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                                        <i class="icon-pencil"></i> Edit</a>
+                                </div>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
         {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
 
     {% endblock %}
 
 {% block container_header_right %}
-            <a class="btn btn-primary" href="{{ path('evenement_new') }}">
-                <i class="icon-plus icon-white"></i> 
-                Create a new entry
-            </a>
+                <a class="btn btn-primary" href="{{ path('evenement_new') }}">
+                    <i class="icon-plus icon-white"></i> 
+                    Create a new entry
+                </a>
 {% endblock %}

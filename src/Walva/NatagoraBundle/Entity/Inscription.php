@@ -124,7 +124,7 @@ class Inscription {
     }
 
     public function possedeInvite() {
-        if ($this->invite != null) {
+        if (isset($this->invite )) {
             return true;
         }
         return false;

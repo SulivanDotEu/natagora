@@ -30,7 +30,9 @@ class InscriptionController extends Controller {
         $em->persist($evenement);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirect($this->generateUrl('evenement_show', array(
+            'id' => $evenement->getId()
+        )));
     }
 
     /**
@@ -44,7 +46,9 @@ class InscriptionController extends Controller {
         $em->persist($evenement);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('index'));
+         return $this->redirect($this->generateUrl('evenement_show', array(
+            'id' => $evenement->getId()
+        )));
     }
 
     /**
@@ -57,7 +61,9 @@ class InscriptionController extends Controller {
         $em->persist($evenement);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirect($this->generateUrl('evenement_show', array(
+            'id' => $evenement->getId()
+        )));
     }
 
     /**

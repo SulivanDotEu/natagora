@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
+use \Walva\NatagoraBundle\Plugin\ObjectComparator;
 
 /**
  * Evenement controller.
@@ -26,10 +27,15 @@ class EvenementController extends Controller {
      * Lists all Evenement entities.
      *
      */
-    public function indexAction() {
+    public function indexAction($sort = null, $order = 'ASC') {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAll();
+        if ($sort != null) {
+            $comparator = new ObjectComparator();
+            $entities = $comparator->sort($entities, $sort, $order);
+        }
+        
 
         return $this->render('WalvaNatagoraBundle:Evenement:index.html.twig', array(
                     'entities' => $entities,
@@ -140,7 +146,7 @@ class EvenementController extends Controller {
             $em->flush();
 
             //die();
-            
+
             $submit = $this->getRequest()->request->get('submit');
             if ($submit == 'show') {
                 return $this->redirect($this->generateUrl('evenement_show', array('id' => $entity->getId())));

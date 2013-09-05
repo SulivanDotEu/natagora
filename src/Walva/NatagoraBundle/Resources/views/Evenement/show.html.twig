@@ -77,59 +77,78 @@
                     {% if participant.estEnAttente %}
                         <span class="label label-warning">
                     {% elseif participant.estPartant %}
-                        <span class="label label-success">
+                                <span class="label label-success">
                     {% else %}
-                        <span class="label">
+                                        <span class="label">
                             {% endif %}
 {{ ('inscription.etat.'~participant.etat)|trans }}
-                                </span>
+                                            </span>
 
-                        </td>
-                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
-                        <td>
-                            <a href="{{ path('invite_new', { 'eleve': participant.eleve.id, 'evenement':entity.id }) }}"
-                               class="btn">Inviter une personne</a></td>
-                    </tr>
+                                            </td>
+                                            <td>{{participant.date | date('d/m/Y H:i')}}</td>
+                                            <td>
+                                                <div class="btn-group">
+                             {% if participant.possedeInvite == false %}
+                                                        <a href="{{ path('invite_new', { 'eleve': participant.eleve.id, 'evenement':entity.id }) }}"
+                                                           class="btn">Inviter une personne</a>
+                                {% else %}
+                                                    <a href="{{ path('invite_cancel', { 'invite':participant.invite.id }) }}"
+                                                       class="btn btn-danger">Annuler invitation</a>
+                                {% endif %}
+
+                                    {% if participant.estActive == true %}
+                                                <a href="{{ path('desinscription_evenement', { 'eleve':participant.eleve.id, 'evenement':entity.id }) }}"
+                                                   class="btn btn-danger">Desinscrire</a>
+                                                   {% else %}
+                                            <a href="{{ path('inscription_evenement', { 'eleve':participant.eleve.id, 'evenement':entity.id }) }}"
+                                               class="btn btn-success">Reinscrire</a> 
+                                               
+                                                   {% endif %}
+                                    </div>
+                                </td>
+
+
+                                </tr>
                     {% else %}
-                    <tr>
-                        <td>{{participant}} <i class="muted"> invité par {{ participant.inscription.eleve }} </i></td>
-                <td>{{participant.position}}</td>
-                <td>
+                                <tr>
+                                    <td>{{participant}} <i class="muted"> invité par {{ participant.inscription.eleve }} </i></td>
+                                    <td>{{participant.position}}</td>
+                                    <td>
                     {% if participant.estEnAttente %}
-                        <span class="label label-warning">
+                                            <span class="label label-warning">
                     {% elseif participant.estPartant %}
-                        <span class="label label-success">
+                                                    <span class="label label-success">
                     {% else %}
-                        <span class="label">
+                                                            <span class="label">
                             {% endif %}
 {{ ('inscription.etat.'~participant.etat)|trans }}
-                                </span>
-                        </td>
-                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
-                        <td>
-                        <a href="{{ path('invite_cancel', { 'invite':participant.id }) }}"
-                               class="btn">Annuler</a>
-                        </td>
-                           
-                    </tr>
+                                                                </span>
+                                                                </td>
+                                                                <td>{{participant.date | date('d/m/Y H:i')}}</td>
+                                                                <td>
+                                                                    <a href="{{ path('invite_cancel', { 'invite':participant.id }) }}"
+                                                                       class="btn">Annuler</a>
+                                                                </td>
+
+                                                                </tr>
                     {% endif %}
         {% endfor %}
-                </tbody>
-            </table>
+                                                                </tbody>
+                                                                </table>
 
-           
+
 {% endblock %}
 
 {% block container_header_right %}
 
-        <div class="btn-group">
-            <a class="btn " href="{{ path('evenement') }}">
-                <i class="icon-chevron-left"></i> 
-                Back to the list
-            </a>
-            <a class="btn " href="{{ path('evenement_edit', { 'id': entity.id }) }}">
-                <i class="icon-pencil"></i> Edit</a>
-        </a>
+                                                                <div class="btn-group">
+                                                                    <a class="btn " href="{{ path('evenement') }}">
+                                                                        <i class="icon-chevron-left"></i> 
+                                                                        Back to the list
+                                                                    </a>
+                                                                    <a class="btn " href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                                                                        <i class="icon-pencil"></i> Edit</a>
+                                                                    </a>
 
-    </div>
+                                                                </div>
 {% endblock %}

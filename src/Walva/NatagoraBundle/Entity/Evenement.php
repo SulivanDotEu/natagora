@@ -126,11 +126,30 @@ class Evenement {
         $this->nombreInscrits = $currentPosition;
     }
 
+    /**
+     * la methode est appelée quand un admin veut desinscrire un eleve
+     * @param \Walva\NatagoraBundle\Entity\Eleve $eleve
+     * @return boolean
+     */
     public function desinscrireEleve(Eleve $eleve) {
         $inscription = $this->getInscriptionParEleve($eleve);
         if ($inscription == null)
             return false;
         $inscription->annuler();
+        $this->updatePosition();
+        return true;
+    }
+    
+    /**
+     * la methode est appelée quand un admin veut desinscrire un eleve
+     * @param \Walva\NatagoraBundle\Entity\Eleve $eleve
+     * @return boolean
+     */
+    public function eleveSeDesinscrit(Eleve $eleve) {
+        $inscription = $this->getInscriptionParEleve($eleve);
+        if ($inscription == null)
+            return false;
+        $inscription->desinscrire();
         $this->updatePosition();
         return true;
     }
