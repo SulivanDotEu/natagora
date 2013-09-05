@@ -22,14 +22,22 @@ class EvenementRepository extends EntityRepository {
 
         return $resultats;
     }
-    
-    public function myFindAll(){
-         $qb = $this->createQueryBuilder('e')
-             ->leftJoin('a.lieu', 'l')
-             ->addSelect('l');
- 
-  return $qb->getQuery()
-            ->getResult();
+
+    public function myFindAll() {
+        $qb = $this->createQueryBuilder('e')
+                ->leftJoin('e.lieu', 'l')
+                ->addSelect('l')
+                ->leftJoin('e.formateur', 'feur')
+                ->addSelect('feur')
+                ->leftJoin('e.formations', 'fion')
+                ->addSelect('fion')
+                ->leftJoin('e.inscriptions', 'i')
+                ->addSelect('i')
+                ->leftJoin('i.invite', 'inv')
+                ->addSelect('inv');
+
+        return $qb->getQuery()
+                        ->getResult();
     }
 
 }
