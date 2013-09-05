@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Eleve
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_eleve")
  * @ORM\Entity
  */
 class Eleve

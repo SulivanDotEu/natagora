@@ -32,10 +32,10 @@ class Evenement {
     /**
      * @ORM\PreUpdate
      */
-    public function preUpdate(){
+    public function preUpdate() {
         $this->updatePosition();
     }
-    
+
     public function getListeDesParticipants() {
         $listeParticipants = array();
         foreach ($this->inscriptions as $inscription) {
@@ -62,36 +62,62 @@ class Evenement {
 
     public function updatePosition() {
         $this->invitesAPlacer = array();
+        $temp = $this->getInscriptions();
+        if (!isset($temp))
+            return;
         $inscriptions = $this->getInscriptions()->getValues();
         usort($inscriptions, array($this, "comparerInscriptions"));
         $currentPosition = 0;
         foreach ($inscriptions as $inscription) {
             /* @var $inscription Inscription */
-            // ici on demande a l'inscription de se mettre à jour
-            $currentPosition = $inscription->updatePosition($currentPosition);
             // si on doit placer les invites dans les invite selon la date
             if ($this->typeGestionInvite == self::$GESTION_INVITE_TIME_ORDER) {
                 foreach ($this->invitesAPlacer as $invite) {
+                    $boolean = ($invite->getDate()->getTimestamp() < $inscription->getDate()->getTimestamp());
+
                     /* @var $invite Invite */
                     if ($invite->getDate()->getTimestamp() < $inscription->getDate()->getTimestamp()) {
                         $invite->setPosition(++$currentPosition);
+                        if ($invite->getPosition() > $this->getMax()) {
+                            $invite->setEtat(Inscription::$ETAT_EN_ATTENTE);
+                        } else {
+                            $invite->setEtat(Inscription::$ETAT_INSCRIT);
+                        }
                         $index = array_search($invite, $this->invitesAPlacer);
                         unset($this->invitesAPlacer[$index]);
                     }
                 }
             }
+            // ici on demande a l'inscription de se mettre à jour
+            $currentPosition = $inscription->updatePosition($currentPosition);
         }
 
 
         if ($this->typeGestionInvite == self::$GESTION_INVITE_PUSH_BOTTOM) {
             foreach ($this->invitesAPlacer as $invite) {
                 $invite->setPosition(++$currentPosition);
+                if ($invite->getPosition() > $this->getMax()) {
+                    $invite->setEtat(Inscription::$ETAT_EN_ATTENTE);
+                } else {
+                    $invite->setEtat(Inscription::$ETAT_INSCRIT);
+                }
                 $index = array_search($invite, $this->invitesAPlacer);
                 unset($this->invitesAPlacer[$index]);
             }
         }
 
-
+        if ($this->typeGestionInvite == self::$GESTION_INVITE_TIME_ORDER) {
+            foreach ($this->invitesAPlacer as $invite) {
+                $invite->setPosition(++$currentPosition);
+                if ($invite->getPosition() > $this->getMax()) {
+                    $invite->setEtat(Inscription::$ETAT_EN_ATTENTE);
+                } else {
+                    $invite->setEtat(Inscription::$ETAT_INSCRIT);
+                }
+                $index = array_search($invite, $this->invitesAPlacer);
+                unset($this->invitesAPlacer[$index]);
+            }
+        }
 
         $this->nombreInscrits = $currentPosition;
     }
@@ -117,16 +143,19 @@ class Evenement {
     public function inscrireEleve(Eleve $eleve) {
         $inscription = $this->getInscriptionParEleve($eleve);
         /* @var $inscription Inscription */
-        if (isset($inscription) AND $inscription->estActive())
+        if (!isset($inscription)) {
+            $inscription = new Inscription();
+            $inscription->setEleve($eleve);
+            $inscription->setEvenement($this);
+            $inscription->setEtat(Inscription::$ETAT_INSCRIT);
+        } elseif (isset($inscription) AND $inscription->estActive())
             throw new \Exception('L\'élève ' . $eleve . ' est deja inscrit.');
         elseif (!$inscription->estActive()) {
             $inscription->setEtat(Inscription::$ETAT_REINSCRIT);
             $this->updatePosition();
-            return $inscription;
         }
-        $inscription = new Inscription();
-        $inscription->setEleve($eleve);
-        $inscription->setEvenement($this);
+
+        $this->updatePosition();
         return $inscription;
     }
 
@@ -140,10 +169,6 @@ class Evenement {
             }
         }
         return false;
-    }
-
-    public function getNombreInscription() {
-        return count($this->getInscriptions());
     }
 
     public function comparerInvite(Invite $i1, Invite $i2) {
@@ -192,7 +217,8 @@ class Evenement {
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="formateur", type="object", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Formateur")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $formateur;
 
@@ -237,7 +263,7 @@ class Evenement {
      *
      * @ORM\Column(name="max", type="smallint", nullable=true)
      */
-    private $max = 0;
+    private $max = 15;
 
     /**
      * @var integer
@@ -267,6 +293,13 @@ class Evenement {
      * @ORM\OneToMany(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="evenement")
      */
     private $inscriptions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="complet", type="boolean", nullable=true)
+     */
+    private $complet = true;
 
     /**
      * Get id
@@ -473,6 +506,8 @@ class Evenement {
     public function __construct() {
         $this->formations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->typeGestionInvite = self::$GESTION_INVITE_PUSH_BOTTOM;
+        $this->setDate(new \DateTime('NOW'));
+        $this->getDate()->setTime(8, 0, 0);
     }
 
     /**
@@ -568,6 +603,27 @@ class Evenement {
      */
     public function getTypeGestionInvite() {
         return $this->typeGestionInvite;
+    }
+
+    /**
+     * Set complet
+     *
+     * @param boolean $complet
+     * @return Evenement
+     */
+    public function setComplet($complet) {
+        $this->complet = $complet;
+
+        return $this;
+    }
+
+    /**
+     * Get complet
+     *
+     * @return boolean 
+     */
+    public function getComplet() {
+        return $this->complet;
     }
 
 }

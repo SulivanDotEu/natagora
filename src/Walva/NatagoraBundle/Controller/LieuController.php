@@ -23,7 +23,9 @@ class LieuController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WalvaNatagoraBundle:Lieu')->findAll();
+        $entities = $em->getRepository('WalvaNatagoraBundle:Lieu')->findBy(
+                array(),
+                array('nom' => 'ASC'));
 
         return $this->render('WalvaNatagoraBundle:Lieu:index.html.twig', array(
             'entities' => $entities,

@@ -3,11 +3,12 @@
 namespace Walva\NatagoraBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Walva\NatagoraBundle\Entity\Inscription;
 
 /**
  * Invite
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_invite")
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\InviteRepository")
  */
 class Invite
@@ -15,6 +16,28 @@ class Invite
     
     public function __toString() {
         return $this->getPrenom().' '.$this->getNom();
+    }
+    
+    public function estActive() {
+        if ($this->etat == Inscription::$ETAT_ANNULE_ADMIN)
+            return false;
+        if ($this->etat == Inscription::$ETAT_ANNULE_USER)
+            return false;
+        return true;
+    }
+
+    public function estPartant() {
+        if ($this->etat == Inscription::$ETAT_INSCRIT)
+            return true;
+        if ($this->etat == Inscription::$ETAT_REINSCRIT)
+            return true;
+        return false;
+    }
+
+    public function estEnAttente() {
+        if ($this->etat == Inscription::$ETAT_EN_ATTENTE)
+            return true;
+        return false;
     }
 
     
@@ -85,6 +108,11 @@ class Invite
      * @ORM\Column(name="position", type="smallint", nullable=true)
      */
     private $position;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="invite")
+     */
+    private $inscription;
 
 
     /**
@@ -258,5 +286,28 @@ class Invite
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set inscription
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscription
+     * @return Invite
+     */
+    public function setInscription(\Walva\NatagoraBundle\Entity\Inscription $inscription = null)
+    {
+        $this->inscription = $inscription;
+    
+        return $this;
+    }
+
+    /**
+     * Get inscription
+     *
+     * @return \Walva\NatagoraBundle\Entity\Inscription 
+     */
+    public function getInscription()
+    {
+        return $this->inscription;
     }
 }

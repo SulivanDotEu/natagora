@@ -12,12 +12,7 @@ class LieuType extends AbstractType {
         $builder
                 ->add('nom')
                 ->add('rendezvous')
-                ->add('ville')
-                ->add('codePostal')
-                ->add('rue')
-                ->add('numero')
-                ->add('latitude')
-                ->add('longitude')
+                ->add('description')
                 ->add('urlGoogleMap')
         ;
     }

@@ -2,20 +2,16 @@
 
 
 {# app/Resources/views/layout.html.twig #}
- 
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-{% else %}
-    <a href="{{ path('fos_user_security_login') }}">Connexion</a>
-{% endif %}
-    
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{% block title %}Support Kot{% endblock %}</title>
+        <title>{% block title %}Natagora - Plateform des cours{% endblock %}</title>
 
     {% block stylesheets %}
 
@@ -36,7 +32,7 @@
                     </a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li class=""><a href="http://bootsnipp.com/"><i class="icon-home"></i> Accueil</a></li>
+                            <li class=""><a href="#"><i class="icon-home"></i> Accueil</a></li>
                             <ul class="nav">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -93,7 +89,21 @@
                                     </ul>
                                 </li>
                             </ul>
-                            
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-user">
+                                        </i> Eleve 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('eleve_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                        <li class=""><a href="{{ path('eleve') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
 
                         </ul>
 
@@ -104,45 +114,70 @@
         </div>
         <div id="header" class="">
             <div class="container">
+                <div class="row">
+                    <div class="span8">
 {% block header %}
-                    <h1>Titre de la page</h1>
-                    <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
-                {% endblock %}
 
+                            <h1>Titre de la page</h1>
+                            <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
+                {% endblock %}
+                        </div>
+                        <div class="span4">       
+
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+{% else %}
+                            <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+{% endif %}
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <div class="container-fluid" id="mainContainer">
                 <div class="row-fluid">
                     {% block container %}
-                        
-
+{% block container_header %}
                         <div id="content" class="span12">
-                            <ul class="breadcrumb">
+                            <div class="row-fluid">
+                                <div class="span8">
+                                    <ul class="breadcrumb">
 
                         {% block breadcrumb %}
-                                <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
+                                        <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
                             {% endblock %}
 
+                                    </ul>
+                                </div>
+                                <div class="span4">
+                                    <div class="pull-right">
+                                        {% block container_header_right %}
+                                    {% endblock %}
+                                        </div>
+                                    </div>  
+                                </div>
 
-                            </ul>
+
+
+                                        {% endblock %}
           {% block body %}
           {% endblock %}
-                        </div>
+                            </div>
                         {% endblock %}
+                        </div>
+
+                        <hr>
+
+                        <footer>
+                            <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
+                        </footer>
                     </div>
-
-                    <hr>
-
-                    <footer>
-                        <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
-                    </footer>
-                </div>
 
   {% block javascripts %}
     {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
-                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-                <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+                    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+                    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
   {% endblock %}
 
-            </body>
-        </html>
+                </body>
+            </html>

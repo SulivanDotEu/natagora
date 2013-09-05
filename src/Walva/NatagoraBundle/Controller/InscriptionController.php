@@ -27,6 +27,7 @@ class InscriptionController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($inscription);
+        $em->persist($evenement);
         $em->flush();
 
         return $this->redirect($this->generateUrl('index'));
@@ -77,6 +78,36 @@ class InscriptionController extends Controller {
     }
 
     /**
+     * @ParamConverter("invite", class="WalvaNatagoraBundle:Invite")
+     */
+    public function cancelInviteAction(Invite $invite) {
+        $em = $this->getDoctrine()->getManager();
+        $inscription = $invite->getInscription();
+        $evenement = $inscription->getEvenement();
+        
+        $invite->getInscription()->annulerInvitation();
+        
+        $invite->setInscription(null);
+        $inscription->setInvite(null);
+        
+        var_dump($invite);
+        var_dump($inscription);
+        
+        $em->persist($evenement);
+        $em->persist($inscription);
+        $em->remove($invite);
+        $em->flush();
+        
+
+        
+        //$em->remove($invite);
+        
+        //$em->flush();
+
+        return $this->redirect($this->generateUrl('evenement_show', array('id' => $evenement->getId())));
+    }
+
+    /**
      * @ParamConverter("eleve", class="WalvaNatagoraBundle:Eleve")
      * @ParamConverter("evenement", class="WalvaNatagoraBundle:Evenement")
      */
@@ -91,8 +122,9 @@ class InscriptionController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($invite);
             $em->persist($inscription);
+            $em->persist($evenement);
             $em->flush();
-            
+
             return $this->redirect($this->generateUrl('evenement_show', array('id' => $evenement->getId())));
         }
         die();

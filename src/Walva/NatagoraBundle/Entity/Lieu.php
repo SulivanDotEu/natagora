@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Lieu
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_lieu")
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\LieuRepository")
  */
 class Lieu
 {
     
     public function __toString() {
-        return $this->getVille();
+        return $this->getNom();
     }
 
     
@@ -33,48 +33,6 @@ class Lieu
      * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
     private $nom;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rue", type="string", length=255, nullable=true)
-     */
-    private $rue;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codePostal", type="string", length=255)
-     */
-    private $codePostal;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=255)
-     */
-    private $ville;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="numero", type="string", length=255, nullable=true)
-     */
-    private $numero;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="latitude", type="decimal", nullable=true)
-     */
-    private $latitude;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="longitude", type="decimal", nullable=true)
-     */
-    private $longitude;
 
     /**
      * @var string
@@ -89,6 +47,13 @@ class Lieu
      * @ORM\Column(name="rendezvous", type="text", nullable=true)
      */
     private $rendezvous;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
 
 
     /**
@@ -101,120 +66,6 @@ class Lieu
         return $this->id;
     }
 
-    /**
-     * Set rue
-     *
-     * @param string $rue
-     * @return Lieu
-     */
-    public function setRue($rue)
-    {
-        $this->rue = $rue;
-    
-        return $this;
-    }
-
-    /**
-     * Get rue
-     *
-     * @return string 
-     */
-    public function getRue()
-    {
-        return $this->rue;
-    }
-
-    /**
-     * Set codePostal
-     *
-     * @param string $codePostal
-     * @return Lieu
-     */
-    public function setCodePostal($codePostal)
-    {
-        $this->codePostal = $codePostal;
-    
-        return $this;
-    }
-
-    /**
-     * Get codePostal
-     *
-     * @return string 
-     */
-    public function getCodePostal()
-    {
-        return $this->codePostal;
-    }
-
-    /**
-     * Set numero
-     *
-     * @param string $numero
-     * @return Lieu
-     */
-    public function setNumero($numero)
-    {
-        $this->numero = $numero;
-    
-        return $this;
-    }
-
-    /**
-     * Get numero
-     *
-     * @return string 
-     */
-    public function getNumero()
-    {
-        return $this->numero;
-    }
-
-    /**
-     * Set latitude
-     *
-     * @param float $latitude
-     * @return Lieu
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
-    
-        return $this;
-    }
-
-    /**
-     * Get latitude
-     *
-     * @return float 
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Set longitude
-     *
-     * @param float $longitude
-     * @return Lieu
-     */
-    public function setLongitude($longitude)
-    {
-        $this->longitude = $longitude;
-    
-        return $this;
-    }
-
-    /**
-     * Get longitude
-     *
-     * @return float 
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
 
     /**
      * Set urlGoogleMap
@@ -239,28 +90,6 @@ class Lieu
         return $this->urlGoogleMap;
     }
 
-    /**
-     * Set ville
-     *
-     * @param string $ville
-     * @return Lieu
-     */
-    public function setVille($ville)
-    {
-        $this->ville = $ville;
-    
-        return $this;
-    }
-
-    /**
-     * Get ville
-     *
-     * @return string 
-     */
-    public function getVille()
-    {
-        return $this->ville;
-    }
 
     /**
      * Set rendezvous
@@ -306,5 +135,28 @@ class Lieu
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Lieu
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

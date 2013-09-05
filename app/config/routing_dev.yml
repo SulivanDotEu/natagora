@@ -12,7 +12,6 @@ _configurator:
 
 _main:
     resource: routing.yml
-
-trad:
-    pattern:  /traduction/{name}
-    defaults: { _controller: WalvaNatagoraBundle:Evenement:traduction }
+    
+console:
+    resource: "@CoreSphereConsoleBundle/Resources/config/routing.yml"

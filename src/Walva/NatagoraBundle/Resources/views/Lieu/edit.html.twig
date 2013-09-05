@@ -1,5 +1,12 @@
 {% extends "WalvaNatagoraBundle:Lieu:layout.html.twig" %}
 
+
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">Edit</li>
+{% endblock %}
+
+
 {% block body -%}
     <h1>Lieu edit</h1>
 
@@ -7,22 +14,30 @@
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Edit</button>
+            <button type="submit" class="btn">Edit</button>
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('lieu') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('lieu_delete', { 'id': entity.id }) }}" method="post">
+     <div class="pull-right">
+<form action="{{ path('lieu_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button type="submit" class="btn">Delete</button>
         </form>
-    </li>
-</ul>
+</div>
+    
+
+{% endblock %}
+
+    
+
+    
+    {% block container_header_right %}
+
+
+    <a class="btn " href="{{ path('lieu') }}">
+        <i class="icon-chevron-left"></i> 
+        Back to the list
+    </a>
+
 {% endblock %}

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Lieu
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_lieu")
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\LieuRepository")
  */
 class Lieu
@@ -33,48 +33,6 @@ class Lieu
      * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
     private $nom;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rue", type="string", length=255, nullable=true)
-     */
-    private $rue;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codePostal", type="string", length=255)
-     */
-    private $codePostal;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=255)
-     */
-    private $ville;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="numero", type="string", length=255, nullable=true)
-     */
-    private $numero;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="latitude", type="decimal", nullable=true)
-     */
-    private $latitude;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="longitude", type="decimal", nullable=true)
-     */
-    private $longitude;
 
     /**
      * @var string
@@ -89,6 +47,13 @@ class Lieu
      * @ORM\Column(name="rendezvous", type="text", nullable=true)
      */
     private $rendezvous;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
 
 
     /**
@@ -283,5 +248,28 @@ class Lieu
     public function getRendezvous()
     {
         return $this->rendezvous;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Lieu
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
     }
 }

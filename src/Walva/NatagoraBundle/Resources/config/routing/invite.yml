@@ -18,3 +18,7 @@ invite_create:
 invite_new:
     pattern:  /invite/new/{evenement}/{eleve}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:newInvite" }
+
+invite_cancel:
+    pattern:  /invite/cancel/{invite}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:cancelInvite" }

@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends "WalvaNatagoraBundle:Eleve:layout.html.twig" %}
 
 {% block body -%}
     <h1>Eleve creation</h1>
@@ -6,7 +6,9 @@
     <form action="{{ path('eleve_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
-            <button type="submit">Create</button>
+            <button class="btn btn-primary" name="submit" type="submit" value="show">Create and show</button>
+            <button class="btn btn-primary" name="submit" type="submit" value="list">Create and go to the list</button>
+            <button class="btn btn-primary" name="submit" type="submit" value="create">Create and create an other entry</button>
         </p>
     </form>
 

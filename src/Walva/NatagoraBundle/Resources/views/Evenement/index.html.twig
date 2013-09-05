@@ -1,55 +1,74 @@
 {% extends "WalvaNatagoraBundle:Evenement:layout.html.twig" %}
 
-{% block body -%}
-    <h1>Evenement list</h1>
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">list</li>
+{% endblock %}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Formateur</th>
-                <th>Lieu</th>
-                <th>Type</th>
-                <th>Etat</th>
-                <th>Min</th>
-                <th>Inscrits</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+
+{% block body -%}
+<h1>Evenement list</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tag</th>
+            <th>Date</th>
+            <th>Formateur</th>
+            <th>Formations</th>
+            <th>Lieu</th>
+            <th>Type</th>
+            <th>Etat</th>
+            <th>Min</th>
+            <th>Inscrits</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('evenement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.formateur }}</td>
-                <td>{{ entity.lieu }}</td>
-                <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
-                <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
-                <td>{{ entity.min }}</td>
-                <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
-                <td>{{ entity.description }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('evenement_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('evenement_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                {% if entity.complet == false %}
+                        <span class="label label-warning">Incomplet</span>
+                        {% endif %}
 
-        <ul>
-        <li>
-            <a href="{{ path('evenement_new') }}">
+                    </td>
+                    <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i') }}{% endif %}</td>
+                    <td>{{ entity.formateur }}</td>
+                    <td>
+                    {% for formation in entity.formations %}
+                            {{ formation.nom | label(formation.couleur) | raw }}
+                            {% endfor %}
+                    </td>
+                    <td>
+                        {{ entity.lieu }}
+                        </td>
+                        <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                        <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
+                        <td>{{ entity.min }}</td>
+                        <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn" href="{{ path('evenement_show', { 'id': entity.id }) }} ">
+                                    <i class="icon-eye-open"></i> Show</a>
+                                <a class="btn" href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                                    <i class="icon-pencil"></i> Edit</a>
+                            </div>
+
+                        </td>
+                    </tr>
+        {% endfor %}
+                </tbody>
+            </table>
+
+
+    {% endblock %}
+
+{% block container_header_right %}
+            <a class="btn btn-primary" href="{{ path('evenement_new') }}">
+                <i class="icon-plus icon-white"></i> 
                 Create a new entry
             </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}

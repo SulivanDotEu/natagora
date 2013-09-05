@@ -13,10 +13,9 @@ class FormateurType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
+            ->add('mail')
             ->add('gsm')
             ->add('tel')
-            ->add('codePostal')
-            ->add('pays')
         ;
     }
 

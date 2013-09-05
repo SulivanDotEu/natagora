@@ -1,9 +1,15 @@
 {% extends "WalvaNatagoraBundle:Formation:layout.html.twig" %}
 
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">Show</li>
+{% endblock %}
+
+
 {% block body -%}
     <h1>Formation</h1>
 
-    <table class="record_properties">
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -17,26 +23,27 @@
                 <th>Nomcomplet</th>
                 <td>{{ entity.nomComplet }}</td>
             </tr>
+            <tr>
+                <th>Couleur</th>
+                <td>{{ entity.couleur | label(entity.couleur) | raw }}</td>
+            </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('formation') }}">
-            Back to the list
+      
+{% endblock %}
+
+    
+    {% block container_header_right %}
+
+        <div class="btn-group">
+            <a class="btn " href="{{ path('formation') }}">
+                <i class="icon-chevron-left"></i> 
+                Back to the list
+            </a>
+            <a class="btn " href="{{ path('formation_edit', { 'id': entity.id }) }}">
+                <i class="icon-pencil"></i> Edit</a>
         </a>
-    </li>
-    <li>
-        <a href="{{ path('formation_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('formation_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+
+    </div>
 {% endblock %}

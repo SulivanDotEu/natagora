@@ -30,6 +30,7 @@ return array(
     'Doctrine\\DBAL' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common' => array($vendorDir . '/doctrine/common/lib'),
     'Doctrine\\Bundle\\DoctrineBundle' => array($vendorDir . '/doctrine/doctrine-bundle'),
+    'CoreSphere\\ConsoleBundle' => array($vendorDir . '/winzou/console-bundle'),
     'CG\\' => array($vendorDir . '/jms/cg/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
     '' => array($baseDir . '/src'),

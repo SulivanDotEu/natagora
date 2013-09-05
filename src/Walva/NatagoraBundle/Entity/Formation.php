@@ -7,11 +7,19 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Formation
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_formation")
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\FormationRepository")
  */
 class Formation
 {
+    
+    public static $COULEUR_GRIS = 1;
+    public static $COULEUR_VERT = 2;
+    public static $COULEUR_ORANGE = 3;
+    public static $COULEUR_ROUGE = 4;
+    public static $COULEUR_BLEU = 5;
+    public static $COULEUR_NOIR = 6;
+    
     /**
      * @var integer
      *
@@ -34,6 +42,15 @@ class Formation
      * @ORM\Column(name="nomComplet", type="string", length=255)
      */
     private $nomComplet;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="couleur", type="smallint", nullable=true)
+     */
+    private $couleur;
+    
+    
 
 
     /**
@@ -90,5 +107,28 @@ class Formation
     public function getNomComplet()
     {
         return $this->nomComplet;
+    }
+
+    /**
+     * Set couleur
+     *
+     * @param integer $couleur
+     * @return Formation
+     */
+    public function setCouleur($couleur)
+    {
+        $this->couleur = $couleur;
+    
+        return $this;
+    }
+
+    /**
+     * Get couleur
+     *
+     * @return integer 
+     */
+    public function getCouleur()
+    {
+        return $this->couleur;
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Formateur
  *
- * @ORM\Table()
+ * @ORM\Table(name="natagora2_formateur")
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\FormateurRepository")
  */
 class Formateur
@@ -48,6 +48,13 @@ class Formateur
     /**
      * @var string
      *
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    private $mail;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="gsm", type="string", length=255, nullable=true)
      */
     private $gsm;
@@ -59,19 +66,6 @@ class Formateur
      */
     private $tel;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codePostal", type="string", length=255, nullable=true)
-     */
-    private $codePostal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pays", type="string", length=255, nullable=true)
-     */
-    private $pays;
 
 
     /**
@@ -176,49 +170,29 @@ class Formateur
         return $this->tel;
     }
 
+   
+
+
     /**
-     * Set codePostal
+     * Set mail
      *
-     * @param string $codePostal
+     * @param string $mail
      * @return Formateur
      */
-    public function setCodePostal($codePostal)
+    public function setMail($mail)
     {
-        $this->codePostal = $codePostal;
+        $this->mail = $mail;
     
         return $this;
     }
 
     /**
-     * Get codePostal
+     * Get mail
      *
      * @return string 
      */
-    public function getCodePostal()
+    public function getMail()
     {
-        return $this->codePostal;
-    }
-
-    /**
-     * Set pays
-     *
-     * @param string $pays
-     * @return Formateur
-     */
-    public function setPays($pays)
-    {
-        $this->pays = $pays;
-    
-        return $this;
-    }
-
-    /**
-     * Get pays
-     *
-     * @return string 
-     */
-    public function getPays()
-    {
-        return $this->pays;
+        return $this->mail;
     }
 }

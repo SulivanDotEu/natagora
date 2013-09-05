@@ -4,7 +4,6 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Walva\NatagoraBundle\Entity\Evenement;
 use Walva\NatagoraBundle\Form\EvenementType;
@@ -22,7 +21,6 @@ class EvenementController extends Controller {
                     'name' => $name
                 ));
     }
-
 
     /**
      * Lists all Evenement entities.
@@ -87,7 +85,8 @@ class EvenementController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
-        
+        $entity->getDate();
+        //var_dump($entity->getInscriptions());
         $entity->updatePosition();
 
         $deleteForm = $this->createDeleteForm($id);
@@ -106,7 +105,6 @@ class EvenementController extends Controller {
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
         /* @var $entity Evenement */
-        $em->persist($entity->getFormateur());
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
@@ -129,7 +127,6 @@ class EvenementController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
-        $em->persist($entity->getFormateur());
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
@@ -141,7 +138,19 @@ class EvenementController extends Controller {
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            //return $this->redirect($this->generateUrl('evenement_edit', array('id' => $id)));
+
+            //die();
+            
+            $submit = $this->getRequest()->request->get('submit');
+            if ($submit == 'show') {
+                return $this->redirect($this->generateUrl('evenement_show', array('id' => $entity->getId())));
+            } else if ($submit == 'list') {
+                return $this->redirect($this->generateUrl('evenement'));
+            } else if ($submit == 'edit') {
+                return $this->redirect($this->generateUrl('evenement_edit', array('id' => $id)));
+            }
+
+            return $this->redirect($this->generateUrl('evenement_edit', array('id' => $id)));
         }
 
         return $this->render('WalvaNatagoraBundle:Evenement:edit.html.twig', array(

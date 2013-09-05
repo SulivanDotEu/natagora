@@ -1,20 +1,29 @@
 {% extends "WalvaNatagoraBundle:Evenement:layout.html.twig" %}
 
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">Creation</li>
+{% endblock %}
+
+
 {% block body -%}
     <h1>Evenement creation</h1>
 
     <form action="{{ path('evenement_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
-            <button type="submit">Create</button>
+            <button type="submit" class="btn">Create</button>
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('evenement') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% endblock %}
+
+    
+    {% block container_header_right %}
+<div class="btn-group">
+    <a class="btn " href="{{ path('evenement') }}">
+        <i class="icon-chevron-left"></i> 
+        Back to the list
+    </a>
+</div>
 {% endblock %}

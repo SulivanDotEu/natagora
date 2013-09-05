@@ -4,7 +4,6 @@ namespace Walva\NatagoraBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Walva\NatagoraBundle\Entity\Eleve;
 use Walva\NatagoraBundle\Form\EleveType;
 
@@ -12,30 +11,28 @@ use Walva\NatagoraBundle\Form\EleveType;
  * Eleve controller.
  *
  */
-class EleveController extends Controller
-{
+class EleveController extends Controller {
 
     /**
      * Lists all Eleve entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('WalvaNatagoraBundle:Eleve')->findAll();
 
         return $this->render('WalvaNatagoraBundle:Eleve:index.html.twig', array(
-            'entities' => $entities,
-        ));
+                    'entities' => $entities,
+                ));
     }
+
     /**
      * Creates a new Eleve entity.
      *
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Eleve();
+    public function createAction(Request $request) {
+        $entity = new Eleve();
         $form = $this->createForm(new EleveType(), $entity);
         $form->bind($request);
 
@@ -43,37 +40,42 @@ class EleveController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            $submit = $this->getRequest()->request->get('submit');
 
-            return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
+            if ($submit == 'show') {
+                return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
+            } else if ($submit == 'list') {
+                return $this->redirect($this->generateUrl('eleve'));
+            } else if ($submit == 'create') {
+                return $this->redirect($this->generateUrl('eleve_new'));
+            }
         }
 
         return $this->render('WalvaNatagoraBundle:Eleve:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Displays a form to create a new Eleve entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Eleve();
-        $form   = $this->createForm(new EleveType(), $entity);
+        $form = $this->createForm(new EleveType(), $entity);
 
         return $this->render('WalvaNatagoraBundle:Eleve:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Finds and displays a Eleve entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Eleve')->find($id);
@@ -85,16 +87,15 @@ class EleveController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WalvaNatagoraBundle:Eleve:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to edit an existing Eleve entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Eleve')->find($id);
@@ -107,18 +108,17 @@ class EleveController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WalvaNatagoraBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
 
     /**
      * Edits an existing Eleve entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Eleve')->find($id);
@@ -139,17 +139,17 @@ class EleveController extends Controller
         }
 
         return $this->render('WalvaNatagoraBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
+
     /**
      * Deletes a Eleve entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -175,11 +175,11 @@ class EleveController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
 }

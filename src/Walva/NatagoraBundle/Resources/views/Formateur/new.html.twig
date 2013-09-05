@@ -1,5 +1,10 @@
 {% extends "WalvaNatagoraBundle:Formateur:layout.html.twig" %}
 
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">Formateur creation</li>
+{% endblock %}
+
 {% block body -%}
     <h1>Formateur creation</h1>
 
@@ -10,11 +15,14 @@
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('formateur') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% endblock %}
+
+        
+    {% block container_header_right %}
+<div class="btn-group">
+    <a class="btn " href="{{ path('evenement') }}">
+        <i class="icon-chevron-left"></i> 
+        Back to the list
+    </a>
+</div>
 {% endblock %}

@@ -2,6 +2,11 @@ parameters:
 #    walva_natagora.example.class: Walva\NatagoraBundle\Example
 
 services:
+    natagora.twig.label_bootstrap:
+      class: Walva\NatagoraBundle\Twig\LabelBootstrapExtension
+      tags:
+            - { name: twig.extension }
+
 #    walva_natagora.example:
 #        class: %walva_natagora.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

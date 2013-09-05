@@ -1,5 +1,13 @@
 {% extends "WalvaNatagoraBundle:Evenement:layout.html.twig" %}
 
+
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">Show</li>
+{% endblock %}
+
+
+
 {% block body -%}
 <h1>Evenement</h1>
 
@@ -38,6 +46,10 @@
             <td>{{ entity.max }}</td>
         </tr>
         <tr>
+            <th>Type gestion des invités</th>
+            <td>{{ ('evenement.typeGestionInvite.'~entity.typeGestionInvite) | trans }}</td>
+        </tr>
+        <tr>
             <th>Description</th>
             <td>{{ entity.description }}</td>
         </tr>
@@ -51,7 +63,7 @@
             <th>Nom</th>
             <th>Position</th>
             <th>Etat</th>
-            <th>date d'Inscription</th>
+            <th>Date</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -80,13 +92,24 @@
                     </tr>
                     {% else %}
                     <tr>
-                <td>{{participant}}</td>
+                        <td>{{participant}} <i class="muted"> invité par {{ participant.inscription.eleve }} </i></td>
                 <td>{{participant.position}}</td>
                 <td>
-                    
+                    {% if participant.estEnAttente %}
+                        <span class="label label-warning">
+                    {% elseif participant.estPartant %}
+                        <span class="label label-success">
+                    {% else %}
+                        <span class="label">
+                            {% endif %}
+{{ ('inscription.etat.'~participant.etat)|trans }}
+                                </span>
                         </td>
                         <td>{{participant.date | date('d/m/Y H:i')}}</td>
                         <td>
+                        <a href="{{ path('invite_cancel', { 'invite':participant.id }) }}"
+                               class="btn">Annuler</a>
+                        </td>
                            
                     </tr>
                     {% endif %}
@@ -94,23 +117,19 @@
                 </tbody>
             </table>
 
-            <ul class="record_actions">
-                <li>
-                    <a href="{{ path('evenement') }}">
-                        Back to the list
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('evenement_edit', { 'id': entity.id }) }}">
-                        Edit
-                    </a>
-                </li>
-                <li>
-                    <form action="{{ path('evenement_delete', { 'id': entity.id }) }}" method="post">
-                        <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-                        <button type="submit">Delete</button>
-                    </form>
-                </li>
-            </ul>
+           
+{% endblock %}
+
+{% block container_header_right %}
+
+        <div class="btn-group">
+            <a class="btn " href="{{ path('evenement') }}">
+                <i class="icon-chevron-left"></i> 
+                Back to the list
+            </a>
+            <a class="btn " href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                <i class="icon-pencil"></i> Edit</a>
+        </a>
+
+    </div>
 {% endblock %}

@@ -23,7 +23,9 @@ class FormateurController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WalvaNatagoraBundle:Formateur')->findAll();
+        $entities = $em->getRepository('WalvaNatagoraBundle:Formateur')->findBy(
+                array(),
+                array('prenom' => 'ASC'));
 
         return $this->render('WalvaNatagoraBundle:Formateur:index.html.twig', array(
             'entities' => $entities,

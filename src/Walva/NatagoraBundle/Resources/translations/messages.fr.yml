@@ -10,6 +10,10 @@ evenement:
     130: Complet
     140: Annulé
     150: Confirmé
+  typeGestionInvite:
+    410: follow
+    420: push bottom
+    430: time order
     
 inscription:
   etat:
@@ -18,3 +22,11 @@ inscription:
     320: En attente
     330: Annulé
     340: Annulé par gestionnaire
+    
+couleur:
+  5: Bleu
+  1: Gris
+  2: Vert
+  3: Orange
+  4: Rouge
+  6: Noir
