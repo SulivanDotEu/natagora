@@ -29,7 +29,7 @@ class EvenementController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->findAll();
+        $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAll();
 
         return $this->render('WalvaNatagoraBundle:Evenement:index.html.twig', array(
                     'entities' => $entities,
@@ -87,7 +87,7 @@ class EvenementController extends Controller {
         }
         $entity->getDate();
         //var_dump($entity->getInscriptions());
-        $entity->updatePosition();
+        //$entity->updatePosition();
 
         $deleteForm = $this->createDeleteForm($id);
 

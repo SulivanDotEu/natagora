@@ -61,13 +61,45 @@ class InscriptionController extends Controller {
     }
 
     /**
+     * @ParamConverter("invite", class="WalvaNatagoraBundle:Invite")
+     */
+    public function cancelInviteAction(Invite $invite) {
+        $em = $this->getDoctrine()->getManager();
+        $inscription = $invite->getInscription();
+        $evenement = $inscription->getEvenement();
+
+        $invite->getInscription()->annulerInvitation();
+
+        $invite->setInscription(null);
+        $inscription->setInvite(null);
+
+        var_dump($invite);
+        var_dump($inscription);
+
+        $em->persist($evenement);
+        $em->persist($inscription);
+        $em->remove($invite);
+        $em->flush();
+
+
+
+        //$em->remove($invite);
+        //$em->flush();
+
+        return $this->redirect($this->generateUrl('evenement_show', array('id' => $evenement->getId())));
+    }
+
+    /**
      * @ParamConverter("eleve", class="WalvaNatagoraBundle:Eleve")
      * @ParamConverter("evenement", class="WalvaNatagoraBundle:Evenement")
      */
     public function newInviteAction(Eleve $eleve, Evenement $evenement) {
         $invite = new Invite();
         $inscription = $evenement->getInscriptionParEleve($eleve);
-        $inscription->setInvite($invite);
+        if($inscription->possedeInvite()){
+            throw new \Exception('L\'élève '.$eleve.' a déjà inviter '.
+                    $inscription->getInvite().' pour cet évènement.');
+        }
         $form = $this->createForm(new InviteType(), $invite);
         return $this->render('WalvaNatagoraBundle:Invite:new.html.twig', array(
                     'entity' => $invite,
@@ -78,47 +110,24 @@ class InscriptionController extends Controller {
     }
 
     /**
-     * @ParamConverter("invite", class="WalvaNatagoraBundle:Invite")
-     */
-    public function cancelInviteAction(Invite $invite) {
-        $em = $this->getDoctrine()->getManager();
-        $inscription = $invite->getInscription();
-        $evenement = $inscription->getEvenement();
-        
-        $invite->getInscription()->annulerInvitation();
-        
-        $invite->setInscription(null);
-        $inscription->setInvite(null);
-        
-        var_dump($invite);
-        var_dump($inscription);
-        
-        $em->persist($evenement);
-        $em->persist($inscription);
-        $em->remove($invite);
-        $em->flush();
-        
-
-        
-        //$em->remove($invite);
-        
-        //$em->flush();
-
-        return $this->redirect($this->generateUrl('evenement_show', array('id' => $evenement->getId())));
-    }
-
-    /**
      * @ParamConverter("eleve", class="WalvaNatagoraBundle:Eleve")
      * @ParamConverter("evenement", class="WalvaNatagoraBundle:Evenement")
      */
     public function createInviteAction(Request $request, Eleve $eleve, Evenement $evenement) {
+
         $invite = new Invite();
-        $inscription = $evenement->getInscriptionParEleve($eleve);
-        $inscription->setInvite($invite);
+        /*
+         * $inscription = $evenement->getInscriptionParEleve($eleve);
+          $inscription->setInvite($invite);
+         */
+
         $form = $this->createForm(new InviteType(), $invite);
         $form->bind($request);
 
         if ($form->isValid()) {
+            $inscription = $evenement->inviter($eleve, $invite);
+
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($invite);
             $em->persist($inscription);
