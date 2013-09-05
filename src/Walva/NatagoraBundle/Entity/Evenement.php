@@ -29,6 +29,10 @@ class Evenement {
     public static $GESTION_INVITE_TIME_ORDER = 430;
     private $invitesAPlacer;
 
+    public function incrementerVersion() {
+        $this->version++;
+    }
+
     /**
      * @ORM\PreUpdate
      */
@@ -131,6 +135,11 @@ class Evenement {
         return true;
     }
 
+    /**
+     * 
+     * @param type $eleve
+     * @return Inscription
+     */
     public function getInscriptionParEleve($eleve) {
         $inscriptions = $this->getInscriptions()->getValues();
         foreach ($inscriptions as $inscription) {
@@ -138,6 +147,14 @@ class Evenement {
                 return $inscription;
         }
         return null;
+    }
+
+    public function inviter(Eleve $eleve, Invite $invite) {
+        $inscription = $this->getInscriptionParEleve($eleve);
+        $inscription->setInvite($invite);
+        $this->updatePosition();
+        $this->incrementerVersion();
+        return $inscription;
     }
 
     public function inscrireEleve(Eleve $eleve) {
@@ -300,6 +317,13 @@ class Evenement {
      * @ORM\Column(name="complet", type="boolean", nullable=true)
      */
     private $complet = true;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="version", type="integer", nullable=true)
+     */
+    private $version = 0;
 
     /**
      * Get id
