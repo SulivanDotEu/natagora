@@ -21,15 +21,16 @@ class LabelBootstrapExtension extends Twig_Extension {
 
     public function getFilters() {
         return array(
-            'label' => new \Twig_Filter_Method($this, 'getLabel'),
+            'walva_label' => new \Twig_Filter_Method($this, 'getLabel'),
         );
     }
 /*
  * {{ entity.lieu | label(2) | raw }}
  */
     public function getLabel($content, $color = 0) {
-        if ($color == 0)
+        if ($color == 0){
             $color = Formation::$COULEUR_BLEU;
+        }
         
         $string = '<span class="%s">%s</span>';
         $class;
@@ -64,7 +65,7 @@ class LabelBootstrapExtension extends Twig_Extension {
     }
 
     public function getName() {
-        return 'label_bootstrap';
+        return 'walva_label_bootstrap';
     }
 
 }

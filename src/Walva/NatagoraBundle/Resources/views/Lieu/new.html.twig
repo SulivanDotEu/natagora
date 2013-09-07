@@ -9,12 +9,13 @@
 
 {% block body -%}
 <h1>Lieu creation</h1>
+<hr>
 
-<form action="{{ path('lieu_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit">Create</button>
-        </p>
+<form class="form-horizontal" action="{{ path('lieu_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form, {'form_type': 'horizontal'}) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
     </form>
 
 

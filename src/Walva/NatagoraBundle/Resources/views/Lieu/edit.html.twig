@@ -8,36 +8,37 @@
 
 
 {% block body -%}
-    <h1>Lieu edit</h1>
-
-    <form action="{{ path('lieu_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <input type="hidden" name="_method" value="PUT" />
-        {{ form_widget(edit_form) }}
-        <p>
-            <button type="submit" class="btn">Edit</button>
-        </p>
-    </form>
-
-     <div class="pull-right">
-<form action="{{ path('lieu_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
+<h1>Lieu edit</h1>
+<hr>
+<form class="form-horizontal" action="{{ path('lieu_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form, {'form_type': 'horizontal'}) }}
+    <div class="form-actions">
+       
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</form>
+ <div class="pull-right">
+            <form action="{{ path('lieu_delete', { 'id': entity.id }) }}" method="post">
+                <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit" class="btn">Delete</button>
-        </form>
-</div>
-    
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+
+
 
 {% endblock %}
 
-    
 
-    
+
+
     {% block container_header_right %}
 
 
-    <a class="btn " href="{{ path('lieu') }}">
-        <i class="icon-chevron-left"></i> 
-        Back to the list
-    </a>
+<a class="btn " href="{{ path('lieu') }}">
+    <i class="icon-chevron-left"></i> 
+    Back to the list
+</a>
 
 {% endblock %}

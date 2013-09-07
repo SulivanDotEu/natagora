@@ -1,0 +1,16 @@
+public_evenement:
+    pattern:  /
+    defaults: { _controller: "WalvaNatagoraBundle:PublicEvenement:index" }
+
+public_evenement_sort:
+    pattern:  /sortBy/{sort}
+    defaults: { _controller: "WalvaNatagoraBundle:PublicEvenement:index" }
+
+public_evenement_sort_with_order:
+    pattern:  /sortBy/{sort}/{order}
+    defaults: { _controller: "WalvaNatagoraBundle:PublicEvenement:index" }
+
+public_evenement_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WalvaNatagoraBundle:PublicEvenement:show" }
+

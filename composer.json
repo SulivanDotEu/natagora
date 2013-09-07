@@ -22,7 +22,9 @@
         "friendsofsymfony/user-bundle": "dev-master",
         "jms/security-extra-bundle": "1.5.*",
         "jms/di-extra-bundle": "1.4.*",
-        "winzou/console-bundle": "1.*"
+        "winzou/console-bundle": "1.*",
+        "braincrafted/bootstrap-bundle": "dev-master",
+        "twitter/bootstrap": "2.3.*"
         
     },
     "scripts": {

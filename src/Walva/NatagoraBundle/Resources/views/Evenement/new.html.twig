@@ -7,18 +7,18 @@
 
 
 {% block body -%}
-    <h1>Evenement creation</h1>
-
-    <form action="{{ path('evenement_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit" class="btn">Create</button>
-        </p>
-    </form>
+<h1>Evenement creation</h1>
+ <hr/>
+<form class="form-horizontal" action="{{ path('evenement_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form, {'form_type': 'horizontal'}) }}
+        <div class="form-actions">
+        <button type="submit" class="btn">Create</button>
+    </div>
+</form>
 
 {% endblock %}
 
-    
+
     {% block container_header_right %}
 <div class="btn-group">
     <a class="btn " href="{{ path('evenement') }}">

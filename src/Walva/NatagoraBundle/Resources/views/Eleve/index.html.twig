@@ -1,24 +1,30 @@
 {% extends "WalvaNatagoraBundle:Eleve:layout.html.twig" %}
 
-{% block body -%}
-    <h1>Eleve list</h1>
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">List</li>
+{% endblock %}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Mail</th>
-                <th>Tel</th>
-                <th>Gsm1</th>
-                <th>Gsm2</th>
-                <th>Codepostal</th>
-                <th>Pays</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+{% block body -%}
+<h1>Eleve list</h1>
+<hr>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Mail</th>
+            <th>Tel</th>
+            <th>Gsm1</th>
+            <th>Gsm2</th>
+            <th>Codepostal</th>
+            <th>Pays</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('eleve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
@@ -31,25 +37,25 @@
                 <td>{{ entity.codePostal }}</td>
                 <td>{{ entity.pays }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('eleve_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('eleve_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <div class="btn-group">
+                        <a class="btn" href="{{ path('eleve_show', { 'id': entity.id }) }} ">
+                            <i class="icon-eye-open"></i> Show</a>
+                        <a class="btn" href="{{ path('eleve_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i> Edit</a>
+                    </div>
+
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('eleve_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}
+
+
+{% block container_header_right %}
+                <a class="btn btn-primary" href="{{ path('eleve_new') }}">
+                    <i class="icon-plus icon-white"></i> 
+                    Create a new entry
+                </a>
+{% endblock %}

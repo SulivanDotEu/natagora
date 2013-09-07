@@ -9,22 +9,23 @@
 
 {% block body -%}
 <h1>Formation edit</h1>
-
-<form action="{{ path('formation_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+<hr/>
+<form class="form-horizontal" action="{{ path('formation_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     <input type="hidden" name="_method" value="PUT" />
-        {{ form_widget(edit_form) }}
-    <p>
-            <button type="submit" class="btn">Edit</button>
-    </p>
+        {{ form_widget(edit_form, {'form_type': 'horizontal'}) }}
+    <div class="form-actions">
+        
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
 </form>
-
 <div class="pull-right">
-<form action="{{ path('formation_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
+            <form action="{{ path('formation_delete', { 'id': entity.id }) }}" method="post">
+                <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit" class="btn">Delete</button>
-        </form>
-</div>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+
 {% endblock %}
 
 

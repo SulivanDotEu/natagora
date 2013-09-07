@@ -25,3 +25,10 @@ natagora_inscription:
 natagora_invite:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/invite.yml"
         prefix:   /
+        
+        
+# PUBLIC -----------------------
+
+natagora_public_evenement:
+        resource: "@WalvaNatagoraBundle/Resources/config/routing/public/evenement.yml"
+        prefix:   /evenement

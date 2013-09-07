@@ -26,7 +26,7 @@
                 <td><a href="{{ path('formation_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.nomComplet }}</td>
-                <td>{{ ('couleur.' ~ entity.couleur) | trans | label(entity.couleur) | raw }}</td>
+                <td>{{ ('couleur.' ~ entity.couleur) | trans | walva_label(entity.couleur) | raw }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn" href="{{ path('formation_show', { 'id': entity.id }) }} ">

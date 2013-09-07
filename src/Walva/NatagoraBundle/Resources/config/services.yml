@@ -2,7 +2,7 @@ parameters:
 #    walva_natagora.example.class: Walva\NatagoraBundle\Example
 
 services:
-    natagora.twig.label_bootstrap:
+    natagora.twig.walva_label_bootstrap:
       class: Walva\NatagoraBundle\Twig\LabelBootstrapExtension
       tags:
             - { name: twig.extension }

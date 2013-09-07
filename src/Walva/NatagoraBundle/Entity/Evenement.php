@@ -33,6 +33,38 @@ class Evenement {
         $this->version++;
     }
 
+    public function joursRestants() {
+        $now = new \DateTime("NOW");
+        $now = $now->getTimestamp();
+        $date = $this->getDate()->getTimestamp();
+
+        $jours = ($date - $now) / 60 / 60 / 24;
+        return intval($jours);
+    }
+
+    public function estPourBientot() {
+        if ($this->joursRestants() > 0 AND $this->joursRestants() <= 7)
+            return true;
+        return false;
+    }
+
+    public function minimumAtteint() {
+        if ($this->getMin() == 0)
+            return false;
+
+        if ($this->getNombreInscrits() >= $this->getMin())
+            return true;
+        return false;
+    }
+
+    public function maximumAtteint() {
+        if ($this->getMax() == 0)
+            return false;
+        if ($this->getNombreInscrits() >= $this->getMax())
+            return true;
+        return false;
+    }
+
     /**
      * @ORM\PreUpdate
      */
@@ -139,7 +171,7 @@ class Evenement {
         $this->updatePosition();
         return true;
     }
-    
+
     /**
      * la methode est appelée quand un admin veut desinscrire un eleve
      * @param \Walva\NatagoraBundle\Entity\Eleve $eleve

@@ -8,12 +8,13 @@
 
 {% block body -%}
     <h1>Formation creation</h1>
+    <hr>
 
-    <form action="{{ path('formation_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit" class="btn">Create</button>
-        </p>
+    <form class="form-horizontal" action="{{ path('formation_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form, {'form_type': 'horizontal'}) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
     </form>
 
 {% endblock %}

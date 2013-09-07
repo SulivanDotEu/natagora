@@ -1,0 +1,97 @@
+{% extends "WalvaNatagoraBundle:Evenement:public/layout.html.twig" %}
+
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">list</li>
+{% endblock %}
+
+
+{% block body -%}
+<h1>Evenement list</h1>
+<hr>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'id', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'id', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Tag </th>
+            <th>Date 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'date', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'date', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Formateur 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'formateur', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'formateur', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Formations 
+
+            </th>
+            <th>Lieu 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'lieu', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'lieu', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Type 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'type', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'type', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Etat 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'etat', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'etat', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Min 
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'min', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'min', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+            <th>Inscrits
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'nombreInscrits', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+                <a href="{{ path('public_evenement_sort_with_order', { 'sort': 'nombreInscrits', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('public_evenement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>
+                {% if entity.minimumAtteint == true %}
+                        <span class="label label-success"><i class="icon-ok icon-white"></i> Min atteint</span>
+                        {% endif %}
+                {% if entity.maximumAtteint == true %}
+                        <span class="label label-important"><i class="icon-remove icon-white"></i> Max atteint</span>
+                        {% endif %}
+
+                {% if (entity.minimumAtteint == false and entity.maximumAtteint == false) %}
+                        <span class="label label-info"><i class="icon-bullhorn icon-white"></i> Inscrivez-vous!</span>
+                        {% endif %}
+                 {% if (entity.estPourBientot == true ) %}
+                        <span class="label label-warning"><i class="icon-bullhorn icon-white"></i> J-{{entity.joursRestants}}!</span>
+                        {% endif %}
+
+                    </td>
+                    <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i') }}{% endif %}</td>
+                    <td>{{ entity.formateur }}</td>
+                    <td>
+                    {% for formation in entity.formations %}
+                            {{ formation.nom | walva_label(formation.couleur) | raw }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                        {{ entity.lieu }}
+                            </td>
+                            <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                            <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
+                            <td>{{ entity.min }}</td>
+                            <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
+
+                        </tr>
+        {% endfor %}
+                    </tbody>
+                </table>
+
+
+    {% endblock %}
+

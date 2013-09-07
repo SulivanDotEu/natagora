@@ -1,17 +1,18 @@
-{% extends "WalvaNatagoraBundle::layout.html.twig" %}
+{% extends "::public_layout.html.twig" %}
+
 
 {% block title %}
 Accueil - {{ parent() }}
 {% endblock %}
 
 {% block header %}
-<h1>Eleve</h1>
+<h1>Evenement</h1>
 {% endblock %}
 
 
 {% block breadcrumb %}
 {{ parent() }}
-<li><a href="{{path('formateur')}}">Eleve</a> <span class="divider">/</span></li>
+<li><a href="{{path('formateur')}}">Evenement</a> <span class="divider">/</span></li>
 
 {% endblock %}
 

@@ -8,6 +8,7 @@
 
 {% block body -%}
 <h1>Evenement list</h1>
+<hr>
 
 <table class="table table-striped">
     <thead>
@@ -59,13 +60,25 @@
                 {% if entity.complet == false %}
                         <span class="label label-warning">Incomplet</span>
                         {% endif %}
+ {% if entity.minimumAtteint == true %}
+                        <span class="label label-success"><i class="icon-ok icon-white"></i> Min atteint</span>
+                        {% endif %}
+                {% if entity.maximumAtteint == true %}
+                        <span class="label label-important"><i class="icon-remove icon-white"></i> Max atteint</span>
+                        {% endif %}
 
+                {% if (entity.minimumAtteint == false and entity.maximumAtteint == false) %}
+                        <span class="label label-info"><i class="icon-bullhorn icon-white"></i> Inscrivez-vous!</span>
+                        {% endif %}
+                 {% if (entity.estPourBientot == true ) %}
+                        <span class="label label-warning"><i class="icon-bullhorn icon-white"></i> J-{{entity.joursRestants}}!</span>
+                        {% endif %}
                     </td>
-                    <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i') }}{% endif %}</td>
+                    <td>{% if entity.date %}{{ entity.date|date('d/m/y H:i') }}{% endif %}</td>
                     <td>{{ entity.formateur }}</td>
                     <td>
                     {% for formation in entity.formations %}
-                            {{ formation.nom | label(formation.couleur) | raw }}
+                            {{ formation.nom | walva_label(formation.couleur) | raw }}
                             {% endfor %}
                         </td>
                         <td>
