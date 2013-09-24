@@ -1,0 +1,9 @@
+SetEnv PHP_VER 5_4
+SetEnv REGISTER_GLOBALS 0
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_URI} !^/claroline1105
+    RewriteRule ^(.*)$ web/$1 [QSA,L]
+</IfModule>
