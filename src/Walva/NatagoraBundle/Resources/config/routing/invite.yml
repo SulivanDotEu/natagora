@@ -22,3 +22,7 @@ invite_new:
 invite_cancel:
     pattern:  /invite/cancel/{invite}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:cancelInvite" }
+
+inviter:
+    pattern: /inviter/{evenement}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:inviter" }

@@ -28,3 +28,10 @@ eleve_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "WalvaNatagoraBundle:Eleve:delete" }
     requirements: { _method: post|delete }
+
+
+
+
+migration_migration:
+    pattern: /migration
+    defaults: { _controller: "WalvaNatagoraBundle:Eleve:migration" }

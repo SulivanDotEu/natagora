@@ -1,0 +1,23 @@
+{% extends "WalvaNatagoraBundle:User:layout.html.twig" %}
+
+{% block breadcrumb %}
+{{ parent() }}
+<li class="active">liste</li>
+{% endblock %}
+
+
+{% block body -%}
+<h1>{{ 'Accès à Claroline' | trans}}</h1>
+<hr>
+<form action="http://www.formations-nature.be/claroline1105/claroline/auth/login.php" method="post">
+  <input name="login" type="hidden" value="{{ login }}">
+  <input name="password" type="hidden" value="{{ password }}">
+  <input name="submitAuth" type="submit" value="Etape 1" class="btn btn-primary btn-large">
+</form>
+
+<form action="http://www.formations-nature.be/claroline1105/" method="get">
+  <input name="submitAuth" type="submit" value="Etape 2" class="btn btn-primary btn-large">
+</form>
+
+{% endblock %}
+

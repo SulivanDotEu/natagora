@@ -13,14 +13,13 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Tag</th>
             <th>Nom</th>
             <th>Prenom</th>
             <th>Mail</th>
-            <th>Tel</th>
-            <th>Gsm1</th>
-            <th>Gsm2</th>
+            <th>Formations</th>
+            <th>NombreInscriptions</th>
             <th>Codepostal</th>
-            <th>Pays</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -28,34 +27,46 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('eleve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nom }}</td>
-                <td>{{ entity.prenom }}</td>
-                <td>{{ entity.mail }}</td>
-                <td>{{ entity.tel }}</td>
-                <td>{{ entity.gsm1 }}</td>
-                <td>{{ entity.gsm2 }}</td>
-                <td>{{ entity.codePostal }}</td>
-                <td>{{ entity.pays }}</td>
                 <td>
-                    <div class="btn-group">
-                        <a class="btn" href="{{ path('eleve_show', { 'id': entity.id }) }} ">
-                            <i class="icon-eye-open"></i> Show</a>
-                        <a class="btn" href="{{ path('eleve_edit', { 'id': entity.id }) }}">
-                            <i class="icon-pencil"></i> Edit</a>
-                    </div>
+                {% if entity.isLinkedToAnUser%}
+                        <span class="label label-info"><i class="icon-lock icon-white"></i> Linked</span>
 
-                </td>
-            </tr>
+                        {% endif %}
+                {% if entity.identifiantClarolineVide %}
+                        <span class="label label-important"><i class="icon-tag icon-white"></i> New</span>
+
+                        {% endif %}
+                    </td>
+                    <td>{{ entity.nom }}</td>
+                    <td>{{ entity.prenom }}</td>
+                    <td>{{ entity.mail }}</td>
+                    <td>
+                    {% for formation in entity.formations %}
+                            {{ formation.nom | walva_label(formation.couleur) | raw }}
+                            {% endfor %}
+                    </td>
+                    <td>{{ entity.inscriptions|length}}</td>
+                    <td>{{ entity.codePostal }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn" href="{{ path('eleve_show', { 'id': entity.id }) }} ">
+                                <i class="icon-eye-open"></i> Show</a>
+                            <a class="btn" href="{{ path('eleve_edit', { 'id': entity.id }) }}">
+                                <i class="icon-pencil"></i> Edit</a>
+                        </div>
+
+                    </td>
+                </tr>
         {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
     {% endblock %}
 
 
 {% block container_header_right %}
-                <a class="btn btn-primary" href="{{ path('eleve_new') }}">
-                    <i class="icon-plus icon-white"></i> 
-                    Create a new entry
-                </a>
+        <a class="btn btn-primary" href="{{ path('eleve_new') }}">
+            <i class="icon-plus icon-white"></i> 
+            Create a new entry
+        </a>
 {% endblock %}

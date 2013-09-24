@@ -32,13 +32,16 @@
                     </a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                             <li class=""><a href="{{ path('formateur') }}"><i class="icon-user"></i> Profil</a></li>
-                            <li class=""><a href="{{ path('evenement') }}"><i class="icon-calendar"></i> Evenement</a></li>
-                            <li class=""><a href="{{ path('formateur') }}"><i class="icon-briefcase"></i> Formateur</a></li>
-                            <li class=""><a href="{{ path('formateur') }}"><i class="icon-book"></i> Cours</a></li>
-                            <li class=""><a href="#"><i class="icon-book"></i> Claroline</a></li>
-                            
-                            
+                            <li class=""><a href="{{ path('natagora_user_profil') }}"><i class="icon-user"></i> Profil</a></li>
+                            <li class=""><a href="{{ path('public_evenement') }}"><i class="icon-calendar"></i> Evenement</a></li>
+                           <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-briefcase"></i> Formateur</a></li> -->
+                            <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-book"></i> Cours</a></li>-->
+                            <li class=""><a href="{{ path('claroline') }}"><i class="icon-book"></i> Claroline</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li class=""><a href="{{ path('evenement') }}"><i class="icon-cog"></i> Admin</a></li>
+{% endif %}
+
+
 
 
                         </ul>
@@ -51,14 +54,14 @@
         <div id="header" class="">
             <div class="container">
                 <div class="row">
-                    <div class="span8">
+                    <div class="span6">
 {% block header %}
 
                             <h1>Titre de la page</h1>
                             <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
                 {% endblock %}
                         </div>
-                        <div class="span4">       
+                        <div class="span6">       
 
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                             Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
@@ -72,27 +75,37 @@
             </div>
             <div class="container-fluid" id="mainContainer">
                 <div class="row-fluid">
+
                     {% block container %}
 {% block container_header %}
-                        <div id="content" class="span12">
-                            <div class="row-fluid">
-                                <div class="span8">
-                                    <ul class="breadcrumb">
+                    <div id="content" class="span12">
+                        <div class="row-fluid">
+                            <div class="span8">
+                                <ul class="breadcrumb">
 
                         {% block breadcrumb %}
-                                        <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
+                                    <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
                             {% endblock %}
 
-                                    </ul>
-                                </div>
-                                <div class="span4">
-                                    <div class="pull-right">
+                                </ul>
+                            </div>
+                            <div class="span4">
+                                <div class="pull-right">
                                         {% block container_header_right %}
                                     {% endblock %}
-                                        </div>
-                                    </div>  
-                                </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            {% block flas_messages %}
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
 
+                            <div class="alert alert-{{ type }}">
+            {{ flashMessage }}
+                                </div>
+    {% endfor %}
+{% endfor %}
+                            {% endblock %}
 
 
                                         {% endblock %}

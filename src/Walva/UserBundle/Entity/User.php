@@ -3,7 +3,7 @@
 namespace Walva\UserBundle\Entity;
 
 use Walva\NatagoraBundle\Entity\Eleve;
-use FOS\UserBundle\Entity\User as BaseUser;
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+    
+    public function isAdmin(){
+        if($this->hasRole('ROLE_ADMIN')) return true;
+        if($this->hasRole('ROLE_SUPER_ADMIN')) return true;
+        return false;
+    }
+    
   /**
    * @ORM\Column(name="id", type="integer")
    * @ORM\Id
@@ -20,7 +27,7 @@ class User extends BaseUser
   protected $id;
   
   /**
-     * @ORM\OneToOne(targetEntity="Walva\NatagoraBundle\Entity\Eleve", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Walva\NatagoraBundle\Entity\Eleve", cascade={"persist"}, inversedBy="user")
      * @ORM\JoinColumn(name="eleve_id", referencedColumnName="id")
      */
   protected $eleve;

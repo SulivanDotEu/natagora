@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Walva\NatagoraBundle\Entity\Eleve;
 use Walva\NatagoraBundle\Entity\Inscription;
 use Walva\NatagoraBundle\Entity\Invite;
+use Walva\NatagoraBundle\Entity\Lieu;
+use Walva\NatagoraBundle\Exception\BusinessException;
 
 /**
  * Evenement
@@ -27,7 +29,69 @@ class Evenement {
     public static $GESTION_INVITE_FOLLOW = 410;
     public static $GESTION_INVITE_PUSH_BOTTOM = 420;
     public static $GESTION_INVITE_TIME_ORDER = 430;
+    public static $QUOTA_SORTIE = 5;
+    public static $QUOTA_WEEKEND = 3;
+    
     private $invitesAPlacer;
+    public $eleveFocus;
+    
+    public function estConcerne(Eleve $eleve){
+        foreach ($this->formations as $formation) {
+            if($eleve->containsFormation($formation)) return true;
+        }
+        return false;
+    }
+    
+    public function getInscription(){
+        return $this->getInscriptionParEleve($this->eleveFocus);
+    }
+
+    public function getEleveFocus() {
+        return $this->eleveFocus;
+    }
+
+    public function setEleveFocus($eleveFocus) {
+        $this->eleveFocus = $eleveFocus;
+    }
+    
+    public function elevePossedeInvite(){
+        $in = $this->getInscriptionParEleve($this->eleveFocus);
+        if (!isset($in))
+            return false;
+        return $in->possedeInvite();
+    }
+
+    public function eleveEstInscrit() {
+        $in = $this->getInscriptionParEleve($this->eleveFocus);
+        if (!isset($in))
+            return false;
+        if ($in->getEtat() == Inscription::$ETAT_EN_ATTENTE ||
+                $in->getEtat() == Inscription::$ETAT_ANNULE_ADMIN ||
+                $in->getEtat() == Inscription::$ETAT_ANNULE_USER)
+            return false;
+        return true;
+    }
+
+    public function eleveEstEnListeAttente() {
+        $in = $this->getInscriptionParEleve($this->eleveFocus);
+        if (!isset($in)) {
+            return false;
+        }
+        if ($in->getEtat() == Inscription::$ETAT_EN_ATTENTE)
+            return true;
+        return false;
+    }
+
+    public function getTailleListeAttente() {
+        $n = $this->getNombreInscrits() - $this->getMax();
+        if ($n < 0)
+            return 0;
+        return $n;
+    }
+
+    public function getNombrePlacesRestantes() {
+        return ($this->getMax() - $this->getNombreInscrits());
+    }
 
     public function incrementerVersion() {
         $this->version++;
@@ -79,6 +143,22 @@ class Evenement {
             $listeParticipants[] = $inscription;
             if ($inscription->possedeInvite()) {
                 $listeParticipants[] = $inscription->getInvite();
+            }
+        }
+        usort($listeParticipants, array($this, "comparerParticipant"));
+        return $listeParticipants;
+    }
+
+    public function getListeDesInscrits() {
+        $listeParticipants = array();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT
+                    OR $inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE) {
+                $listeParticipants[] = $inscription;
+                if ($inscription->possedeInvite()) {
+                    $listeParticipants[] = $inscription->getInvite();
+                }
             }
         }
         usort($listeParticipants, array($this, "comparerParticipant"));
@@ -172,8 +252,9 @@ class Evenement {
         return true;
     }
 
+
     /**
-     * la methode est appelée quand un admin veut desinscrire un eleve
+     * la methode est appelée quand  un eleve se desinscrit
      * @param \Walva\NatagoraBundle\Entity\Eleve $eleve
      * @return boolean
      */
@@ -206,6 +287,53 @@ class Evenement {
         $this->updatePosition();
         $this->incrementerVersion();
         return $inscription;
+    }
+    
+   
+
+    public function eleveSinscrit(Eleve $eleve) {
+        
+        
+        
+        if(!$this->estConcerne($eleve)) throw new BusinessException('L\'élève ' . $eleve . ' ne peut pas s\'inscrire.');;
+        if(!$this->verifierQuota($eleve)) throw new BusinessException("Votre quota d'inscription est atteint");
+        $inscription = $this->getInscriptionParEleve($eleve);
+        /* @var $inscription Inscription */
+        if (!isset($inscription)) {
+            $inscription = new Inscription();
+            $inscription->setEleve($eleve);
+            $inscription->setEvenement($this);
+            $inscription->setEtat(Inscription::$ETAT_INSCRIT);
+        } elseif (isset($inscription) AND $inscription->estActive())
+            throw new BusinessException('L\'élève ' . $eleve . ' est deja inscrit.');
+        elseif (!$inscription->estActive()) {
+            $inscription->setEtat(Inscription::$ETAT_REINSCRIT);
+            $this->updatePosition();
+        }
+
+        $this->updatePosition();
+        return $inscription;
+    }
+    
+    public function verifierQuota(Eleve $eleve){
+        // si l'event est dans moins d'un mois, osef du quota, se sont des events a remplir
+        // quoi qu'il arrive.
+        
+        $now = new \DateTime("NOW");
+        $diff = $now->diff($this->getDate());
+        if($diff->m == 0) return true;
+        var_dump($diff);
+        
+        $now->add(new \DateInterval('P1M'));
+        
+        $count = $eleve->getNombreInscriptions($this->getType(), false, $now);
+        if($this->getType() == self::$TYPE_SORTIE){
+            if($count >= self::$QUOTA_SORTIE) return false;
+        }
+        elseif($this->getType() == self::$TYPE_WEEKEND){
+            if($count >= self::$QUOTA_SORTIE) return false;
+        }
+        return true;
     }
 
     public function inscrireEleve(Eleve $eleve) {
@@ -442,7 +570,7 @@ class Evenement {
     /**
      * Get lieu
      *
-     * @return \stdClass 
+     * @return \Walva\NatagoraBundle\Entity\Lieu 
      */
     public function getLieu() {
         return $this->lieu;
@@ -551,7 +679,7 @@ class Evenement {
      * @return string 
      */
     public function getDescription() {
-        return $this->description;
+            return $this->description;
     }
 
     /**

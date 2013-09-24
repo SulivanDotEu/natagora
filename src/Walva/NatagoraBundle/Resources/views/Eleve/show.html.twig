@@ -1,66 +1,110 @@
 {% extends "WalvaNatagoraBundle:Eleve:layout.html.twig" %}
 
 {% block body -%}
-    <h1>Eleve</h1>
+<h1>Eleve</h1>
+<hr>
 
-    <table class="table table-striped">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ entity.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ entity.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td>{{ entity.mail }}</td>
-            </tr>
-            <tr>
-                <th>Tel</th>
-                <td>{{ entity.tel }}</td>
-            </tr>
-            <tr>
-                <th>Gsm1</th>
-                <td>{{ entity.gsm1 }}</td>
-            </tr>
-            <tr>
-                <th>Gsm2</th>
-                <td>{{ entity.gsm2 }}</td>
-            </tr>
-            <tr>
-                <th>Codepostal</th>
-                <td>{{ entity.codePostal }}</td>
-            </tr>
-            <tr>
-                <th>Pays</th>
-                <td>{{ entity.pays }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>Prenom</th>
+            <td>{{ entity.prenom }}</td>
+        </tr>
+        <tr>
+            <th>Mail</th>
+            <td>{{ entity.mail }}</td>
+        </tr>
+        <tr>
+            <th>Tel</th>
+            <td>{{ entity.tel }}</td>
+        </tr>
+        <tr>
+            <th>Gsm1</th>
+            <td>{{ entity.gsm1 }}</td>
+        </tr>
+        <tr>
+            <th>Gsm2</th>
+            <td>{{ entity.gsm2 }}</td>
+        </tr>
+        <tr>
+            <th>Codepostal</th>
+            <td>{{ entity.codePostal }}</td>
+        </tr>
+        <tr>
+            <th>Pays</th>
+            <td>{{ entity.pays }}</td>
+        </tr>
+    </tbody>
+</table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('eleve') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('eleve_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('eleve_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
+<h2>Liste des inscriptions</h2>
+<hr>
+
+    {% if entity.inscriptions != null %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            
+            <th>Evenement ID</th>
+            <th>Evenement</th>
+            <th>Position</th>
+            <th>Etat</th>
+            <th>Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    {% for inscription in entity.inscriptions %}
+            <tr>
+                <td>{{ inscription.evenement.id }}</td>
+                <td>{{ ('evenement.type.'~inscription.evenement.type)|trans }} à {{ inscription.evenement.lieu}} le {{ inscription.evenement.date|date('d/m/Y') }}</td>
+
+                <td>{{ inscription.position }}</td>
+                <td>
+                    {% if inscription.estEnAttente %}
+                        <span class="label label-warning">
+                    {% elseif inscription.estPartant %}
+                                <span class="label label-success">
+                    {% else %}
+                                        <span class="label">
+                            {% endif %}
+{{ ('inscription.etat.'~inscription.etat)|trans }}
+                                            </span>
+
+                                            </td>
+
+                                            <td>{{inscription.date | date('d/m/Y H:i')}}</td>
+                                            </tr>
+    {% endfor %}
+                                            </tbody>
+                                            </table>
+    {% endif %}
+
+                                            <ul class="record_actions">
+                                                <li>
+                                                    <a href="{{ path('eleve') }}">
+                                                        Back to the list
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('eleve_edit', { 'id': entity.id }) }}">
+                                                        Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form action="{{ path('eleve_delete', { 'id': entity.id }) }}" method="post">
+                                                        <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                                                        <button type="submit">Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
 {% endblock %}

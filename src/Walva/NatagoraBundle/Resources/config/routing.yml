@@ -5,7 +5,7 @@ natagora_formation:
 natagora_lieu:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/lieu.yml"
         prefix:   /admin/lieu
-        
+
 natagora_formateur:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/formateur.yml"
         prefix:   /admin/formateur
@@ -13,22 +13,31 @@ natagora_formateur:
 natagora_evenement:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/evenement.yml"
         prefix:   /admin/evenement
-       
+
 natagora_eleve:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/eleve.yml"
         prefix:   /admin/eleve
-       
+
 natagora_inscription:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/inscription.yml"
         prefix:   /
-               
+
 natagora_invite:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/invite.yml"
         prefix:   /
-        
+
+natagora_user_acceuil:
+    pattern:  /acceuil
+    defaults: { _controller: WalvaNatagoraBundle:User:acceuil}
+
+
         
 # PUBLIC -----------------------
 
 natagora_public_evenement:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/public/evenement.yml"
         prefix:   /evenement
+
+natagora_user_profil:
+    pattern:  /profil
+    defaults: { _controller: WalvaNatagoraBundle:User:profil}

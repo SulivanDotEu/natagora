@@ -1,0 +1,58 @@
+{% extends "WalvaNatagoraBundle:User:layout.html.twig" %}
+
+{% block body -%}
+<h1>Votre profil</h1>
+<hr/>
+<a href="{{ path('fos_user_resetting_request') }}" class="btn btn-primary">{{ "Changer de mot de passe" | trans }}</a>
+<br>
+<br>
+
+<table class="table table-striped">
+    <tbody>
+
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>Prenom</th>
+            <td>{{ entity.prenom }}</td>
+        </tr>
+
+        <tr>
+            <th>Formations</th>
+            <td>
+            {% for formation in entity.formations %}
+            {{ formation.nom | walva_label(formation.couleur) | raw }}
+            {% endfor %} 
+                </td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Tel</th>
+                <td>{{ entity.tel }}</td>
+            </tr>
+            <tr>
+                <th>Gsm1</th>
+                <td>{{ entity.gsm1 }}</td>
+            </tr>
+            <tr>
+                <th>Gsm2</th>
+                <td>{{ entity.gsm2 }}</td>
+            </tr>
+            <tr>
+                <th>Codepostal</th>
+                <td>{{ entity.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ entity.pays }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -13,10 +13,9 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Id 
-                <a href="{{ path('evenement_sort_with_order', { 'sort': 'id', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
+            <th>Id<a href="{{ path('evenement_sort_with_order', { 'sort': 'id', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
                 <a href="{{ path('evenement_sort_with_order', { 'sort': 'id', 'order':'DESC' }) }}"><i class="icon-chevron-down"></i></a>
-            </th>
+             </th>
             <th>Tag </th>
             <th>Date 
                 <a href="{{ path('evenement_sort_with_order', { 'sort': 'date', 'order':'ASC' }) }}"><i class="icon-chevron-up"></i></a>
@@ -51,63 +50,65 @@
             </th>
             <th>Actions</th>
         </tr>
+         
     </thead>
     <tbody>
+       
         {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('evenement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>
+        <tr>
+            <td><a href="{{ path('evenement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>
                 {% if entity.complet == false %}
-                        <span class="label label-warning">Incomplet</span>
+                    <span class="label label-warning">Incomplet</span>
                         {% endif %}
  {% if entity.minimumAtteint == true %}
-                        <span class="label label-success"><i class="icon-ok icon-white"></i> Min atteint</span>
+                    <span class="label label-success"><i class="icon-ok icon-white"></i> Min atteint</span>
                         {% endif %}
                 {% if entity.maximumAtteint == true %}
-                        <span class="label label-important"><i class="icon-remove icon-white"></i> Max atteint</span>
+                    <span class="label label-important"><i class="icon-remove icon-white"></i> Max atteint</span>
                         {% endif %}
 
                 {% if (entity.minimumAtteint == false and entity.maximumAtteint == false) %}
-                        <span class="label label-info"><i class="icon-bullhorn icon-white"></i> Inscrivez-vous!</span>
+                    <span class="label label-info"><i class="icon-bullhorn icon-white"></i> Inscrivez-vous!</span>
                         {% endif %}
                  {% if (entity.estPourBientot == true ) %}
-                        <span class="label label-warning"><i class="icon-bullhorn icon-white"></i> J-{{entity.joursRestants}}!</span>
+                    <span class="label label-warning"><i class="icon-bullhorn icon-white"></i> J-{{entity.joursRestants}}!</span>
                         {% endif %}
-                    </td>
-                    <td>{% if entity.date %}{{ entity.date|date('d/m/y H:i') }}{% endif %}</td>
-                    <td>{{ entity.formateur }}</td>
-                    <td>
+                </td>
+                <td>{% if entity.date %}{{ entity.date|date('d/m/y H:i') }}{% endif %}</td>
+                <td>{{ entity.formateur }}</td>
+                <td>
                     {% for formation in entity.formations %}
                             {{ formation.nom | walva_label(formation.couleur) | raw }}
                             {% endfor %}
-                        </td>
-                        <td>
+                    </td>
+                    <td>
                         {{ entity.lieu }}
-                            </td>
-                            <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
-                            <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
-                            <td>{{ entity.min }}</td>
-                            <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn" href="{{ path('evenement_show', { 'id': entity.id }) }} ">
-                                        <i class="icon-eye-open"></i> Show</a>
-                                    <a class="btn" href="{{ path('evenement_edit', { 'id': entity.id }) }}">
-                                        <i class="icon-pencil"></i> Edit</a>
-                                </div>
+                        </td>
+                        <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                        <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
+                        <td>{{ entity.min }}</td>
+                        <td>{{entity.nombreInscrits}}/{{ entity.max }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn" href="{{ path('evenement_show', { 'id': entity.id }) }} ">
+                                    <i class="icon-eye-open"></i> Show</a>
+                                <a class="btn" href="{{ path('evenement_edit', { 'id': entity.id }) }}">
+                                    <i class="icon-pencil"></i> Edit</a>
+                            </div>
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
         {% endfor %}
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
 
     {% endblock %}
 
 {% block container_header_right %}
-                <a class="btn btn-primary" href="{{ path('evenement_new') }}">
-                    <i class="icon-plus icon-white"></i> 
-                    Create a new entry
-                </a>
+            <a class="btn btn-primary" href="{{ path('evenement_new') }}">
+                <i class="icon-plus icon-white"></i> 
+                Create a new entry
+            </a>
 {% endblock %}

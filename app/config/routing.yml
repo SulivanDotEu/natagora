@@ -8,7 +8,7 @@ walva_natagora:
     
 index:
     pattern:  /
-    defaults: { _controller: "WalvaNatagoraBundle:Evenement:index" }
+    defaults: { _controller: "WalvaNatagoraBundle:User:acceuil" }
     
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -28,3 +28,7 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+claroline:
+    pattern: /claroline
+    defaults: { _controller: "WalvaNatagoraBundle:User:claroline" }

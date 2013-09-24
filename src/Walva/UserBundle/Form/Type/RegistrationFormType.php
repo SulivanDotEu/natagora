@@ -15,7 +15,7 @@ class RegistrationFormType extends BaseType
 
         // add your custom field
         $builder->remove('username');
-        $builder->add('eleve', new EleveType());
+        $builder->add('eleve', new EleveType(), array('label' => false));
     }
     
     public function getName()

@@ -132,7 +132,7 @@ class Inscription {
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Eleve")
+     * @ORM\ManyToOne(targetEntity="Walva\NatagoraBundle\Entity\Eleve", inversedBy="inscriptions", cascade={"persist"})
      */
     private $eleve;
 

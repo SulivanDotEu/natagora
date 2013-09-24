@@ -145,6 +145,13 @@
                                                                         </tbody>
                                                                         </table>
 
+    <h3>Liste des emails</h3>
+    <hr/>
+    {% for participant in entity.getListeDesParticipants  %}
+    {% if participant.estInscription == true %}
+    {{participant.eleve.mail}}
+     {% endif %}
+     {% endfor %}
 
 {% endblock %}
 
@@ -161,3 +168,5 @@
 
                                                                         </div>
 {% endblock %}
+    
+    
