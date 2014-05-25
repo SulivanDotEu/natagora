@@ -1,0 +1,14 @@
+{# empty Twig template #}
+<br>
+<div class="progress progress-striped" style=" width: 60%; float:right;">
+    <div class="bar bar-success" id="quotaSortieInscrit" style="width: {{ (quotaSortie.0 / quotaSortieMax )*100 }}%;">Inscrit ({{quotaSortie.0}})</div>
+    <div class="bar bar-warning" id="quotaSortieAttente" style="width: {{ (quotaSortie.1 / quotaSortieMax )*100 }}%;">Attente ({{quotaSortie.1}})</div>
+    <div class="bar " id="quotaSortieDispo" style="width: {{ ((quotaSortieMax - (quotaSortie.1+quotaSortie.0)) / quotaSortieMax )*100 }}%;">Disponible ({{quotaSortieMax - (quotaSortie.1+quotaSortie.0)}})</div>
+</div>
+<span style="float:right; margin-right: 20px;"><b>Quota Sortie :</b> </span>
+<div class="progress progress-striped" style=" width: 60%; float:right;">
+    <div class="bar bar-success" id="quotaWeekendInscrit" style="width: {{ (quotaWeekend.0 / quotaWeekendMax )*100 }}%;">Inscrit ({{quotaWeekend.0}})</div>
+    <div class="bar bar-warning" id="quotaWeekendAttente" style="width: {{ (quotaWeekend.1 / quotaWeekendMax )*100 }}%;">Attente ({{quotaWeekend.1}})</div>
+    <div class="bar " id="quotaWeekendDispo" style="width: {{ ((quotaWeekendMax - (quotaWeekend.1+quotaWeekend.0)) / quotaWeekendMax )*100 }}%;">Disponible ({{quotaWeekendMax - (quotaWeekend.1+quotaWeekend.0)}})</div>
+</div>
+<span style="float:right; margin-right: 20px;"><b>Quota Weekend :</b> </span>

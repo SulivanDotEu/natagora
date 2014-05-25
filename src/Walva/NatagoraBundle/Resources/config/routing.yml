@@ -41,3 +41,7 @@ natagora_public_evenement:
 natagora_user_profil:
     pattern:  /profil
     defaults: { _controller: WalvaNatagoraBundle:User:profil}
+    
+eleve_quota:
+    pattern: /quota
+    defaults: { _controller: "WalvaNatagoraBundle:User:getQuota" }

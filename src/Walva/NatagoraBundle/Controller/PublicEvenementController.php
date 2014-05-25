@@ -16,19 +16,37 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PublicEvenementController extends Controller {
 
+    
+    public function listerEvenementInscritAction($sort = null, $order = 'ASC'){
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        /* @var $user User */
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException(
+                    'Problem...');
+        }
+        $eleve = $user->getEleve();
+        /* @var $eleve \Walva\NatagoraBundle\Entity\Eleve */
+        $listEvenements = $eleve->getEvenementsAVenir();
+        
+        
+        return $this->render('WalvaNatagoraBundle:Evenement:public\list.html.twig', array(
+                    'entities' => $listEvenements,
+                ));
+    }
     /**
      * Lists all Evenement entities.
      *
      */
     public function indexAction($sort = null, $order = 'ASC') {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery('SELECT e FROM WalvaNatagoraBundle:Evenement e
-            WHERE e.date > :date')
-                ->setParameter('date', new \DateTime('NOW'));
+        $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAllFromToday();
+        
         
         
 
-        $entities = $query->getResult();
+        //$entities = $query->getResult();
         //$entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAll();
         if ($sort != null) {
             $comparator = new ObjectComparator();

@@ -31,18 +31,18 @@ class Evenement {
     public static $GESTION_INVITE_TIME_ORDER = 430;
     public static $QUOTA_SORTIE = 5;
     public static $QUOTA_WEEKEND = 3;
-    
     private $invitesAPlacer;
     public $eleveFocus;
-    
-    public function estConcerne(Eleve $eleve){
+
+    public function estConcerne(Eleve $eleve) {
         foreach ($this->formations as $formation) {
-            if($eleve->containsFormation($formation)) return true;
+            if ($eleve->containsFormation($formation))
+                return true;
         }
         return false;
     }
-    
-    public function getInscription(){
+
+    public function getInscription() {
         return $this->getInscriptionParEleve($this->eleveFocus);
     }
 
@@ -53,8 +53,8 @@ class Evenement {
     public function setEleveFocus($eleveFocus) {
         $this->eleveFocus = $eleveFocus;
     }
-    
-    public function elevePossedeInvite(){
+
+    public function elevePossedeInvite() {
         $in = $this->getInscriptionParEleve($this->eleveFocus);
         if (!isset($in))
             return false;
@@ -153,11 +153,27 @@ class Evenement {
         $listeParticipants = array();
         foreach ($this->inscriptions as $inscription) {
             /* @var $inscription Inscription */
-            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT
-                    OR $inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE) {
+            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT OR $inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE) {
                 $listeParticipants[] = $inscription;
                 if ($inscription->possedeInvite()) {
                     $listeParticipants[] = $inscription->getInvite();
+                }
+            }
+        }
+        usort($listeParticipants, array($this, "comparerParticipant"));
+        return $listeParticipants;
+    }
+
+    public function getListeDesPartants() {
+        $listeParticipants = array();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT) {
+                $listeParticipants[] = $inscription;
+                if ($inscription->possedeInvite()) {
+                    if ($inscription->getInvite()->getEtat() == Inscription::$ETAT_INSCRIT) {
+                        $listeParticipants[] = $inscription->getInvite();
+                    }
                 }
             }
         }
@@ -252,13 +268,20 @@ class Evenement {
         return true;
     }
 
-
     /**
      * la methode est appelée quand  un eleve se desinscrit
      * @param \Walva\NatagoraBundle\Entity\Eleve $eleve
      * @return boolean
      */
     public function eleveSeDesinscrit(Eleve $eleve) {
+        if ($this->getType() == self::$TYPE_WEEKEND) {
+
+            $now = new \DateTime("NOW");
+            $diff = $now->diff($this->getDate());
+            if ($diff->m == 0) {
+                throw new BusinessException("Il est interdit de se désinscrire d'un weekend se déroulant dans le mois");
+            }
+        }
         $inscription = $this->getInscriptionParEleve($eleve);
         if ($inscription == null)
             return false;
@@ -288,15 +311,12 @@ class Evenement {
         $this->incrementerVersion();
         return $inscription;
     }
-    
-   
 
     public function eleveSinscrit(Eleve $eleve) {
-        
-        
-        
-        if(!$this->estConcerne($eleve)) throw new BusinessException('L\'élève ' . $eleve . ' ne peut pas s\'inscrire.');;
-        if(!$this->verifierQuota($eleve)) throw new BusinessException("Votre quota d'inscription est atteint");
+        if (!$this->estConcerne($eleve))
+            throw new BusinessException('L\'élève ' . $eleve . ' ne peut pas s\'inscrire.');
+        if (!$this->verifierQuota($eleve))
+            throw new BusinessException("Votre quota d'inscription est atteint");
         $inscription = $this->getInscriptionParEleve($eleve);
         /* @var $inscription Inscription */
         if (!isset($inscription)) {
@@ -308,30 +328,33 @@ class Evenement {
             throw new BusinessException('L\'élève ' . $eleve . ' est deja inscrit.');
         elseif (!$inscription->estActive()) {
             $inscription->setEtat(Inscription::$ETAT_REINSCRIT);
+            $inscription->setDate(new \DateTime('NOW'));
             $this->updatePosition();
         }
 
         $this->updatePosition();
         return $inscription;
     }
-    
-    public function verifierQuota(Eleve $eleve){
+
+    public function verifierQuota(Eleve $eleve) {
         // si l'event est dans moins d'un mois, osef du quota, se sont des events a remplir
         // quoi qu'il arrive.
-        
+
         $now = new \DateTime("NOW");
         $diff = $now->diff($this->getDate());
-        if($diff->m == 0) return true;
-        var_dump($diff);
-        
+        if ($diff->m == 0)
+            return true;
+
         $now->add(new \DateInterval('P1M'));
-        
+
         $count = $eleve->getNombreInscriptions($this->getType(), false, $now);
-        if($this->getType() == self::$TYPE_SORTIE){
-            if($count >= self::$QUOTA_SORTIE) return false;
+        if ($this->getType() == self::$TYPE_SORTIE) {
+            if ($count >= self::$QUOTA_SORTIE)
+                return false;
         }
-        elseif($this->getType() == self::$TYPE_WEEKEND){
-            if($count >= self::$QUOTA_SORTIE) return false;
+        elseif ($this->getType() == self::$TYPE_WEEKEND) {
+            if ($count >= self::$QUOTA_WEEKEND)
+                return false;
         }
         return true;
     }
@@ -679,7 +702,7 @@ class Evenement {
      * @return string 
      */
     public function getDescription() {
-            return $this->description;
+        return $this->description;
     }
 
     /**

@@ -16,12 +16,37 @@ use FOS\UserBundle\Model\UserInterface;
 use Walva\NatagoraBundle\Exception\BusinessException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use \Symfony\Component\HttpFoundation\Response;
 
 /**
  * Evenement controller.
  *
  */
 class InscriptionController extends Controller {
+
+    public function getNombreInscriptionsAction() {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        /* @var $user User */
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException(
+                    'Problem...');
+        }
+        $eleve = $user->getEleve();
+        /* @var $eleve Eleve */
+        return new Response($eleve->getNombreInscriptionsValideAVenir());
+    }
+
+    public function getNombreInscriptionsEnAttenteAction() {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        /* @var $user User */
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException(
+                    'Problem...');
+        }
+        $eleve = $user->getEleve();
+        /* @var $eleve Eleve */
+        return new Response($eleve->getNombreInscriptionsEnAttenteValideAVenir());
+    }
 
     public function inviterAction(Evenement $evenement) {
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -48,11 +73,11 @@ class InscriptionController extends Controller {
             $session = new Session();
             $session->getFlashBag()->add('error', $exc->getMessage());
             return $this->redirect($this->generateUrl('public_evenement_show', array(
-                            'id' => $evenement->getId()
-                        )));
+                                'id' => $evenement->getId()
+                            )));
         }
 
-        
+
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($inscription);
@@ -72,7 +97,17 @@ class InscriptionController extends Controller {
                     'Problem...');
         }
         $eleve = $user->getEleve();
-        $evenement->eleveSeDesinscrit($eleve);
+        try {
+            $evenement->eleveSeDesinscrit($eleve);
+        } catch (BusinessException $exc) {
+            $session = new Session();
+            $session->getFlashBag()->add('error', $exc->getMessage());
+            return $this->redirect($this->generateUrl('public_evenement_show', array(
+                                'id' => $evenement->getId()
+                            )));
+        }
+
+
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($evenement);

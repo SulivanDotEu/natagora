@@ -10,65 +10,65 @@
 
 {% block body -%}
 
-<h1>{{ ('evenement.type.'~entity.type)|trans }} à {{ entity.lieu}} le {{ entity.date|date('d/m/Y') }}</h1>
+<h1>{{ ('evenement.type.'~entity.type)|trans }} à {{ entity.lieu}} le {{ entity.date|date('d/m/Y H:i') }}</h1>
 <hr/>
 <div class="text-right">
     {% if entity.eleveEstInscrit == false and entity.eleveEstEnListeAttente == false %}
-        <a class="btn btn-success" href="{{ path('sinscrire_evenement', {'evenement':entity.id}) }}">
-            <i class="icon-ok icon-white"></i> {{ "S'inscrire" | trans }}
-        </a>
+    <a class="btn btn-success" href="{{ path('sinscrire_evenement', {'evenement':entity.id}) }}">
+        <i class="icon-ok icon-white"></i> {{ "S'inscrire" | trans }}
+    </a>
         {% else %}
-        <a class="btn btn-danger" href="{{ path('sedesinscrire_evenement', {'evenement':entity.id}) }}">
-            <i class="icon-remove icon-white"></i> {{ "Se désinscrire" | trans }}
-        </a>
+    <a class="btn btn-danger" href="{{ path('sedesinscrire_evenement', {'evenement':entity.id}) }}">
+        <i class="icon-remove icon-white"></i> {{ "Se désinscrire" | trans }}
+    </a>
 
         {% if entity.getInscription.possedeInvite == true %}
-        <a class="btn btn-danger" href="{{ path('invite_cancel', {'invite':entity.getInscription.invite.id}) }}">
-            <i class="icon-remove icon-white"></i> {{ "Annuler l'invitation : "~entity.getInscription.invite | trans }}
-        </a>
+    <a class="btn btn-danger" href="{{ path('invite_cancel', {'invite':entity.getInscription.invite.id}) }}">
+        <i class="icon-remove icon-white"></i> {{ "Annuler l'invitation : "~entity.getInscription.invite | trans }}
+    </a>
 
         {% else %}
-        <a class="btn btn-success" href="{{ path('inviter', {'evenement':entity.id}) }}">
-            <i class="icon-ok icon-white"></i> {{ "Inviter une personne" | trans }}
-        </a>
+    <a class="btn btn-success" href="{{ path('inviter', {'evenement':entity.id}) }}">
+        <i class="icon-ok icon-white"></i> {{ "Inviter une personne" | trans }}
+    </a>
         {% endif %}
 
         {% endif %}
 
-    </div>
+</div>
 
 
 
 
-    <br>
+<br>
 
 
 {% if entity.eleveEstInscrit %}
-    <div class="alert alert-success">
-        <b>{{ "Vous êtes correctement inscrits pour l'évenement!" | trans }}</b> {{ "Vous pouvez inscrire un invité qui pourra vous accompagner lors de l'évènement." |trans }}
-    </div>
+<div class="alert alert-success">
+    <b>{{ "Vous êtes correctement inscrits pour l'évenement!" | trans }}</b> {{ "Vous pouvez inscrire un invité qui pourra vous accompagner lors de l'évènement." |trans }}
+</div>
 {% endif %}
 
 {% if entity.getNombrePlacesRestantes <= 0 and entity.eleveEstEnListeAttente == false %}
-    <div class="alert alert-block">
-        <b>{{ "Il n'y a plus de place disponible pour cet évènement." | trans }}</b> {{ "Néanmois, vous pouvez vous mettre en liste d'attente." |trans }}
-    </div>
+<div class="alert alert-block">
+    <b>{{ "Il n'y a plus de place disponible pour cet évènement." | trans }}</b> {{ "Néanmois, vous pouvez vous mettre en liste d'attente." |trans }}
+</div>
 {% endif %}
 
 {% if entity.getNombrePlacesRestantes <= 0 and entity.eleveEstEnListeAttente == true %}
-    <div class="alert alert-block">
-        <b>{{ "Vous êtes actuellement en liste d'attente pour cet évènement." | trans }}</b> {{ "" |trans }}
-    </div>
+<div class="alert alert-block">
+    <b>{{ "Vous êtes actuellement en liste d'attente pour cet évènement." | trans }}</b> {{ "" |trans }}
+</div>
 {% endif %}
 
 
 {% if entity.getNombrePlacesRestantes > 0 and entity.eleveEstInscrit == false %}
-    <div class="alert alert-info">
-        <b>{{ "Vous n'êtes pas inscrit pour cet évènement !" | trans }}</b> {{ "Gardez en tête que l'inscription aux évènements est régie par une file d'attente.
+<div class="alert alert-info">
+    <b>{{ "Vous n'êtes pas inscrit pour cet évènement !" | trans }}</b> {{ "Gardez en tête que l'inscription aux évènements est régie par une file d'attente.
 Le maximum de participants admissible est renseigné sur cette page : " |trans }} <b>{{ entity.max }}</b>.
 {{"Le nombre de places restantes est donc : " | trans}}
-        <b>{{entity.getNombrePlacesRestantes}}</b>.
-    </div>
+    <b>{{entity.getNombrePlacesRestantes}}</b>.
+</div>
 {% endif %}
 
 
@@ -76,174 +76,193 @@ Le maximum de participants admissible est renseigné sur cette page : " |trans }
 
 
 
-    <div class="row-fluid">
-        <div class="span6">
-            <h3>Informations concernant l'évènement</h3>
-            <hr/>
-            <div class="progress">
-                <div class="bar bar-success" style="width: {{ ((entity.nombreInscrits-entity.getTailleListeAttente)/(entity.max+entity.getTailleListeAttente))*100 }}%;">
-                    Participants ({{ entity.nombreInscrits - entity.getTailleListeAttente }})
-                </div>
-                <div class="bar bar-warning" style="width: {{ ((entity.getTailleListeAttente)/(entity.max+entity.getTailleListeAttente))*100 }}%;">
-                    Liste d'attente ({{entity.getTailleListeAttente}})</div>
-                <div class="bar" style="width: {{ (entity.getNombrePlacesRestantes)/entity.max*100 }}%;">
-                    Places disponibles ({{ entity.getNombrePlacesRestantes }})</div>
+<div class="row-fluid">
+    <div class="span6">
+        <h3>Informations concernant l'évènement</h3>
+        <hr/>
+        <div class="progress">
+            <div class="bar bar-success" style="width: {{ ((entity.nombreInscrits-entity.getTailleListeAttente)/(entity.max+entity.getTailleListeAttente))*100 }}%;">
+                Participants ({{ entity.nombreInscrits - entity.getTailleListeAttente }})
             </div>
-            <table class="table table-striped">
-                <tbody>
+            <div class="bar bar-warning" style="width: {{ ((entity.getTailleListeAttente)/(entity.max+entity.getTailleListeAttente))*100 }}%;">
+                Liste d'attente ({{entity.getTailleListeAttente}})</div>
+            <div class="bar" style="width: {{ (entity.getNombrePlacesRestantes)/entity.max*100 }}%;">
+                Places disponibles ({{ entity.getNombrePlacesRestantes }})</div>
+        </div>
+        <table class="table table-striped">
+            <tbody>
 
-                    <tr>
-                        <th>Date</th>
-                        <td>{{ entity.date|date('d/m/Y') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Formateur</th>
-                        <td>{{ entity.formateur }}
-                            <br>{% if entity.formateur != null %}{{ entity.formateur.gsm }}{% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Formation</th>
-                        <td>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ entity.date|date('d/m/Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Formateur</th>
+                    <td>
+                            {% if entity.formateur != null %}
+                                {{ entity.formateur }}
+                            {% if entity.formateur.gsm != null %}
+                        <br/>{{ entity.formateur.gsm }}
+                            {% endif %}
+                            {% if entity.formateur.tel != null %}
+                        <br/>{{ entity.formateur.tel }}
+                            {% endif %}
+                            {% if entity.formateur.mail != null %}
+                        <br/>{{ entity.formateur.mail }}
+                            {% endif %}
+                            {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Formation</th>
+                    <td>
                 {% for formation in entity.formations %}
                 {{ formation.nom | walva_label(formation.couleur) | raw }}
                 {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Lieu</th>
-                            <td>{{ entity.lieu }}</td>
-                        </tr>
-                        <tr>
-                            <th>Type </th>
-                            <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
-                        </tr>
-                        <tr>
-                            <th>Etat</th>
-                            <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
-                        </tr>
-                        <tr>
-                            <th>Min</th>
-                            <td>{{ entity.min }}</td>
-                        </tr>
-                        <tr>
-                            <th>Max</th>
-                            <td>{{ entity.max }}</td>
-                        </tr>
-                        <tr>
-                            <th>Nombre d'inscrits</th>
-                            <td>{{ entity.nombreInscrits }}</td>
-                        </tr>
-                        <tr>
-                            <th>Taille de la file d'attente</th>
-                            <td>{{ entity.getTailleListeAttente }}</td>
-                        </tr>
-                        <tr>
-                            <th>Type gestion des invités</th>
-                            <td>{{ ('evenement.typeGestionInvite.'~entity.typeGestionInvite) | trans }}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{{ entity.description }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="span6">
-                <h3>Informations concernant le lieu</h3>
-                <hr>
-                <table class="table table-striped">
-                    <tbody>
-
-                        <tr>
-                            <th>Nom</th>
-                            <td>{{ entity.lieu.nom }}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{{ entity.lieu.description }}</td>
-                        </tr>
-                        <tr>
-                            <th>Rendezvous</th>
-                            <td>{{ entity.lieu.rendezvous }}</td>
-                        </tr>
-                        <tr>
-                            <th>Google Map</th>
-                            <td>{{ entity.lieu.urlGoogleMap | raw }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <h3>Liste des inscriptions</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Lieu</th>
+                    <td>{{ entity.lieu }}</td>
+                </tr>
+                <tr>
+                    <th>Type </th>
+                    <td>{{ ('evenement.type.'~entity.type)|trans }}</td>
+                </tr>
+                <tr>
+                    <th>Etat</th>
+                    <td>{{ ('evenement.etat.'~entity.etat)|trans }}</td>
+                </tr>
+                <tr>
+                    <th>Min</th>
+                    <td>{{ entity.min }}</td>
+                </tr>
+                <tr>
+                    <th>Max</th>
+                    <td>{{ entity.max }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre d'inscrits</th>
+                    <td>{{ entity.nombreInscrits }}</td>
+                </tr>
+                <tr>
+                    <th>Taille de la file d'attente</th>
+                    <td>{{ entity.getTailleListeAttente }}</td>
+                </tr>
+                <tr>
+                    <th>Type gestion des invités</th>
+                    <td>{{ ('evenement.typeGestionInvite.'~entity.typeGestionInvite) | trans }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ entity.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="span6">
+        <h3>Informations concernant le lieu</h3>
         <hr>
         <table class="table table-striped">
-            <thead>
+            <tbody>
+
                 <tr>
                     <th>Nom</th>
-                    <th>Position</th>
-                    <th>Etat</th>
-                    <th>Date</th>
+                    <td>{{ entity.lieu.nom }}</td>
                 </tr>
-            </thead>
-            <tbody>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ entity.lieu.description }}</td>
+                </tr>
+                <tr>
+                    <th>Rendezvous</th>
+                    <td>{{ entity.lieu.rendezvous }}</td>
+                </tr>
+                <tr>
+                    <th>Google Map</th>
+                    <td>{{ entity.lieu.urlGoogleMap | raw }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h3>Liste des inscriptions</h3>
+<hr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Contact</th>
+            <th>Adresse</th>
+            <th>Position</th>
+            <th>Etat</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for participant in entity.getListeDesInscrits  %}
             {% if participant.estInscription == true %}
-                    <tr>
-                        <td>{{participant.eleve}}</td>
-                        <td>{{participant.position}}</td>
-                        <td>
+        <tr>
+            <td>{{participant.eleve}}</td>
+            <td>{{participant.eleve.getFirstNumber}}<br>
+                        {{participant.eleve.mail}}
+
+            </td>
+            
+            <td>{{participant.eleve.codePostal}}</td>
+            <td>{{participant.position}}</td>
+            <td>
+                    {% if participant.estEnAttente %}
+                <span class="label label-warning">
+                    {% elseif participant.estPartant %}
+                    <span class="label label-success">
+                    {% else %}
+                        <span class="label">
+                            {% endif %}
+{{ ('inscription.etat.'~participant.etat)|trans }}
+                        </span>
+
+                        </td>
+                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
+
+
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>{{participant}} <i class="muted"> invité par {{ participant.inscription.eleve }} </i></td>
+                            <td>{{participant.position}}</td>
+                            <td>
                     {% if participant.estEnAttente %}
                                 <span class="label label-warning">
                     {% elseif participant.estPartant %}
-                                        <span class="label label-success">
+                                    <span class="label label-success">
                     {% else %}
-                                                <span class="label">
+                                        <span class="label">
                             {% endif %}
 {{ ('inscription.etat.'~participant.etat)|trans }}
-                                                    </span>
-
-                                                    </td>
-                                                    <td>{{participant.date | date('d/m/Y H:i')}}</td>
-
+                                        </span>
+                                        </td>
+                                        <td>{{participant.date | date('d/m/Y H:i')}}</td>
 
 
-                                                    </tr>
-                    {% else %}
-                                                    <tr>
-                                                        <td>{{participant}} <i class="muted"> invité par {{ participant.inscription.eleve }} </i></td>
-                                                        <td>{{participant.position}}</td>
-                                                        <td>
-                    {% if participant.estEnAttente %}
-                                                                <span class="label label-warning">
-                    {% elseif participant.estPartant %}
-                                                                        <span class="label label-success">
-                    {% else %}
-                                                                                <span class="label">
-                            {% endif %}
-{{ ('inscription.etat.'~participant.etat)|trans }}
-                                                                                    </span>
-                                                                                    </td>
-                                                                                    <td>{{participant.date | date('d/m/Y H:i')}}</td>
-
-
-                                                                                    </tr>
+                                        </tr>
                     {% endif %}
         {% endfor %}
-                                                                                    </tbody>
-                                                                                    </table>
+                                        </tbody>
+                                        </table>
 
 
 {% endblock %}
 
 {% block container_header_right %}
 
-                                                                                    <a class="btn " href="{{ path('public_evenement') }}">
-                                                                                        <i class="icon-chevron-left"></i> 
+                                        <a class="btn " href="{{ path('public_evenement') }}">
+                                            <i class="icon-chevron-left"></i> 
                                                                                 {{ 'Revenir à la liste des evenements' | trans }}
-                                                                                    </a>
+                                        </a>
 
 
 

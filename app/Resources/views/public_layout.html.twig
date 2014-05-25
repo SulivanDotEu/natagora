@@ -26,8 +26,8 @@
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                       <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
                     <div class="nav-collapse">
@@ -37,6 +37,26 @@
                            <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-briefcase"></i> Formateur</a></li> -->
                             <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-book"></i> Cours</a></li>-->
                             <li class=""><a href="{{ path('claroline') }}"><i class="icon-book"></i> Claroline</a></li>
+                            <li class="">
+                                <a href="{{ path('public_evenements_inscrit') }}"><i class="icon-check"></i> Mes inscriptions
+                                    
+                                    <span class="badge badge-success"
+                                          rel="popover"
+                                          data-content="this is the body of the popover"
+                                          data-original-title="Ce chiffre représente le nombre d'évènements à venir auxquels vous êtes inscrits."
+                                          data-placement="bottom"
+                                          id="inscription_valide">
+{{ render(controller('WalvaNatagoraBundle:Inscription:getNombreInscriptions')) }}
+                                            </span>
+                                            <span class="badge badge-warning"
+                                                  id="inscription_en_attente"
+                                                  data-placement="bottom"
+                                                  data-original-title="Ce chiffre représente le nombre d'évènements à venir auxquels vous êtes en file d'attente.">
+{{ render(controller('WalvaNatagoraBundle:Inscription:getNombreInscriptionsEnAttente')) }}
+                                            </span>
+                                            </a>
+                                </li>
+                                
                             {% if is_granted('ROLE_ADMIN') %}
                             <li class=""><a href="{{ path('evenement') }}"><i class="icon-cog"></i> Admin</a></li>
 {% endif %}
@@ -65,6 +85,8 @@
 
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                             Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                            <br>
+                            {{ render(controller('WalvaNatagoraBundle:User:getQuota')) }}
 {% else %}
                             <a href="{{ path('fos_user_security_login') }}">Connexion</a>
 {% endif %}
@@ -126,6 +148,17 @@
     {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
                     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
                     <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+                    <script type="text/javascript" >
+                    $(function(){
+                        var texte = " La règle appliquée pour le quota comptabilise les évènements auxquels vous êtes inscrits et qui n'ont pas lieu dans le mois à venir.";
+                        $("#inscription_valide").tooltip();
+                        $("#inscription_en_attente").tooltip();
+                        $("#quotaSortieInscrit, #quotaWeekendInscrit").tooltip({placement:'bottom', title:'Cette barre représente les évènements auxquels vous etes inscrits et qui participe dans le calcul du quota.\n'+texte}  );
+                        $("#quotaSortieAttente, #quotaWeekendAttente").tooltip({placement:'bottom', title:'Cette barre représente les évènements auxquels vous etes en attente et qui participe dans le calcul du quota.\n'+texte}  );
+                        $("#quotaSortieDispo, #quotaWeekendDispo").tooltip({placement:'bottom', title:'Cette barre représente le nomdre d\'évènements auxquels vous pouvez vous inscrire : votre quota restant.\n'+texte}  );
+                        
+                    });
+                        </script>
   {% endblock %}
 
                 </body>

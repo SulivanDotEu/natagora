@@ -34,7 +34,33 @@ class EvenementRepository extends EntityRepository {
                 ->leftJoin('e.inscriptions', 'i')
                 ->addSelect('i')
                 ->leftJoin('i.invite', 'inv')
-                ->addSelect('inv');
+                ->addSelect('inv')
+                ->orderBy('e.date');
+
+        return $qb->getQuery()
+                        ->getResult();
+    }
+    
+    public function myFindAllFromToday() {
+        $qb = $this->createQueryBuilder('e')
+                ->leftJoin('e.lieu', 'l')
+                ->addSelect('l')
+                ->leftJoin('e.formateur', 'feur')
+                ->addSelect('feur')
+                ->leftJoin('e.formations', 'fion')
+                ->addSelect('fion')
+                ->leftJoin('e.inscriptions', 'i')
+                ->addSelect('i')
+                ->leftJoin('i.invite', 'inv')
+                ->addSelect('inv')
+                ->where('e.date > :date')
+                ->orderBy('e.date')
+                ->setParameter('date', new \DateTime('NOW'));
+        /*
+         * $query = $em->createQuery('SELECT e FROM WalvaNatagoraBundle:Evenement e
+            WHERE e.date > :date')
+                ->setParameter('date', new \DateTime('NOW'));
+         */
 
         return $qb->getQuery()
                         ->getResult();

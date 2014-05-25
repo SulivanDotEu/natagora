@@ -5,6 +5,7 @@ namespace Walva\NatagoraBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Walva\UserBundle\Entity\User;
 use Walva\NatagoraBundle\Entity\Formation;
+use Walva\NatagoraBundle\Entity\Evenement;
 
 /**
  * Eleve
@@ -13,13 +14,118 @@ use Walva\NatagoraBundle\Entity\Formation;
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\EleveRepository")
  */
 class Eleve {
+    
+    /**
+     * @return array 
+     * un tableau contenant le nombre de place dispo, le nombre
+     * 
+     */
+    public function getQuota($typeEvenement){
+        $inscrit = 0;
+        $enAttente = 0;
+        $annule = 0;
+        $events = $this->getEvenementsAVenir();
+        //var_dump($events);
+        $when = new \DateTime("NOW");
+        $when->add(new \DateInterval('P1M'));
+        $when = $when->getTimestamp();
+        
+        foreach ($events as $event) {
+            if($event->getType() != $typeEvenement)
+                continue;
+            $eventTimeStamp = $event->getDate()->getTimestamp();
+                if ($when > $eventTimeStamp)
+                    continue;
+            /* @var $event Evenement */
+            $inscription = $event->getInscriptionParEleve($this);
+            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT)
+                $inscrit++;
+            elseif($inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE)
+                $enAttente++;
+            elseif($inscription->getEtat() == Inscription::$ETAT_ANNULE_USER)
+                $annule++;
+        }
+        return array($inscrit, $enAttente, $annule);
+    }
+    
+    public function getQuotaSortie(){
+        return $this->getQuota(Evenement::$TYPE_SORTIE);
+    }
+    
+    public function getQuotaWeekend(){
+        return $this->getQuota(Evenement::$TYPE_WEEKEND);
+    }
+    
+    public function getFirstNumber(){
+        $value = $this->getGsm1();
+        if(!empty($value)){
+            return $value;
+        }
+        $value = $this->getGsm2();
+        if(!empty($value)){
+            return $value;
+        }
+        $value = $this->getTel();
+        if(!empty($value)){
+            return $value;
+        }
+       
+        return "";
+    }
 
     public function identifiantClarolineVide() {
         $clLogin = $this->getClLogin();
-        if(empty($clLogin)){
+        if (empty($clLogin)) {
             return true;
         }
         return false;
+    }
+
+    public function getEvenementsAVenir(){
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        $list = array();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $event = $inscription->getEvenement();
+            $eventTimeStamp = $event->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            $event->setEleveFocus($this);
+            $list[] = $event;
+        }
+        return $list;
+    }
+    
+    public function getNombreInscriptionsValideAVenir() {
+        $count = 0;
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $eventTimeStamp = $inscription->getEvenement()
+                            ->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            if ($inscription->getEtat() != Inscription::$ETAT_INSCRIT)
+                continue;
+            $count++;
+        }
+        return $count;
+    }
+
+    public function getNombreInscriptionsEnAttenteValideAVenir() {
+        $count = 0;
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $eventTimeStamp = $inscription->getEvenement()
+                            ->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            if ($inscription->getEtat() != Inscription::$ETAT_EN_ATTENTE)
+                continue;
+            $count++;
+        }
+        return $count;
     }
 
     public function getNombreInscriptions($type, $total = false, \DateTime $when = null) {
@@ -34,6 +140,9 @@ class Eleve {
         foreach ($this->inscriptions as $inscription) {
             /* @var $inscription Inscription */
             if ($inscription->getEvenement()->getType() != $type)
+                continue;
+             if (!($inscription->getEtat() == Inscription::$ETAT_INSCRIT OR 
+                     $inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE))
                 continue;
             if (!$total) {
                 $eventTimeStamp = $inscription->getEvenement()

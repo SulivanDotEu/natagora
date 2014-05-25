@@ -13,6 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Formateur
 {
     
+    public function getFirstNumber(){
+        $value = $this->getGsm();
+        if(!empty($value)){
+            return $value;
+        }
+      
+        $value = $this->getTel();
+        if(!empty($value)){
+            return $value;
+        }
+       
+        return "";
+    }
+    
     public function __toString() {
         return $this->getNomComplet();
     }

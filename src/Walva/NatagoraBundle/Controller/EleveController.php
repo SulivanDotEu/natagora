@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class EleveController extends Controller {
 
+    
     /**
      * Lists all Eleve entities.
      *

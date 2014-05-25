@@ -21,3 +21,4 @@ inscription_refresh:
     pattern:  /refresh/evenement/{evenement}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:refresh" }
 
+
