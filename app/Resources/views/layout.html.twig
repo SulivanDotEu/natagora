@@ -19,6 +19,47 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('css/supportkot.css') }}" type="text/css" />
     {% endblock %}
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-51358049-1', 'formations-nature.be');
+            ga('send', 'pageview');
+
+        </script>
+        <!--Start of Zopim Live Chat Script-->
+        <script type="text/javascript">
+            window.$zopim || (function(d, s) {
+                var z = $zopim = function(c) {
+                    z._.push(c)
+                }, $ = z.s =
+                        d.createElement(s), e = d.getElementsByTagName(s)[0];
+                z.set = function(o) {
+                    z.set.
+                            _.push(o)
+                };
+                z._ = [];
+                z.set._ = [];
+                $.async = !0;
+                $.setAttribute('charset', 'utf-8');
+                $.src = '//v2.zopim.com/?29MytupFuT19jzMoX8HTBPH2DTAbuqvJ';
+                z.t = +new Date;
+                $.
+                        type = 'text/javascript';
+                e.parentNode.insertBefore($, e)
+            })(document, 'script');
+        </script>
+        <!--End of Zopim Live Chat Script-->
+
     </head>
 
     <body>
@@ -33,167 +74,167 @@
                     <div class="nav-collapse">
                         <ul class="nav">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and is_granted("ROLE_ADMIN")  %}
-                                <li class=""><a href="#"><i class="icon-home"></i> Accueil</a></li>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <li class=""><a href="#"><i class="icon-home"></i> Accueil</a></li>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                                            <i class="icon-calendar">
-                                            </i> Evenement 
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class=""><a href="{{ path('evenement') }}"><i class="icon-list-alt"></i> Lister</a></li>
-                                            <li class=""><a href="{{ path('evenement_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                            <i class="icon-map-marker">
-                                            </i> Lieu 
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class=""><a href="{{ path('lieu') }}"><i class="icon-list-alt"></i> Lister</a></li>
-
-                                            <li class=""><a href="{{ path('lieu_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                            <i class="icon-book">
-                                            </i> Formation
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class=""><a href="{{ path('formation') }}"><i class="icon-list-alt"></i> Lister</a></li>
-
-                                            <li class=""><a href="{{ path('formation_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                            <i class="icon-briefcase">
-                                            </i> Formateur 
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class=""><a href="{{ path('formateur') }}"><i class="icon-list-alt"></i> Lister</a></li>
-                                            <li class=""><a href="{{ path('formateur_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                                            <i class="icon-user">
-                                            </i> Eleve 
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class=""><a href="{{ path('eleve') }}"><i class="icon-list-alt"></i> Lister</a></li>
-                                            <li class=""><a href="{{ path('eleve_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-
-
+                                        <i class="icon-calendar">
+                                        </i> Evenement 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('evenement') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                        <li class=""><a href="{{ path('evenement_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                    </ul>
+                                </li>
                             </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-map-marker">
+                                        </i> Lieu 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('lieu') }}"><i class="icon-list-alt"></i> Lister</a></li>
+
+                                        <li class=""><a href="{{ path('lieu_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-book">
+                                        </i> Formation
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('formation') }}"><i class="icon-list-alt"></i> Lister</a></li>
+
+                                        <li class=""><a href="{{ path('formation_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-briefcase">
+                                        </i> Formateur 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('formateur') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                        <li class=""><a href="{{ path('formateur_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                        <i class="icon-user">
+                                        </i> Eleve 
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a href="{{ path('eleve') }}"><i class="icon-list-alt"></i> Lister</a></li>
+                                        <li class=""><a href="{{ path('eleve_new') }}"><i class="icon-plus"></i> Ajouter</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+
+                        </ul>
                             {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED")  %}
-                            <li class=""><a href="{{ path('natagora_user_profil') }}"><i class="icon-user"></i> Profil</a></li>
-                            <li class=""><a href="{{ path('public_evenement') }}"><i class="icon-calendar"></i> Evenement</a></li>
-                            <li class=""><a href="{{ path('public_evenement') }}"><i class="icon-calendar"></i> Mes inscriptions</a></li>
-                           <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-briefcase"></i> Formateur</a></li> -->
-                            <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-book"></i> Cours</a></li>-->
-                            <li class=""><a href="{{ path('claroline') }}"><i class="icon-book"></i> Claroline</a></li>
-                            
+                        <li class=""><a href="{{ path('natagora_user_profil') }}"><i class="icon-user"></i> Profil</a></li>
+                        <li class=""><a href="{{ path('public_evenement') }}"><i class="icon-calendar"></i> Evenement</a></li>
+                        <li class=""><a href="{{ path('public_evenement') }}"><i class="icon-calendar"></i> Mes inscriptions</a></li>
+                       <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-briefcase"></i> Formateur</a></li> -->
+                        <!-- <li class=""><a href="{{ path('formateur') }}"><i class="icon-book"></i> Cours</a></li>-->
+                        <li class=""><a href="{{ path('claroline') }}"><i class="icon-book"></i> Claroline</a></li>
+
                             {% endif %}
 
 
 
-                        </div><!--/.nav-collapse -->
+                    </div><!--/.nav-collapse -->
 
-                    </div>
                 </div>
             </div>
-            <div id="header" class="">
-                <div class="container">
-                    <div class="row">
-                        <div class="span8">
+        </div>
+        <div id="header" class="">
+            <div class="container">
+                <div class="row">
+                    <div class="span8">
 {% block header %}
 
-                                <h1>Natagora - formations-nature.be</h1>
-                                <p>Bienvenue sur la nouvelle plateforme de Natagora pour 
-                                    la gestion des cours
-                                    et des sorties pour les élèves des formations nature.</p>
+                        <h1>Natagora - formations-nature.be</h1>
+                        <p>Bienvenue sur la nouvelle plateforme de Natagora pour 
+                            la gestion des cours
+                            et des sorties pour les élèves des formations nature.</p>
                 {% endblock %}
-                            </div>
-                            <div class="span4">       
+                    </div>
+                    <div class="span4">       
 
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                        Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
 {% else %}
-                                <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>
 {% endif %}
-                            </div>
-
-                        </div>
                     </div>
+
                 </div>
-                <div class="container-fluid" id="mainContainer">
-                    <div class="row-fluid">
+            </div>
+        </div>
+        <div class="container-fluid" id="mainContainer">
+            <div class="row-fluid">
                     {% block container %}
 {% block container_header %}
-                            <div id="content" class="span12">
-                                <div class="row-fluid">
-                                    <div class="span8">
-                                        <ul class="breadcrumb">
+                <div id="content" class="span12">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <ul class="breadcrumb">
 
                         {% block breadcrumb %}
-                                            <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
+                                <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
                             {% endblock %}
 
-                                        </ul>
-                                    </div>
-                                    <div class="span4">
-                                        <div class="pull-right">
+                            </ul>
+                        </div>
+                        <div class="span4">
+                            <div class="pull-right">
                                         {% block container_header_right %}
                                     {% endblock %}
-                                            </div>
-                                        </div>  
-                                    </div>
+                            </div>
+                        </div>  
+                    </div>
 
 
 
                                         {% endblock %}
           {% block body %}
           {% endblock %}
-                                </div>
+                </div>
                         {% endblock %}
-                            </div>
+            </div>
 
-                            <hr>
+            <hr>
 
-                            <footer>
-                                <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
-                            </footer>
-                        </div>
+            <footer>
+                <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
+            </footer>
+        </div>
 
   {% block javascripts %}
     {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
-                        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-                        <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
   {% endblock %}
 
-                    </body>
-                </html>
+    </body>
+</html>

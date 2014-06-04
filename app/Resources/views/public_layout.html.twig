@@ -1,10 +1,3 @@
-{# app/Resources/views/layout.html.twig #}
-
-
-{# app/Resources/views/layout.html.twig #}
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +11,50 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('css/supportkot.css') }}" type="text/css" />
+
     {% endblock %}
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-51358049-1', 'formations-nature.be');
+            ga('send', 'pageview');
+
+        </script>
+
+        <!--Start of Zopim Live Chat Script-->
+        <script type="text/javascript">
+            window.$zopim || (function(d, s) {
+                var z = $zopim = function(c) {
+                    z._.push(c)
+                }, $ = z.s =
+                        d.createElement(s), e = d.getElementsByTagName(s)[0];
+                z.set = function(o) {
+                    z.set.
+                            _.push(o)
+                };
+                z._ = [];
+                z.set._ = [];
+                $.async = !0;
+                $.setAttribute('charset', 'utf-8');
+                $.src = '//v2.zopim.com/?29MytupFuT19jzMoX8HTBPH2DTAbuqvJ';
+                z.t = +new Date;
+                $.
+                        type = 'text/javascript';
+                e.parentNode.insertBefore($, e)
+            })(document, 'script');
+        </script>
+        <!--End of Zopim Live Chat Script-->
+
     </head>
 
     <body>
@@ -27,7 +63,7 @@
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-bar"></span> 
-                       <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
                     <div class="nav-collapse">
@@ -39,7 +75,7 @@
                             <li class=""><a href="{{ path('claroline') }}"><i class="icon-book"></i> Claroline</a></li>
                             <li class="">
                                 <a href="{{ path('public_evenements_inscrit') }}"><i class="icon-check"></i> Mes inscriptions
-                                    
+
                                     <span class="badge badge-success"
                                           rel="popover"
                                           data-content="this is the body of the popover"
@@ -47,16 +83,16 @@
                                           data-placement="bottom"
                                           id="inscription_valide">
 {{ render(controller('WalvaNatagoraBundle:Inscription:getNombreInscriptions')) }}
-                                            </span>
-                                            <span class="badge badge-warning"
-                                                  id="inscription_en_attente"
-                                                  data-placement="bottom"
-                                                  data-original-title="Ce chiffre représente le nombre d'évènements à venir auxquels vous êtes en file d'attente.">
+                                    </span>
+                                    <span class="badge badge-warning"
+                                          id="inscription_en_attente"
+                                          data-placement="bottom"
+                                          data-original-title="Ce chiffre représente le nombre d'évènements à venir auxquels vous êtes en file d'attente.">
 {{ render(controller('WalvaNatagoraBundle:Inscription:getNombreInscriptionsEnAttente')) }}
-                                            </span>
-                                            </a>
-                                </li>
-                                
+                                    </span>
+                                </a>
+                            </li>
+
                             {% if is_granted('ROLE_ADMIN') %}
                             <li class=""><a href="{{ path('evenement') }}"><i class="icon-cog"></i> Admin</a></li>
 {% endif %}
@@ -77,54 +113,54 @@
                     <div class="span6">
 {% block header %}
 
-                            <h1>Titre de la page</h1>
-                            <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
+                        <h1>Titre de la page</h1>
+                        <p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel du siteduzero.</p>
                 {% endblock %}
-                        </div>
-                        <div class="span6">       
+                    </div>
+                    <div class="span6">       
 
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-                            <br>
+                        Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                        <br>
                             {{ render(controller('WalvaNatagoraBundle:User:getQuota')) }}
 {% else %}
-                            <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>
 {% endif %}
-                        </div>
-
                     </div>
+
                 </div>
             </div>
-            <div class="container-fluid" id="mainContainer">
-                <div class="row-fluid">
+        </div>
+        <div class="container-fluid" id="mainContainer">
+            <div class="row-fluid">
 
                     {% block container %}
 {% block container_header %}
-                    <div id="content" class="span12">
-                        <div class="row-fluid">
-                            <div class="span8">
-                                <ul class="breadcrumb">
+                <div id="content" class="span12">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <ul class="breadcrumb">
 
                         {% block breadcrumb %}
-                                    <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
+                                <li><a href="#">Formations-nature.be</a> <span class="divider">/</span></li>
                             {% endblock %}
 
-                                </ul>
-                            </div>
-                            <div class="span4">
-                                <div class="pull-right">
+                            </ul>
+                        </div>
+                        <div class="span4">
+                            <div class="pull-right">
                                         {% block container_header_right %}
                                     {% endblock %}
-                                    </div>
-                                </div>  
                             </div>
+                        </div>  
+                    </div>
                             {% block flas_messages %}
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 
-                            <div class="alert alert-{{ type }}">
+                    <div class="alert alert-{{ type }}">
             {{ flashMessage }}
-                                </div>
+                    </div>
     {% endfor %}
 {% endfor %}
                             {% endblock %}
@@ -133,33 +169,33 @@
                                         {% endblock %}
           {% block body %}
           {% endblock %}
-                            </div>
+                </div>
                         {% endblock %}
-                        </div>
+            </div>
 
-                        <hr>
+            <hr>
 
-                        <footer>
-                            <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
-                        </footer>
-                    </div>
+            <footer>
+                <p>Natagora &AMP; Benjamin Ellis © 2013 and beyond.</p>
+            </footer>
+        </div>
 
   {% block javascripts %}
     {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
-                    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-                    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
-                    <script type="text/javascript" >
-                    $(function(){
-                        var texte = " La règle appliquée pour le quota comptabilise les évènements auxquels vous êtes inscrits et qui n'ont pas lieu dans le mois à venir.";
-                        $("#inscription_valide").tooltip();
-                        $("#inscription_en_attente").tooltip();
-                        $("#quotaSortieInscrit, #quotaWeekendInscrit").tooltip({placement:'bottom', title:'Cette barre représente les évènements auxquels vous etes inscrits et qui participe dans le calcul du quota.\n'+texte}  );
-                        $("#quotaSortieAttente, #quotaWeekendAttente").tooltip({placement:'bottom', title:'Cette barre représente les évènements auxquels vous etes en attente et qui participe dans le calcul du quota.\n'+texte}  );
-                        $("#quotaSortieDispo, #quotaWeekendDispo").tooltip({placement:'bottom', title:'Cette barre représente le nomdre d\'évènements auxquels vous pouvez vous inscrire : votre quota restant.\n'+texte}  );
-                        
-                    });
-                        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+        <script type="text/javascript" >
+    $(function() {
+        var texte = " La règle appliquée pour le quota comptabilise les évènements auxquels vous êtes inscrits et qui n'ont pas lieu dans le mois à venir.";
+        $("#inscription_valide").tooltip();
+        $("#inscription_en_attente").tooltip();
+        $("#quotaSortieInscrit, #quotaWeekendInscrit").tooltip({placement: 'bottom', title: 'Cette barre représente les évènements auxquels vous etes inscrits et qui participe dans le calcul du quota.\n' + texte});
+        $("#quotaSortieAttente, #quotaWeekendAttente").tooltip({placement: 'bottom', title: 'Cette barre représente les évènements auxquels vous etes en attente et qui participe dans le calcul du quota.\n' + texte});
+        $("#quotaSortieDispo, #quotaWeekendDispo").tooltip({placement: 'bottom', title: 'Cette barre représente le nomdre d\'évènements auxquels vous pouvez vous inscrire : votre quota restant.\n' + texte});
+
+    });
+        </script>
   {% endblock %}
 
-                </body>
-            </html>
+    </body>
+</html>

@@ -10,31 +10,32 @@ use Walva\NatagoraBundle\Form\EvenementType;
 use \Walva\NatagoraBundle\Plugin\ObjectComparator;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 /**
  * Evenement controller.
  *
  */
 class PublicEvenementController extends Controller {
 
-    
-    public function listerEvenementInscritAction($sort = null, $order = 'ASC'){
+    public function listerEvenementInscritAction($sort = null, $order = 'ASC') {
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->container->get('security.context')->getToken()->getUser();
         /* @var $user User */
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException(
-                    'Problem...');
+            'Problem...');
         }
         $eleve = $user->getEleve();
         /* @var $eleve \Walva\NatagoraBundle\Entity\Eleve */
         $listEvenements = $eleve->getEvenementsAVenir();
-        
-        
+
+
         return $this->render('WalvaNatagoraBundle:Evenement:public\list.html.twig', array(
                     'entities' => $listEvenements,
-                ));
+        ));
     }
+
     /**
      * Lists all Evenement entities.
      *
@@ -42,9 +43,9 @@ class PublicEvenementController extends Controller {
     public function indexAction($sort = null, $order = 'ASC') {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAllFromToday();
-        
-        
-        
+
+
+
 
         //$entities = $query->getResult();
         //$entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAll();
@@ -56,7 +57,7 @@ class PublicEvenementController extends Controller {
         /* @var $user User */
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException(
-                    'Problem...');
+            'Problem...');
         }
 
         $listEvenements = array();
@@ -70,7 +71,7 @@ class PublicEvenementController extends Controller {
 
         return $this->render('WalvaNatagoraBundle:Evenement:public\index.html.twig', array(
                     'entities' => $listEvenements,
-                ));
+        ));
     }
 
     /**
@@ -83,12 +84,12 @@ class PublicEvenementController extends Controller {
         /* @var $user User */
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException(
-                    'Problem...');
+            'Problem...');
         }
 
         $entity = $em->getRepository('WalvaNatagoraBundle:Evenement')->find($id);
         $entity->setEleveFocus($user->getEleve());
-        
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Evenement entity.');
         }
@@ -98,7 +99,7 @@ class PublicEvenementController extends Controller {
 
         return $this->render('WalvaNatagoraBundle:Evenement:public\show.html.twig', array(
                     'entity' => $entity,
-                ));
+        ));
     }
 
 }
