@@ -5,6 +5,7 @@ namespace Walva\NatagoraBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Walva\UserBundle\Entity\User;
 use Walva\NatagoraBundle\Entity\Formation;
+use Walva\NatagoraBundle\Entity\Evenement;
 
 /**
  * Eleve
@@ -13,6 +14,162 @@ use Walva\NatagoraBundle\Entity\Formation;
  * @ORM\Entity(repositoryClass="Walva\NatagoraBundle\Entity\EleveRepository")
  */
 class Eleve {
+    
+    /**
+     * @return array 
+     * un tableau contenant le nombre de place dispo, le nombre
+     * 
+     */
+    public function getQuota($typeEvenement){
+        $inscrit = 0;
+        $enAttente = 0;
+        $annule = 0;
+        $events = $this->getEvenementsAVenir();
+        //var_dump($events);
+        $when = new \DateTime("NOW");
+        $when->add(new \DateInterval('P1M'));
+        $when = $when->getTimestamp();
+        
+        foreach ($events as $event) {
+            if($event->getType() != $typeEvenement)
+                continue;
+            $eventTimeStamp = $event->getDate()->getTimestamp();
+                if ($when > $eventTimeStamp)
+                    continue;
+            /* @var $event Evenement */
+            $inscription = $event->getInscriptionParEleve($this);
+            if ($inscription->getEtat() == Inscription::$ETAT_INSCRIT)
+                $inscrit++;
+            elseif($inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE)
+                $enAttente++;
+            elseif($inscription->getEtat() == Inscription::$ETAT_ANNULE_USER)
+                $annule++;
+        }
+        return array($inscrit, $enAttente, $annule);
+    }
+    
+    public function getQuotaSortie(){
+        return $this->getQuota(Evenement::$TYPE_SORTIE);
+    }
+    
+    public function getQuotaWeekend(){
+        return $this->getQuota(Evenement::$TYPE_WEEKEND);
+    }
+    
+    public function getFirstNumber(){
+        $value = $this->getGsm1();
+        if(!empty($value)){
+            return $value;
+        }
+        $value = $this->getGsm2();
+        if(!empty($value)){
+            return $value;
+        }
+        $value = $this->getTel();
+        if(!empty($value)){
+            return $value;
+        }
+       
+        return "";
+    }
+
+    public function identifiantClarolineVide() {
+        $clLogin = $this->getClLogin();
+        if (empty($clLogin)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getEvenementsAVenir(){
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        $list = array();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $event = $inscription->getEvenement();
+            $eventTimeStamp = $event->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            $event->setEleveFocus($this);
+            $list[] = $event;
+        }
+        return $list;
+    }
+    
+    public function getNombreInscriptionsValideAVenir() {
+        $count = 0;
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $eventTimeStamp = $inscription->getEvenement()
+                            ->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            if ($inscription->getEtat() != Inscription::$ETAT_INSCRIT)
+                continue;
+            $count++;
+        }
+        return $count;
+    }
+
+    public function getNombreInscriptionsEnAttenteValideAVenir() {
+        $count = 0;
+        $when = (new \DateTime("NOW"))->getTimestamp();
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            $eventTimeStamp = $inscription->getEvenement()
+                            ->getDate()->getTimestamp();
+            if ($when > $eventTimeStamp)
+                continue;
+            if ($inscription->getEtat() != Inscription::$ETAT_EN_ATTENTE)
+                continue;
+            $count++;
+        }
+        return $count;
+    }
+
+    public function getNombreInscriptions($type, $total = false, \DateTime $when = null) {
+        $count = 0;
+
+        if ($when == null) {
+            $when = (new \DateTime("NOW"))->getTimestamp();
+        } else {
+            $when = $when->getTimestamp();
+        }
+
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            if ($inscription->getEvenement()->getType() != $type)
+                continue;
+             if (!($inscription->getEtat() == Inscription::$ETAT_INSCRIT OR 
+                     $inscription->getEtat() == Inscription::$ETAT_EN_ATTENTE))
+                continue;
+            if (!$total) {
+                $eventTimeStamp = $inscription->getEvenement()
+                                ->getDate()->getTimestamp();
+                if ($when > $eventTimeStamp)
+                    continue;
+            }
+            $count++;
+        }
+        return $count;
+    }
+
+    public function getNombreVoyageInscrits() {
+        $count = 0;
+        foreach ($this->inscriptions as $inscription) {
+            /* @var $inscription Inscription */
+            if ($inscription != Evenement::$TYPE_VOYAGE)
+                continue;
+            $now = (new \DateTime("NOW"))->getTimestamp();
+            $eventTimeStamp = $inscription->getEvenement()
+                            ->getDate()->getTimestamp();
+            if ($now > $eventTimeStamp)
+                continue;
+            $count++;
+        }
+        return $count;
+    }
 
     public function __toString() {
         return '' . $this->getPrenom() . ' ' . $this->getNom();
@@ -25,7 +182,7 @@ class Eleve {
      * @ORM\JoinColumn(nullable=true)
      */
     private $formations;
-    
+
     /**
      * @var integer
      *
@@ -52,14 +209,14 @@ class Eleve {
     /**
      * @var string
      *
-     * @ORM\Column(name="clogin", type="string", length=255)
+     * @ORM\Column(name="clogin", type="string", length=255, nullable=true)
      */
     private $clLogin;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cpass", type="string", length=255)
+     * @ORM\Column(name="cpass", type="string", length=255, nullable=true)
      */
     private $clPassword;
 
@@ -101,14 +258,14 @@ class Eleve {
     /**
      * @var User
      * 
-     * @ORM\OneToOne(targetEntity="Walva\UserBundle\Entity\User", mappedBy="eleve")
+     * @ORM\OneToOne(targetEntity="Walva\UserBundle\Entity\User", mappedBy="eleve", cascade={"remove", "persist"}))
      */
     private $user;
-    
+
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="eleve")
+     * @ORM\OneToMany(targetEntity="Walva\NatagoraBundle\Entity\Inscription", mappedBy="eleve", cascade={"remove"}))
      */
     private $inscriptions;
 
@@ -285,17 +442,15 @@ class Eleve {
         return $this->pays;
     }
 
-
     /**
      * Set clLogin
      *
      * @param string $clLogin
      * @return Eleve
      */
-    public function setClLogin($clLogin)
-    {
+    public function setClLogin($clLogin) {
         $this->clLogin = $clLogin;
-    
+
         return $this;
     }
 
@@ -304,8 +459,7 @@ class Eleve {
      *
      * @return string 
      */
-    public function getClLogin()
-    {
+    public function getClLogin() {
         return $this->clLogin;
     }
 
@@ -315,10 +469,9 @@ class Eleve {
      * @param string $clPassword
      * @return Eleve
      */
-    public function setClPassword($clPassword)
-    {
+    public function setClPassword($clPassword) {
         $this->clPassword = $clPassword;
-    
+
         return $this;
     }
 
@@ -327,8 +480,7 @@ class Eleve {
      *
      * @return string 
      */
-    public function getClPassword()
-    {
+    public function getClPassword() {
         return $this->clPassword;
     }
 
@@ -338,10 +490,9 @@ class Eleve {
      * @param \Walva\UserBundle\Entity\User $user
      * @return Eleve
      */
-    public function setUser(\Walva\UserBundle\Entity\User $user = null)
-    {
+    public function setUser(\Walva\UserBundle\Entity\User $user = null) {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -350,37 +501,35 @@ class Eleve {
      *
      * @return \Walva\UserBundle\Entity\User 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->formations = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    public function containsFormation(\Walva\NatagoraBundle\Entity\Formation $f){
+
+    public function containsFormation(\Walva\NatagoraBundle\Entity\Formation $f) {
         foreach ($this->formations as $formation) {
-            if($f->getId() == $formation->getId()){
+            if ($f->getId() == $formation->getId()) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Add formations
      *
      * @param \Walva\NatagoraBundle\Entity\Formation $formations
      * @return Eleve
      */
-    public function addFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
-    {
+    public function addFormation(\Walva\NatagoraBundle\Entity\Formation $formations) {
         $this->formations[] = $formations;
-    
+
         return $this;
     }
 
@@ -389,8 +538,7 @@ class Eleve {
      *
      * @param \Walva\NatagoraBundle\Entity\Formation $formations
      */
-    public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations)
-    {
+    public function removeFormation(\Walva\NatagoraBundle\Entity\Formation $formations) {
         $this->formations->removeElement($formations);
     }
 
@@ -399,8 +547,38 @@ class Eleve {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFormations()
-    {
+    public function getFormations() {
         return $this->formations;
     }
+
+    /**
+     * Add inscriptions
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
+     * @return Eleve
+     */
+    public function addInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions) {
+        $this->inscriptions[] = $inscriptions;
+
+        return $this;
+    }
+
+    /**
+     * Remove inscriptions
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscriptions
+     */
+    public function removeInscription(\Walva\NatagoraBundle\Entity\Inscription $inscriptions) {
+        $this->inscriptions->removeElement($inscriptions);
+    }
+
+    /**
+     * Get inscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInscriptions() {
+        return $this->inscriptions;
+    }
+
 }

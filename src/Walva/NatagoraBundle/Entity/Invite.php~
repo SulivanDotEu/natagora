@@ -287,4 +287,27 @@ class Invite
     {
         return $this->position;
     }
+
+    /**
+     * Set inscription
+     *
+     * @param \Walva\NatagoraBundle\Entity\Inscription $inscription
+     * @return Invite
+     */
+    public function setInscription(\Walva\NatagoraBundle\Entity\Inscription $inscription = null)
+    {
+        $this->inscription = $inscription;
+    
+        return $this;
+    }
+
+    /**
+     * Get inscription
+     *
+     * @return \Walva\NatagoraBundle\Entity\Inscription 
+     */
+    public function getInscription()
+    {
+        return $this->inscription;
+    }
 }

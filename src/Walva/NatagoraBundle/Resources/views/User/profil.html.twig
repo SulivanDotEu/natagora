@@ -2,14 +2,15 @@
 
 {% block breadcrumb %}
 {{ parent() }}
-<li><a href="{{path('formateur')}}">Profil</a> <span class="divider">/</span></li>
+<li>Profil </li>
 
 {% endblock %}
 
 {% block body -%}
 <h1>Votre profil</h1>
 <hr/>
-<a href="{{ path('fos_user_resetting_request') }}" class="btn btn-primary">{{ "Changer de mot de passe" | trans }}</a>
+<a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">{{ "Changer de mot de passe" | trans }}</a>
+<a href="{{ path('natagora_user_edit_profil') }}" class="btn btn-primary">{{ "Modifier votre profil" | trans }}</a>
 <br>
 <br>
 

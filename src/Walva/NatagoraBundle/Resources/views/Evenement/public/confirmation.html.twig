@@ -1,0 +1,40 @@
+{% extends "WalvaNatagoraBundle:Evenement:public/layout.html.twig" %}
+
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Afficher</li>
+{% endblock %}
+
+
+
+{% block body -%}
+
+    <div class="alert alert-error">
+        <p>Attention! Vous allez vous <b>désinscrire</b> de l'évènement <b>"{{ ('evenement.type.'~entity.type)|trans }}
+                à {{ entity.lieu }} le {{ entity.date|date('d/m/Y H:i') }}"</b>.
+            <br> Comprennez donc que vous allez perdre votre place et que si vous changez d'avis, vous retomberez en bas
+            de la liste.</p>
+        <a class="btn btn-danger" href="{{ path('sedesinscrire_evenement', {'evenement':entity.id}) }}">
+            <i class="icon-remove icon-white"></i> {{ "Se désinscrire" | trans }}
+        </a>
+        <a class="btn btn-success" href="{{ path('public_evenement_show', {'id':entity.id}) }}">
+        <i class="icon-ok icon-white"></i> {{ "Rester inscrit" | trans }}
+        </a>
+
+    </div>
+
+
+{% endblock %}
+
+{% block container_header_right %}
+
+    <a class="btn " href="{{ path('public_evenement') }}">
+        <i class="icon-chevron-left"></i>
+        {{ 'Revenir à la liste des evenements' | trans }}
+    </a>
+
+
+
+
+{% endblock %}

@@ -10,6 +10,18 @@ evenement_sort_with_order:
     pattern:  /sortBy/{sort}/{order}
     defaults: { _controller: "WalvaNatagoraBundle:Evenement:index" }
 
+deleted_evenement:
+    pattern:  /deleted
+    defaults: { _controller: "WalvaNatagoraBundle:Evenement:listDeletedEntities" }
+
+deleted_evenement_sort:
+    pattern:  /deleted/sortBy/{sort}
+    defaults: { _controller: "WalvaNatagoraBundle:Evenement:listDeletedEntities" }
+
+deleted_evenement_sort_with_order:
+    pattern:  /deleted/sortBy/{sort}/{order}
+    defaults: { _controller: "WalvaNatagoraBundle:Evenement:listDeletedEntities" }
+
 evenement_show:
     pattern:  /{id}/show
     defaults: { _controller: "WalvaNatagoraBundle:Evenement:show" }

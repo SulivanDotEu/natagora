@@ -38,9 +38,14 @@ natagora_public_evenement:
         resource: "@WalvaNatagoraBundle/Resources/config/routing/public/evenement.yml"
         prefix:   /evenement
 
+
 natagora_user_profil:
     pattern:  /profil
     defaults: { _controller: WalvaNatagoraBundle:User:profil}
+
+natagora_user_edit_profil:
+    pattern:  /profil/edit
+    defaults: { _controller: WalvaNatagoraBundle:User:editProfile}
     
 eleve_quota:
     pattern: /quota

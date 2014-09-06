@@ -42,6 +42,20 @@ class EvenementController extends Controller {
                 ));
     }
 
+    public function listDeletedEntitiesAction($sort = null, $order = 'ASC'){
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->findAllDeleted();
+        if ($sort != null) {
+            $comparator = new ObjectComparator();
+            $entities = $comparator->sort($entities, $sort, $order);
+        }
+
+        return $this->render('WalvaNatagoraBundle:Evenement:index.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
+
     /**
      * Creates a new Evenement entity.
      * 

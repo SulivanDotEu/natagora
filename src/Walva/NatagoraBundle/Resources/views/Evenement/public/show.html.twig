@@ -18,9 +18,12 @@
         <i class="icon-ok icon-white"></i> {{ "S'inscrire" | trans }}
     </a>
         {% else %}
-    <a class="btn btn-danger" href="{{ path('sedesinscrire_evenement', {'evenement':entity.id}) }}">
+    <a class="btn btn-danger" href="{{ path('confirmation_desinscription_evenement', {'evenement':entity.id}) }}">
         <i class="icon-remove icon-white"></i> {{ "Se désinscrire" | trans }}
     </a>
+ {#<a class="btn btn-danger" href="{{ path('sedesinscrire_evenement', {'evenement':entity.id}) }}">#}
+        {#<i class="icon-remove icon-white"></i> {{ "Se désinscrire" | trans }}#}
+    {#</a>#}
 
         {% if entity.getInscription.possedeInvite == true %}
     <a class="btn btn-danger" href="{{ path('invite_cancel', {'invite':entity.getInscription.invite.id}) }}">

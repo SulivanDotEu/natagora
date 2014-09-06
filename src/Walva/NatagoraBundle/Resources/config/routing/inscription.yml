@@ -2,11 +2,13 @@ sinscrire_evenement:
     pattern:  /inscription/evenement/{evenement}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:sinscrire" }
 
+confirmation_desinscription_evenement:
+    pattern: /desinscription/evenement/confirmation/{evenement}
+    defaults: { _controller: "WalvaNatagoraBundle:Inscription:unregisterRequest" }
+
 sedesinscrire_evenement:
     pattern:  /desinscription/evenement/{evenement}
     defaults: { _controller: "WalvaNatagoraBundle:Inscription:sedesinscrire" }
-
-
 
 inscription_evenement:
     pattern:  /inscription/evenement/{evenement}/eleve/{eleve}

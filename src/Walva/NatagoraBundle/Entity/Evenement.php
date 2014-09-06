@@ -31,8 +31,10 @@ class Evenement {
     public static $GESTION_INVITE_TIME_ORDER = 430;
     public static $QUOTA_SORTIE = 5;
     public static $QUOTA_WEEKEND = 3;
+
     private $invitesAPlacer;
     public $eleveFocus;
+
 
     public function estConcerne(Eleve $eleve) {
         foreach ($this->formations as $formation) {
@@ -528,6 +530,13 @@ class Evenement {
     private $version = 0;
 
     /**
+     * @var bool
+     * @ORM\Column(name="deleted", type="boolean", nullable=true)
+     */
+    private $deleted = false;
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -852,4 +861,50 @@ class Evenement {
         return $this->complet;
     }
 
+
+    /**
+     * Set version
+     *
+     * @param integer $version
+     * @return Evenement
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return integer 
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Evenement
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
 }

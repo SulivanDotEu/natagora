@@ -13,6 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Formateur
 {
     
+    public function getFirstNumber(){
+        $value = $this->getGsm();
+        if(!empty($value)){
+            return $value;
+        }
+      
+        $value = $this->getTel();
+        if(!empty($value)){
+            return $value;
+        }
+       
+        return "";
+    }
+    
     public function __toString() {
         return $this->getNomComplet();
     }
@@ -66,19 +80,6 @@ class Formateur
      */
     private $tel;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codePostal", type="string", length=255, nullable=true)
-     */
-    private $codePostal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pays", type="string", length=255, nullable=true)
-     */
-    private $pays;
 
 
     /**
@@ -183,49 +184,29 @@ class Formateur
         return $this->tel;
     }
 
+   
+
+
     /**
-     * Set codePostal
+     * Set mail
      *
-     * @param string $codePostal
+     * @param string $mail
      * @return Formateur
      */
-    public function setCodePostal($codePostal)
+    public function setMail($mail)
     {
-        $this->codePostal = $codePostal;
+        $this->mail = $mail;
     
         return $this;
     }
 
     /**
-     * Get codePostal
+     * Get mail
      *
      * @return string 
      */
-    public function getCodePostal()
+    public function getMail()
     {
-        return $this->codePostal;
-    }
-
-    /**
-     * Set pays
-     *
-     * @param string $pays
-     * @return Formateur
-     */
-    public function setPays($pays)
-    {
-        $this->pays = $pays;
-    
-        return $this;
-    }
-
-    /**
-     * Get pays
-     *
-     * @return string 
-     */
-    public function getPays()
-    {
-        return $this->pays;
+        return $this->mail;
     }
 }

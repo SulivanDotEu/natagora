@@ -89,6 +89,12 @@ class InscriptionController extends Controller {
                         )));
     }
 
+    public function unregisterRequestAction(Evenement $evenement){
+        return $this->render('@WalvaNatagora/Evenement/public/confirmation.html.twig', array(
+            "entity" => $evenement
+        ));
+    }
+
     public function sedesinscrireAction(Evenement $evenement) {
         $user = $this->container->get('security.context')->getToken()->getUser();
         /* @var $user User */

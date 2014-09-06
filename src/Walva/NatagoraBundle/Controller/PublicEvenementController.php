@@ -2,6 +2,7 @@
 
 namespace Walva\NatagoraBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -43,8 +44,6 @@ class PublicEvenementController extends Controller {
     public function indexAction($sort = null, $order = 'ASC') {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('WalvaNatagoraBundle:Evenement')->myFindAllFromToday();
-
-
 
 
         //$entities = $query->getResult();

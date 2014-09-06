@@ -62,6 +62,7 @@ class EvenementType extends AbstractType {
                     },
                 ))
                 ->add('complet')
+                   ->add('deleted', 'checkbox')
         ;
     }
 

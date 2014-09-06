@@ -35,27 +35,71 @@ class EvenementRepository extends EntityRepository {
                 ->addSelect('i')
                 ->leftJoin('i.invite', 'inv')
                 ->addSelect('inv')
-                ->orderBy('e.date');
+                ->where('e.deleted = :deleted')
+                ->orderBy('e.date')
+                ->setParameter('deleted', false);
 
         return $qb->getQuery()
                         ->getResult();
     }
+
+    public function findAllDeleted() {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('e.formateur', 'feur')
+            ->addSelect('feur')
+            ->leftJoin('e.formations', 'fion')
+            ->addSelect('fion')
+            ->leftJoin('e.inscriptions', 'i')
+            ->addSelect('i')
+            ->leftJoin('i.invite', 'inv')
+            ->addSelect('inv')
+            ->where('e.deleted = :deleted')
+            ->orderBy('e.date')
+            ->setParameter('deleted', true);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
     
     public function myFindAllFromToday() {
         $qb = $this->createQueryBuilder('e')
-                ->leftJoin('e.lieu', 'l')
-                ->addSelect('l')
-                ->leftJoin('e.formateur', 'feur')
-                ->addSelect('feur')
-                ->leftJoin('e.formations', 'fion')
-                ->addSelect('fion')
-                ->leftJoin('e.inscriptions', 'i')
-                ->addSelect('i')
-                ->leftJoin('i.invite', 'inv')
-                ->addSelect('inv')
-                ->where('e.date > :date')
-                ->orderBy('e.date')
-                ->setParameter('date', new \DateTime('NOW'));
+            ->leftJoin('e.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('e.formateur', 'feur')
+            ->addSelect('feur')
+            ->leftJoin('e.formations', 'fion')
+            ->addSelect('fion')
+            ->leftJoin('e.inscriptions', 'i')
+            ->addSelect('i')
+            ->leftJoin('i.invite', 'inv')
+            ->addSelect('inv')
+            ->where('e.deleted = :deleted')
+            ->andWhere('e.date > :date')
+            ->orderBy('e.date')
+            ->setParameter('deleted', false)
+            ->setParameter('date', new \DateTime('NOW'))
+        ;
+
+
+//        $qb = $this->createQueryBuilder('e')
+//                ->leftJoin('e.lieu', 'l')
+//                ->addSelect('l')
+//                ->leftJoin('e.formateur', 'feur')
+//                ->addSelect('feur')
+//                ->leftJoin('e.formations', 'fion')
+//                ->addSelect('fion')
+//                ->leftJoin('e.inscriptions', 'i')
+//                ->addSelect('i')
+//                ->leftJoin('i.invite', 'inv')
+//                ->addSelect('inv')
+//                ->where('e.date > :date')
+//                ->andWhere("e.deleted = :deleted")
+//                ->orderBy('e.date')
+//                ->setParameter('date', new \DateTime('NOW'))
+//                ->setParameter('deleted', false)
+//        ;
         /*
          * $query = $em->createQuery('SELECT e FROM WalvaNatagoraBundle:Evenement e
             WHERE e.date > :date')
@@ -64,6 +108,33 @@ class EvenementRepository extends EntityRepository {
 
         return $qb->getQuery()
                         ->getResult();
+    }
+
+
+    public function getFindAllFromTodayQuery(){
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('e.formateur', 'feur')
+            ->addSelect('feur')
+            ->leftJoin('e.formations', 'fion')
+            ->addSelect('fion')
+            ->leftJoin('e.inscriptions', 'i')
+            ->addSelect('i')
+            ->leftJoin('i.invite', 'inv')
+            ->addSelect('inv')
+            ->where('e.date > :date')
+            ->where('e.deleted = :deleted')
+            ->orderBy('e.date')
+            ->setParameter('date', new \DateTime('NOW'))
+            ->setParameter('deleted', false);
+        /*
+         * $query = $em->createQuery('SELECT e FROM WalvaNatagoraBundle:Evenement e
+            WHERE e.date > :date')
+                ->setParameter('date', new \DateTime('NOW'));
+         */
+
+        return $qb->getQuery();
     }
 
 }

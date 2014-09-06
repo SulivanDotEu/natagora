@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Formation
 {
     
+    public function __toString() {
+        return $this->nom;
+    }
+
+    
     public static $COULEUR_GRIS = 1;
     public static $COULEUR_VERT = 2;
     public static $COULEUR_ORANGE = 3;
@@ -107,5 +112,28 @@ class Formation
     public function getNomComplet()
     {
         return $this->nomComplet;
+    }
+
+    /**
+     * Set couleur
+     *
+     * @param integer $couleur
+     * @return Formation
+     */
+    public function setCouleur($couleur)
+    {
+        $this->couleur = $couleur;
+    
+        return $this;
+    }
+
+    /**
+     * Get couleur
+     *
+     * @return integer 
+     */
+    public function getCouleur()
+    {
+        return $this->couleur;
     }
 }
